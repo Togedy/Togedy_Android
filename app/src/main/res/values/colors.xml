@@ -9,4 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="main_1">#FFC40F</color>
+
+
+    <color name="error">#FF0937</color>
+    <color name="main_blue">#4176FF</color>
 </resources>

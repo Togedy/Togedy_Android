@@ -61,22 +61,22 @@ fun BottomNavigationBar() {
             navController = navController,
             startDestination = Screens.Home.route,
             modifier = Modifier.padding(paddingValues = paddingValues)) {
-            composable(Screens.Home.route) {
+            composable(Screens.Planner.route) {
                 HomeScreen(
                     navController
                 )
             }
-            composable(Screens.Planner.route) {
+            composable(Screens.Community.route) {
                 PlannerScreen(
                     navController
                 )
             }
-            composable(Screens.Calendar.route) {
+            composable(Screens.Home.route) {
                 CalendarScreen(
                     navController
                 )
             }
-            composable(Screens.Community.route) {
+            composable(Screens.Calendar.route) {
                 CommunityScreen(
                     navController
                 )
