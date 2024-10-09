@@ -24,7 +24,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun GPTScreen(navController: NavController) {
     Togedy_AndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
