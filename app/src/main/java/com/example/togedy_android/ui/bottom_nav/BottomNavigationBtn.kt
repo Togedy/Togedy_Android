@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.togedy_android.R
+import com.example.togedy_android.ui.theme.Pretendard
 
 @Composable
 fun BottomNavigationBtn(
@@ -36,17 +37,17 @@ fun BottomNavigationBtn(
                 }
             } else { }
         },
-//        colors = ButtonDefaults.buttonColors(
-//            containerColor = if (activate) colorResource(id = R.color.main_blue) else colorResource(
-//                id = R.color.disabled
-//            ),
-//        )
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (activate) colorResource(id = R.color.yellow_main) else colorResource(
+                id = R.color.gray400
+            ),
+        )
     ) {
         Text(
             text = btnName,
             fontSize = 16.sp,
             lineHeight = 24.sp,
-//            fontFamily = Pretendard,
+            fontFamily = Pretendard,
             fontWeight = FontWeight(500),
             color = colorResource(id = R.color.white),
             textAlign = TextAlign.Center,
