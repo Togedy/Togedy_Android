@@ -1,7 +1,7 @@
 package com.example.togedy_android.ui.bottom_nav
 
 import com.example.togedy_android.R
-import com.example.togedy_android.ui.Screens
+import com.example.togedy_android.ui.model.BottomNavRoutes
 
 data class BottomNavigationItem(
     var label: String = "",
@@ -11,29 +11,29 @@ data class BottomNavigationItem(
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
             BottomNavigationItem(
-//                label = "스터디",
+                label = "플래너",
                 icon = R.drawable.ic_bottom_nav_study,
-                route = Screens.Home.route
+                route = BottomNavRoutes.Planner.route
             ),
             BottomNavigationItem(
-//                label = "커뮤니티",
+                label = "커뮤니티",
                 icon = R.drawable.ic_bottom_nav_community,
-                route = Screens.Planner.route
+                route = BottomNavRoutes.Community.route
             ),
             BottomNavigationItem(
-//                label = "GPT",
+                label = "GPT",
                 icon = R.drawable.ic_home,
-                route = Screens.Calendar.route
+                route = BottomNavRoutes.GPT.route
             ),
             BottomNavigationItem(
-//                label = "캘린더",
+                label = "캘린더",
                 icon = R.drawable.ic_bottom_nav_calendar,
-                route = Screens.Community.route
+                route = BottomNavRoutes.Calendar.route
             ),
             BottomNavigationItem(
-//                label = "마이페이지",
+                label = "마이페이지",
                 icon = R.drawable.ic_bottom_nav_user,
-                route = Screens.MyPage.route
+                route = BottomNavRoutes.MyPage.route
             ),
         )
     }
