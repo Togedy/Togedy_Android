@@ -10,28 +10,28 @@ data class BottomNavigationItem(
     fun bottomNavigationItems() : List<BottomNavigationItem> {
         return listOf(
             BottomNavigationItem(
-                label = "홈",
-                icon = R.drawable.ic_home,
+                label = "스터디",
+                icon = R.drawable.ic_bottom_nav_study,
                 route = Screens.Home.route
             ),
             BottomNavigationItem(
-                label = "플래너",
-                icon = R.drawable.ic_home,
+                label = "커뮤니티",
+                icon = R.drawable.ic_bottom_nav_community,
                 route = Screens.Planner.route
             ),
             BottomNavigationItem(
-                label = "캘린더",
+                label = "GPT",
                 icon = R.drawable.ic_home,
                 route = Screens.Calendar.route
             ),
             BottomNavigationItem(
-                label = "커뮤니티",
-                icon = R.drawable.ic_home,
+                label = "캘린더",
+                icon = R.drawable.ic_bottom_nav_calendar,
                 route = Screens.Community.route
             ),
             BottomNavigationItem(
                 label = "마이페이지",
-                icon = R.drawable.ic_home,
+                icon = R.drawable.ic_bottom_nav_user,
                 route = Screens.MyPage.route
             ),
         )
