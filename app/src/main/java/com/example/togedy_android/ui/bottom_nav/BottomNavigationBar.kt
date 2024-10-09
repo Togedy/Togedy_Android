@@ -1,4 +1,4 @@
-package com.example.togedy_android.ui
+package com.example.togedy_android.ui.bottom_nav
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,9 +16,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.togedy_android.ui.Screens
 import com.example.togedy_android.ui.screens.CalendarScreen
 import com.example.togedy_android.ui.screens.CommunityScreen
-import com.example.togedy_android.ui.screens.HomeScreen
+import com.example.togedy_android.ui.screens.GPTScreen
 import com.example.togedy_android.ui.screens.MyPageScreen
 import com.example.togedy_android.ui.screens.PlannerScreen
 
@@ -62,7 +63,7 @@ fun BottomNavigationBar() {
             startDestination = Screens.Home.route,
             modifier = Modifier.padding(paddingValues = paddingValues)) {
             composable(Screens.Home.route) {
-                HomeScreen(
+                GPTScreen(
                     navController
                 )
             }
