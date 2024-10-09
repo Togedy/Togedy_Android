@@ -8,5 +8,35 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="main_1">#FFC40F</color>
+    <color name="yellow_500">#FFFFAC11</color>
+    <color name="yellow_main">#FFFFC40F</color>
+    <color name="yellow_200">#FFFFD34C</color>
+    <color name="yellow_100">#FFFFDF7D</color>
+    <color name="error">#FFFF0000</color>
+
+    <color name="gray100">#FFE5E5E5</color>
+    <color name="gray200">#FFCCCCCC</color>
+    <color name="gray300">#FFB2B2B2</color>
+    <color name="gray400">#FF999999</color>
+    <color name="gray500">#FF7F7F7F</color>
+    <color name="gray600">#FF666666</color>
+    <color name="gray700">#FF4C4C4C</color>
+    <color name="gray800">#FF333333</color>
+    <color name="gray900">#FF191919</color>
+
+    <color name="color1">#FBD2E2</color>
+    <color name="color2">#FCD5CE</color>
+    <color name="color3">#F9C7CA</color>
+    <color name="color4">#FEC5BA</color>
+    <color name="color5">#FFC699</color>
+    <color name="color6">#F8E8B4</color>
+    <color name="color7">#CADBBB</color>
+    <color name="color8">#CDD5AE</color>
+    <color name="color9">#AAC4BB</color>
+    <color name="color10">#93B3A8</color>
+    <color name="color11">#A6C6DD</color>
+    <color name="color12">#C5DEF2</color>
+    <color name="color13">#CDDAFD</color>
+    <color name="color14">#E2C9DC</color>
+    <color name="color15">#CCA3C1</color>
 </resources>
