@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.togedy_android.ui.BottomNavigationBar
+import com.example.togedy_android.ui.bottom_nav.BottomNavigationBar
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 
 class MainActivity : ComponentActivity() {

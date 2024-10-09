@@ -1,6 +1,7 @@
-package com.example.togedy_android.ui
+package com.example.togedy_android.ui.bottom_nav
 
 import com.example.togedy_android.R
+import com.example.togedy_android.ui.Screens
 
 data class BottomNavigationItem(
     var label: String = "",
