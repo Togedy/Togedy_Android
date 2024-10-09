@@ -17,7 +17,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.ui.theme.Pretendard
 
 @Composable
-fun BottomNavigationBtn(
+fun DefaultBtn(
     navController: NavController,
     route: String,
     value: String,
