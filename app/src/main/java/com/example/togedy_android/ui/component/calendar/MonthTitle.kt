@@ -21,7 +21,9 @@ import java.time.Month
 
 @Composable
 fun MonthTitleOfFullCalendar(
-    month: Month
+    month: Month,
+    previousMonthBtnClicked: () -> Unit,
+    nextMonthBtnClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -32,9 +34,7 @@ fun MonthTitleOfFullCalendar(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_left),
             contentDescription = "이전버튼",
             tint = TogedyTheme.colors.gray500,
-            modifier = Modifier.clickable {
-                //이전 달로 이동
-            }
+            modifier = Modifier.clickable { previousMonthBtnClicked() }
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
@@ -46,9 +46,7 @@ fun MonthTitleOfFullCalendar(
             imageVector = ImageVector.vectorResource(R.drawable.ic_chevron_right),
             contentDescription = "다음버튼",
             tint = TogedyTheme.colors.gray500,
-            modifier = Modifier.clickable {
-                //다음 달로 이동
-            },
+            modifier = Modifier.clickable { nextMonthBtnClicked() },
         )
     }
 }
@@ -56,5 +54,9 @@ fun MonthTitleOfFullCalendar(
 @Preview
 @Composable
 fun MonthTitleOfFullCalendarPreview(modifier: Modifier = Modifier) {
-    MonthTitleOfFullCalendar(Month.SEPTEMBER)
+    MonthTitleOfFullCalendar(
+        Month.SEPTEMBER,
+        previousMonthBtnClicked = { },
+        nextMonthBtnClicked = { }
+    )
 }

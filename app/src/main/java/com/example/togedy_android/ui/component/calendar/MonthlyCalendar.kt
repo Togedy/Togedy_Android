@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,20 +27,24 @@ fun MonthlyCalendar() {
         modifier = Modifier.background(white)
     ) {
         val today = LocalDate.now()
-        val firstDayOfMonth = today.withDayOfMonth(1)
-        val lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth())
+        var selectedDay by remember { mutableStateOf(today) }
 
+        val firstDayOfMonth = selectedDay.withDayOfMonth(1)
+        val lastDayOfMonth = LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.lengthOfMonth())
         val weeksInMonth = mutableListOf<LocalDate>()
         var current =
             firstDayOfMonth.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY))
-
         while (current.isBefore(lastDayOfMonth) || current.isEqual(lastDayOfMonth)) {
             weeksInMonth.add(current)
             current = current.plusWeeks(1)
         }
 
-        YearTitleOfFullCalendar(today.year)
-        MonthTitleOfFullCalendar(today.month)
+        YearTitleOfFullCalendar(selectedDay.year)
+        MonthTitleOfFullCalendar(
+            selectedDay.month,
+            previousMonthBtnClicked = { selectedDay = selectedDay.minusMonths(1) },
+            nextMonthBtnClicked = { selectedDay = selectedDay.plusMonths(1) }
+        )
         Spacer(modifier = Modifier.height(15.dp))
 
         Box(
@@ -48,13 +56,14 @@ fun MonthlyCalendar() {
                 )
                 .padding(18.dp)
         ) {
-            Column(
-            ) {
+            Column {
                 DayOfWeek()
                 Spacer(modifier = Modifier.height(10.dp))
                 Column {
                     for (startOfWeek in weeksInMonth) {
-                        DayOfMonthRow(startOfWeek)
+                        DayOfMonthRow(startOfWeek) {
+                            selectedDay = it
+                        }
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }

@@ -1,5 +1,6 @@
 package com.example.togedy_android.ui.component.calendar
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +16,11 @@ import com.example.togedy_android.ui.theme.TogedyTheme
 import java.time.LocalDate
 
 @Composable
-fun DayOfMonthRow(startOfWeek: LocalDate) {
-    Row (
+fun DayOfMonthRow(
+    startOfWeek: LocalDate,
+    daySelected: (LocalDate) -> Unit
+) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(4.dp),
@@ -33,10 +37,12 @@ fun DayOfMonthRow(startOfWeek: LocalDate) {
             }
 
             Text(
-                text = "${currentDay.dayOfMonth}" ,
+                text = "${currentDay.dayOfMonth}",
                 style = TogedyTheme.typography.body3M,
                 color = color,
-                modifier = Modifier.weight(1f, fill = true),
+                modifier = Modifier
+                    .weight(1f, fill = true)
+                    .clickable { daySelected(currentDay) },
                 textAlign = TextAlign.Center
             )
         }
@@ -46,5 +52,5 @@ fun DayOfMonthRow(startOfWeek: LocalDate) {
 @Preview
 @Composable
 fun DayOfMonthRowPreview(modifier: Modifier = Modifier) {
-    DayOfMonthRow(LocalDate.now())
+    DayOfMonthRow(LocalDate.now()) { }
 }
