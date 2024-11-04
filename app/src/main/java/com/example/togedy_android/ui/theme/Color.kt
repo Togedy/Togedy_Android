@@ -1,6 +1,7 @@
-package com.example.togedyandroid.ui.theme
+package com.example.togedy_android.ui.theme
 
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 val yellow500 = Color(0xFFFFAC11)
@@ -9,6 +10,7 @@ val yellow200 = Color(0xFFFFD34C)
 val yellow100 = Color(0xFFFFDF7D)
 
 val error = Color(0xFFFF0000)
+val red100 = Color(0xFFC96868)
 
 val blue100 = Color(0xFFBEDCFE)
 val green100 = Color(0xFF85BDA6)
@@ -51,7 +53,10 @@ data class TogedyColors(
     val yellowMain: Color,
     val yellow200: Color,
     val yellow100: Color,
+
     val error: Color,
+    val red100: Color,
+
     val blue100: Color,
     val green100: Color,
     val green300: Color,
@@ -91,37 +96,42 @@ val defaultTogedyColors = TogedyColors(
     yellowMain = yellowMain,
     yellow200 = yellow200,
     yellow100 = yellow100,
+
     error = error,
-    blue100= blue100,
-    green100= green100,
-    green300= green300,
-    violet300= violet300,
-    darkblue200= darkblue200,
-    darkblue500= darkblue500,
-    gray100= gray100,
-    gray200= gray200,
-    gray300= gray300,
-    gray400= gray400,
-    gray500= gray500,
-    gray600= gray600,
-    gray700= gray700,
-    gray800= gray800,
-    gray900= gray900,
-    black=  black,
-    white= white,
-    color1= color1,
-    color2= color2,
-    color3= color3,
-    color4= color4,
-    color5= color5,
-    color6= color6,
-    color7= color7,
-    color8= color8,
-    color9= color9,
-    color10= color10,
-    color11= color11,
-    color12= color12,
-    color13= color13,
-    color14= color14,
-    color15= color15
+    red100 = red100,
+
+    blue100 = blue100,
+    green100 = green100,
+    green300 = green300,
+    violet300 = violet300,
+    darkblue200 = darkblue200,
+    darkblue500 = darkblue500,
+    gray100 = gray100,
+    gray200 = gray200,
+    gray300 = gray300,
+    gray400 = gray400,
+    gray500 = gray500,
+    gray600 = gray600,
+    gray700 = gray700,
+    gray800 = gray800,
+    gray900 = gray900,
+    black = black,
+    white = white,
+    color1 = color1,
+    color2 = color2,
+    color3 = color3,
+    color4 = color4,
+    color5 = color5,
+    color6 = color6,
+    color7 = color7,
+    color8 = color8,
+    color9 = color9,
+    color10 = color10,
+    color11 = color11,
+    color12 = color12,
+    color13 = color13,
+    color14 = color14,
+    color15 = color15
 )
+
+val LocalTogedyColors = staticCompositionLocalOf { defaultTogedyColors }
