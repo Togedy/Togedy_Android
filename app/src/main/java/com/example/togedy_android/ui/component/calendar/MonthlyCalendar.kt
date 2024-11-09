@@ -22,7 +22,9 @@ import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
 @Composable
-fun MonthlyCalendar() {
+fun MonthlyCalendar(
+    onDaySelected: (LocalDate) -> Unit
+) {
     Column(
         modifier = Modifier.background(white)
     ) {
@@ -30,7 +32,8 @@ fun MonthlyCalendar() {
         var selectedDay by remember { mutableStateOf(today) }
 
         val firstDayOfMonth = selectedDay.withDayOfMonth(1)
-        val lastDayOfMonth = LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.lengthOfMonth())
+        val lastDayOfMonth =
+            LocalDate.of(selectedDay.year, selectedDay.month, selectedDay.lengthOfMonth())
         val weeksInMonth = mutableListOf<LocalDate>()
         var current =
             firstDayOfMonth.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY))
@@ -63,6 +66,7 @@ fun MonthlyCalendar() {
                     for (startOfWeek in weeksInMonth) {
                         DayOfMonthRow(startOfWeek, selectedDay) {
                             selectedDay = it
+                            onDaySelected(selectedDay)
                         }
                         Spacer(modifier = Modifier.height(22.dp))
                     }
@@ -75,5 +79,5 @@ fun MonthlyCalendar() {
 @Preview
 @Composable
 fun MonthlyCalendarPreview(modifier: Modifier = Modifier) {
-    MonthlyCalendar()
+    MonthlyCalendar() { }
 }
