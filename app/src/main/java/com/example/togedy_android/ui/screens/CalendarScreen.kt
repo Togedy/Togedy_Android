@@ -39,7 +39,10 @@ import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CalendarScreen(navController: NavController) {
+fun CalendarScreen(
+    onCollegeScheduleBtnClicked: () -> Unit,
+    onPersonalScheduleAddBtnClicked: () -> Unit,
+) {
     var selectedDay by remember { mutableStateOf(LocalDate.now()) }
     var isFabExpanded by remember { mutableStateOf(false) }
 
@@ -61,12 +64,14 @@ fun CalendarScreen(navController: NavController) {
                                 description = "대학별 일정 보기"
                             ) {
                                 isFabExpanded = false
+                                onCollegeScheduleBtnClicked()
                             }
                             CalendarAddButton(
                                 imageVector = R.drawable.ic_calendar_plus,
                                 description = "개인일정 추가하기"
                             ) {
                                 isFabExpanded = false
+                                onPersonalScheduleAddBtnClicked()
                             }
                         }
                         CalendarFloatingBtn(
