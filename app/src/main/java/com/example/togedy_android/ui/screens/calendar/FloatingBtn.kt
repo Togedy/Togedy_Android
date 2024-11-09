@@ -20,6 +20,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
+import com.example.togedy_android.noRippleClickable
 import com.example.togedy_android.ui.theme.TogedyTheme
 
 @Composable
@@ -31,7 +32,7 @@ fun CalendarFloatingBtn(
             .clip(RoundedCornerShape(50.dp))
             .background(color = colorResource(R.color.yellow_main))
             .padding(14.dp)
-            .clickable { onButtonClicked() }
+            .noRippleClickable { onButtonClicked() }
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_calendar_plus),
@@ -48,7 +49,8 @@ fun CalendarAddButton(
     onButtonClicked: () -> Unit
 ) {
     Row(
-        modifier = Modifier,
+        modifier = Modifier
+            .noRippleClickable { onButtonClicked() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -62,7 +64,6 @@ fun CalendarAddButton(
                 .clip(RoundedCornerShape(50.dp))
                 .background(color = colorResource(R.color.white))
                 .padding(14.dp)
-                .clickable { onButtonClicked() }
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(imageVector),
