@@ -11,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.ui.component.community.CommunityFastTab
 import com.example.togedy_android.ui.component.community.CommunityHomeTopBar
+import com.example.togedy_android.ui.component.community.HomeBulletinBoard
 import com.example.togedy_android.ui.component.community.TrendingPostsSection
 import com.example.togedy_android.ui.theme.TogedyTheme
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
@@ -40,6 +41,9 @@ fun CommunityScreen() {
                 TrendingPostsSection()
 
                 Spacer(modifier = Modifier.height(30.dp))
+                HomeBulletinBoard(
+                    onBulletinBoardMoreClicked = { }
+                )
             }
         }
     }
