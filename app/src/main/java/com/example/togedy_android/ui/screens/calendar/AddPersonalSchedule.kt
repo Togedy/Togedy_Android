@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,17 +16,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
+import com.example.togedy_android.ui.component.BorderDateInput
 import com.example.togedy_android.ui.component.BorderTextField
 import com.example.togedy_android.ui.component.TopBarWithTextBtn
+import com.example.togedy_android.ui.component.category.CategorySelection
 import com.example.togedy_android.ui.theme.TogedyTheme
+import java.time.LocalDate
 
 @Composable
 fun AddPersonalSchedule(
     closeButtonClicked: () -> Unit,
     addButtonClicked: () -> Unit
 ) {
+    val calendarCategoryViewModel = CalendarCategoryViewModel()
+    calendarCategoryViewModel.loadCategoryItems()
     var scheduleName by remember { mutableStateOf("") }
     var memo by remember { mutableStateOf("") }
+    var startDate by remember { mutableStateOf<LocalDate?>(null) }
+    var endDate by remember { mutableStateOf<LocalDate?>(null) }
+    var isSingleDate by remember { mutableStateOf(true) }
     val buttonActive by remember { mutableStateOf(false) }
 
     Column(
@@ -54,6 +63,7 @@ fun AddPersonalSchedule(
                 onTextFieldChange = { scheduleName = it }
             )
             Spacer(modifier = Modifier.height(30.dp))
+
             BorderTextField(
                 title = "메모",
                 value = memo,
@@ -61,6 +71,19 @@ fun AddPersonalSchedule(
             )
             Spacer(modifier = Modifier.height(30.dp))
 
+            BorderDateInput(
+                startDate = startDate,
+                endDate = endDate,
+                isSingleDate = isSingleDate,
+                onIsSingleDateClicked = { isSingleDate = !isSingleDate },
+                openCalendarDialog = { }
+            )
+            Spacer(modifier = Modifier.height(30.dp))
+
+            CategorySelection(
+                categories = calendarCategoryViewModel.categoryItems,
+                onAddButtonClicked = { }
+            )
         }
     }
 }
