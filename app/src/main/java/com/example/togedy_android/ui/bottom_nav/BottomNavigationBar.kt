@@ -17,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.togedy_android.ui.Screens
+import com.example.togedy_android.ui.model.Routes
 import com.example.togedy_android.ui.screens.CalendarScreen
 import com.example.togedy_android.ui.screens.CommunityScreen
 import com.example.togedy_android.ui.screens.GPTScreen
@@ -74,7 +75,10 @@ fun BottomNavigationBar() {
             }
             composable(Screens.Calendar.route) {
                 CalendarScreen(
-                    navController
+                    onCollegeScheduleBtnClicked = { },
+                    onPersonalScheduleAddBtnClicked = {
+                        navController.navigate(Routes.AddPersonalSchedule.route)
+                    }
                 )
             }
             composable(Screens.Community.route) {

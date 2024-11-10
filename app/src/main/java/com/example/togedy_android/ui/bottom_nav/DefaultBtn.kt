@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.togedy_android.R
-import com.example.togedy_android.ui.theme.Pretendard
 
 @Composable
 fun DefaultBtn(
@@ -47,7 +46,6 @@ fun DefaultBtn(
             text = btnName,
             fontSize = 16.sp,
             lineHeight = 24.sp,
-            fontFamily = Pretendard,
             fontWeight = FontWeight(500),
             color = colorResource(id = R.color.white),
             textAlign = TextAlign.Center,
