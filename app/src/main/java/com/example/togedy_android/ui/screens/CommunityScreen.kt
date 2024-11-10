@@ -24,7 +24,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 
 @Composable
-fun CommunityScreen(navController: NavController) {
+fun CommunityScreen() {
     Togedy_AndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
