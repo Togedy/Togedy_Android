@@ -1,4 +1,4 @@
-package com.example.togedy_android.ui.screens
+package com.example.togedy_android.ui.screens.community
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

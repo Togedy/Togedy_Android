@@ -19,7 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.togedy_android.ui.Screens
 import com.example.togedy_android.ui.model.Routes
 import com.example.togedy_android.ui.screens.CalendarScreen
-import com.example.togedy_android.ui.screens.CommunityScreen
+import com.example.togedy_android.ui.screens.community.CommunityScreen
 import com.example.togedy_android.ui.screens.GPTScreen
 import com.example.togedy_android.ui.screens.MyPageScreen
 import com.example.togedy_android.ui.screens.PlannerScreen
