@@ -2,15 +2,13 @@ package com.example.togedy_android.ui.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -57,6 +55,37 @@ fun TopBarWithTextBtn(
     }
 }
 
+@Composable
+fun TopBarBasic(
+    leftButtonIcon: Int,
+    title: String,
+    onLeftButtonClicked: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Row {
+            Icon(
+                imageVector = ImageVector.vectorResource(leftButtonIcon),
+                contentDescription = "닫기 버튼",
+                modifier = Modifier.clickable { onLeftButtonClicked() }
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+        Row {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = TogedyTheme.typography.headline2B,
+                color = TogedyTheme.colors.black
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
+}
+
 @Preview
 @Composable
 fun TogedyTopBarPreview(modifier: Modifier = Modifier) {
@@ -67,5 +96,15 @@ fun TogedyTopBarPreview(modifier: Modifier = Modifier) {
         buttonActive = false,
         onLeftButtonClicked = {},
         onRightButtonClicked = {}
+    )
+}
+
+@Preview
+@Composable
+fun TopBarBasicPreview(modifier: Modifier = Modifier) {
+    TopBarBasic(
+        leftButtonIcon = R.drawable.ic_x_close,
+        title = "글 등록하기",
+        onLeftButtonClicked = { }
     )
 }
