@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
-import com.example.togedy_android.ui.component.BorderDateInput
-import com.example.togedy_android.ui.component.BorderTextField
+import com.example.togedy_android.ui.component.user_input.BorderDateInput
+import com.example.togedy_android.ui.component.user_input.BorderTextField
 import com.example.togedy_android.ui.component.TopBarWithTextBtn
 import com.example.togedy_android.ui.component.category.CategorySelection
 import com.example.togedy_android.ui.theme.TogedyTheme
