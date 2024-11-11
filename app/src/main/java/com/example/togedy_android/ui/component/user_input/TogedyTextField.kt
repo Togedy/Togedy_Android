@@ -1,4 +1,4 @@
-package com.example.togedy_android.ui.component
+package com.example.togedy_android.ui.component.user_input
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -194,6 +195,41 @@ fun BorderDateInput(
     }
 }
 
+@Composable
+fun WritingTitleField( //게시글 제목 텍스트 필드
+    value: String,
+    onTextFieldChange: (String) -> Unit,
+    isSingleLine: Boolean = true,
+    placeholder: String,
+) {
+    Column {
+        BasicTextField(
+            value = value,
+            onValueChange = onTextFieldChange,
+            textStyle = TogedyTheme.typography.headline3B,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            singleLine = isSingleLine,
+            decorationBox = { innerTextField ->
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = TogedyTheme.colors.gray100,
+                        style = TogedyTheme.typography.headline3B
+                    )
+                }
+                innerTextField()
+            }
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = TogedyTheme.colors.gray200
+        )
+    }
+}
+
 @Preview
 @Composable
 fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
@@ -214,5 +250,16 @@ fun BorderDateInputPreview(modifier: Modifier = Modifier) {
         isSingleDate = true,
         onIsSingleDateClicked = { },
         openCalendarDialog = { }
+    )
+}
+
+@Preview
+@Composable
+fun WritingTitleFieldPreview(modifier: Modifier = Modifier) {
+    var title by remember { mutableStateOf("") }
+    WritingTitleField(
+        value = title,
+        onTextFieldChange = { title = it },
+        placeholder = "제목을 입력해주세요"
     )
 }
