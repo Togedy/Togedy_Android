@@ -17,7 +17,9 @@ import com.example.togedy_android.ui.theme.TogedyTheme
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 
 @Composable
-fun CommunityScreen() {
+fun CommunityScreen(
+    onMenuBtnClicked: () -> Unit,
+) {
     Togedy_AndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -28,7 +30,7 @@ fun CommunityScreen() {
                     .fillMaxSize()
             ) {
                 CommunityHomeTopBar(
-                    onMenuBtnClicked = { }
+                    onMenuBtnClicked = onMenuBtnClicked
                 )
 
                 CommunityFastTab(
@@ -52,5 +54,7 @@ fun CommunityScreen() {
 @Preview
 @Composable
 fun CommunityScreenPreview(modifier: Modifier = Modifier) {
-    CommunityScreen()
+    CommunityScreen(
+        onMenuBtnClicked = { }
+    )
 }

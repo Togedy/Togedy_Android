@@ -10,6 +10,7 @@ import com.example.togedy_android.ui.screens.GPTScreen
 import com.example.togedy_android.ui.screens.MyPageScreen
 import com.example.togedy_android.ui.screens.PlannerScreen
 import com.example.togedy_android.ui.screens.calendar.AddPersonalSchedule
+import com.example.togedy_android.ui.screens.community.AddWriting
 
 sealed class BottomNavRoutes(val route: String) {
     object Planner : BottomNavRoutes("planner")
@@ -21,7 +22,11 @@ sealed class BottomNavRoutes(val route: String) {
 
 sealed class Routes(val route: String) {
     data object LaunchPage : Routes("launchPage")
+    //캘린더
     data object AddPersonalSchedule : Routes("AddPersonalSchedule")
+
+    //커뮤니티
+    data object AddWriting: Routes("AddWriting")
 }
 
 @Composable
@@ -33,7 +38,11 @@ fun NavGraph(navController: NavHostController) {
             PlannerScreen(navController)
         }
         composable(BottomNavRoutes.Community.route) {
-            CommunityScreen()
+            CommunityScreen(
+                onMenuBtnClicked = {
+                    navController.navigate(Routes.AddWriting.route)
+                }
+            )
         }
         composable(BottomNavRoutes.GPT.route) {
             GPTScreen(navController)
@@ -50,12 +59,23 @@ fun NavGraph(navController: NavHostController) {
             MyPageScreen(navController)
         }
 
+        //캘린더
         composable(Routes.AddPersonalSchedule.route) {
             AddPersonalSchedule(
                 closeButtonClicked = {
                     navController.popBackStack()
                 },
                 addButtonClicked = {}
+            )
+        }
+
+
+        //커뮤니티
+        composable(Routes.AddWriting.route) {
+            AddWriting(
+                closeButtonClicked = {
+                    navController.popBackStack()
+                }
             )
         }
 

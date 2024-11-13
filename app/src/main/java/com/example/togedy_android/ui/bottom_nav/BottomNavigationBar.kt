@@ -82,7 +82,9 @@ fun BottomNavigationBar() {
                 )
             }
             composable(Screens.Community.route) {
-                CommunityScreen()
+                CommunityScreen(
+                    onMenuBtnClicked = { }
+                )
             }
             composable(Screens.MyPage.route) {
                 MyPageScreen(
