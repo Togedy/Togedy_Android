@@ -230,6 +230,32 @@ fun WritingTitleField( //게시글 제목 텍스트 필드
     }
 }
 
+
+@Composable
+fun WritingContentTextField(
+    value: String,
+    onTextFieldChange: (String) -> Unit,
+    placeholder: String,
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onTextFieldChange,
+        textStyle = TogedyTheme.typography.body1M,
+        modifier = Modifier.fillMaxWidth(),
+        decorationBox = { innerTextField ->
+            if (value.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    color = TogedyTheme.colors.gray100,
+                    style = TogedyTheme.typography.body1M
+                )
+            }
+            innerTextField()
+        }
+    )
+}
+
+
 @Preview
 @Composable
 fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
@@ -261,5 +287,16 @@ fun WritingTitleFieldPreview(modifier: Modifier = Modifier) {
         value = title,
         onTextFieldChange = { title = it },
         placeholder = "제목을 입력해주세요"
+    )
+}
+
+@Preview
+@Composable
+fun WritingContentTextFieldPreview(modifier: Modifier = Modifier) {
+    var content by remember { mutableStateOf("") }
+    WritingContentTextField(
+        value = content,
+        onTextFieldChange = { content = it },
+        placeholder = "내용을 입력해주세요"
     )
 }
