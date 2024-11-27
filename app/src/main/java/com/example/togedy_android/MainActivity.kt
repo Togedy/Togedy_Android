@@ -29,7 +29,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.togedy_android.ui.bottom_nav.BottomNavigationItem
 import com.example.togedy_android.ui.model.NavGraph
-import com.example.togedy_android.ui.theme.Pretendard
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -65,7 +64,6 @@ class MainActivity : ComponentActivity() {
                                                 label = {
                                                     Text(
                                                         text = item.label,
-                                                        fontFamily = Pretendard,
                                                         fontWeight = FontWeight.Medium,
                                                         fontSize = 12.sp
                                                     )
