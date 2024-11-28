@@ -1,6 +1,7 @@
 package com.example.togedy_android.presentation.ui.screens.gptscreen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,16 +33,18 @@ import androidx.navigation.compose.rememberNavController
 import com.example.togedy_android.R
 import com.example.togedy_android.presentation.ui.model.ChatViewModel
 import com.example.togedy_android.presentation.ui.model.MessageType
-
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
+import com.example.togedy_android.ui.theme.defaultTogedyColors
 
 @Composable
-fun GPTScreen(navController: NavController, viewModel: ChatViewModel = viewModel()) {
+fun GPTScreen(navController: NavController,
+              viewModel: ChatViewModel = viewModel()) {
     Togedy_AndroidTheme {
         var chatText by remember { mutableStateOf("") }
         val messages by viewModel.messages.collectAsState()
         Column (
             modifier = Modifier
+                .background(defaultTogedyColors.white)
                 .fillMaxSize()
                 .padding(20.dp),
         ) {
@@ -86,7 +89,7 @@ fun GPTScreen(navController: NavController, viewModel: ChatViewModel = viewModel
     }
 }
 
-@Preview(showBackground = true, widthDp = 360, heightDp = 640)
+@Preview()
 @Composable
 fun PreviewGPTScreen() {
     val navController = rememberNavController()
