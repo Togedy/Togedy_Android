@@ -1,4 +1,4 @@
-package com.example.togedy_android
+package com.example.togedy_android.presentation.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -27,6 +27,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.togedy_android.R
 import com.example.togedy_android.presentation.ui.bottom_nav.BottomNavigationItem
 import com.example.togedy_android.presentation.ui.model.NavGraph
 import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
