@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.togedy_android.R
@@ -36,7 +37,7 @@ fun TopBarWithTextBtn(
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(leftButtonIcon),
-            contentDescription = "닫기 버튼",
+            contentDescription = stringResource(R.string.btn_close_description),
             modifier = Modifier.clickable { onLeftButtonClicked() }
         )
 
@@ -69,7 +70,7 @@ fun TopBarBasic(
         Row {
             Icon(
                 imageVector = ImageVector.vectorResource(leftButtonIcon),
-                contentDescription = "닫기 버튼",
+                contentDescription = stringResource(R.string.btn_close_description),
                 modifier = Modifier.clickable { onLeftButtonClicked() }
             )
             Spacer(modifier = Modifier.weight(1f))

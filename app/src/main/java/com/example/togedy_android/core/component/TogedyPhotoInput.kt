@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -87,14 +88,14 @@ fun ImageItem(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_trash_can),
-                contentDescription = "삭제 버튼",
+                contentDescription = stringResource(R.string.btn_delete_description),
                 modifier = Modifier.size(16.dp),
                 tint = TogedyTheme.colors.white
             )
         }
         Image(
             painter = painterResource(imageFile),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.image),
             modifier = Modifier.size(100.dp)
         )
     }
@@ -121,12 +122,12 @@ fun AddImageButton(
         ) {
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.ic_image_plus),
-                contentDescription = "사진 추가 버튼",
+                contentDescription = stringResource(R.string.btn_add_image_description),
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "사진을 추가하세요",
+                text = stringResource(R.string.add_image),
                 style = TogedyTheme.typography.overline,
                 color = TogedyTheme.colors.gray300
             )

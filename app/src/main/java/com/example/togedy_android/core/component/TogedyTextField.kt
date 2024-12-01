@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -90,7 +91,7 @@ fun BorderTextField(
             if (onFocus && value.isNotEmpty()) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
-                    contentDescription = "모두 지우기",
+                    contentDescription = stringResource(R.string.btn_delete_content_all_description),
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .clickable {
@@ -127,7 +128,7 @@ fun BorderDateInput(
     ) {
         Row {
             Text(
-                text = "날짜 선택",
+                text = stringResource(R.string.calendar_select_date),
                 style = TogedyTheme.typography.body2B,
                 color = borderColor,
             )
@@ -139,12 +140,12 @@ fun BorderDateInput(
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(isSingleDateIcon),
-                    contentDescription = "기간 선택 버튼",
+                    contentDescription = stringResource(R.string.calendar_btn_select_period_description),
                     tint = isSingleDateTextColor
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "기간",
+                    text = stringResource(R.string.calendar_period),
                     style = TogedyTheme.typography.body2M,
                     color = isSingleDateTextColor
                 )
@@ -174,7 +175,7 @@ fun BorderDateInput(
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_calendar),
-                    contentDescription = "달력 아이콘",
+                    contentDescription = stringResource(R.string.calendar_btn_calendar_description),
                     tint = calendarIconColor
                 )
                 Spacer(modifier = Modifier.width(10.dp))

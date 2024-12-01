@@ -1,6 +1,23 @@
 <resources>
     <string name="app_name">Togedy_Android</string>
 
+    <!-- Component -->
+    <string name="image">이미지 파일</string>
+    <string name="btn_delete_description">삭제 버튼</string>
+    <string name="btn_add_image_description">사진 추가 버튼</string>
+    <string name="add_image">사진을 추가하세요</string>
+    <string name="btn_delete_content_all_description">모두 지우기 버튼</string>
+    <string name="btn_close_description">닫기 버튼</string>
+
     <!-- HomeScreen -->
     <string name="home_text_hint">검색어를 입력하세요</string>
+
+    <!-- CommunityScreen -->
+
+
+    <!-- CalendarScreen -->
+    <string name="calendar_select_date">날짜 선택</string>
+    <string name="calendar_btn_select_period_description">기간 선택 버튼</string>
+    <string name="calendar_period">기간</string>
+    <string name="calendar_btn_calendar_description">달력 아이콘</string>
 </resources>
