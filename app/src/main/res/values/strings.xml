@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Togedy_Android</string>
 
+    <!-- BottomNavigation -->
+    <string name="main_bottom_bar_planner">플래너</string>
+    <string name="main_bottom_bar_community">커뮤니티</string>
+    <string name="main_bottom_bar_gpt">GPT</string>
+    <string name="main_bottom_bar_calendar">캘린더</string>
+    <string name="main_bottom_bar_my">마이페이지</string>
+
     <!-- Component -->
     <string name="image">이미지 파일</string>
     <string name="btn_delete_description">삭제 버튼</string>
