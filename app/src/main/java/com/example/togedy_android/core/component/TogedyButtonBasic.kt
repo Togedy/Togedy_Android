@@ -49,6 +49,6 @@ fun TogedyButtonBasic(
 
 @Preview
 @Composable
-fun TogedyButtonBasicPreview(modifier: Modifier = Modifier) {
+fun TogedyButtonBasicPreview() {
     TogedyButtonBasic("완료", false)
 }

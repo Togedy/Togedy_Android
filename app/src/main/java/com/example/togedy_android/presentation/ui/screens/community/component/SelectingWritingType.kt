@@ -69,7 +69,7 @@ fun SelectingWritingType(
 
 @Preview
 @Composable
-fun SelectingWritingTypePreview(modifier: Modifier = Modifier) {
+fun SelectingWritingTypePreview() {
     SelectingWritingType(
         onSectionClicked = { }
     )

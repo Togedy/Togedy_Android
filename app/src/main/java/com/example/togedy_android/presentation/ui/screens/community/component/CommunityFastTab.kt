@@ -127,7 +127,7 @@ fun CommunityFastTabItem(
 
 @Preview
 @Composable
-fun CommunityFastTabPreview(modifier: Modifier = Modifier) {
+fun CommunityFastTabPreview() {
     CommunityFastTab(
         onStudyRecordItemClicked = { },
         onCollegeItemClicked = { },

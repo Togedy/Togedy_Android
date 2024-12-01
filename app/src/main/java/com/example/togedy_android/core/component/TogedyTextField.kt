@@ -259,7 +259,7 @@ fun WritingContentTextField(
 
 @Preview
 @Composable
-fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
+fun BorderTextFieldPreview() {
     var text by remember { mutableStateOf("") }
     BorderTextField(
         title = "title",
@@ -270,7 +270,7 @@ fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun BorderDateInputPreview(modifier: Modifier = Modifier) {
+fun BorderDateInputPreview() {
     BorderDateInput(
         startDate = LocalDate.now(),
         endDate = LocalDate.now(),
@@ -282,7 +282,7 @@ fun BorderDateInputPreview(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun WritingTitleFieldPreview(modifier: Modifier = Modifier) {
+fun WritingTitleFieldPreview() {
     var title by remember { mutableStateOf("") }
     WritingTitleField(
         value = title,
@@ -293,7 +293,7 @@ fun WritingTitleFieldPreview(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun WritingContentTextFieldPreview(modifier: Modifier = Modifier) {
+fun WritingContentTextFieldPreview() {
     var content by remember { mutableStateOf("") }
     WritingContentTextField(
         value = content,

@@ -53,7 +53,7 @@ fun CommunityScreen(
 
 @Preview
 @Composable
-fun CommunityScreenPreview(modifier: Modifier = Modifier) {
+fun CommunityScreenPreview() {
     CommunityScreen(
         onMenuBtnClicked = { }
     )

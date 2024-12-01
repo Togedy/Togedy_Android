@@ -92,6 +92,6 @@ fun TrendingPostItem(
 
 @Preview
 @Composable
-fun TrendingPostsSectionPreview(modifier: Modifier = Modifier) {
+fun TrendingPostsSectionPreview() {
     TrendingPostsSection()
 }

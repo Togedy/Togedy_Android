@@ -89,7 +89,7 @@ fun TopBarBasic(
 
 @Preview
 @Composable
-fun TogedyTopBarPreview(modifier: Modifier = Modifier) {
+fun TogedyTopBarPreview() {
     TopBarWithTextBtn(
         leftButtonIcon = R.drawable.ic_x_close,
         title = "일정 추가하기",
@@ -102,7 +102,7 @@ fun TogedyTopBarPreview(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun TopBarBasicPreview(modifier: Modifier = Modifier) {
+fun TopBarBasicPreview() {
     TopBarBasic(
         leftButtonIcon = R.drawable.ic_x_close,
         title = "글 등록하기",

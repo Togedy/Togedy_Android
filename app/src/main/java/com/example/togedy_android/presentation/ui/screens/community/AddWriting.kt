@@ -118,7 +118,7 @@ fun AddWriting(
 
 @Preview
 @Composable
-fun AddWritingPreview(modifier: Modifier = Modifier) {
+fun AddWritingPreview() {
     AddWriting(
         closeButtonClicked = { }
     )

@@ -90,7 +90,7 @@ fun HomeBulletinBoardItem() {
 
 @Preview
 @Composable
-fun HomeBulletinBoardPreview(modifier: Modifier = Modifier) {
+fun HomeBulletinBoardPreview() {
     HomeBulletinBoard(
         onBulletinBoardMoreClicked = { }
     )
