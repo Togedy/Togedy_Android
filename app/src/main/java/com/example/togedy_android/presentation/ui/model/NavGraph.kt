@@ -33,7 +33,9 @@ fun NavGraph(navController: NavHostController) {
             PlannerScreen(navController)
         }
         composable(BottomNavRoutes.Community.route) {
-            CommunityScreen(navController)
+            CommunityScreen(
+                onMenuBtnClicked = { }
+            )
         }
         composable(BottomNavRoutes.GPT.route) {
             GPTScreen(navController)
