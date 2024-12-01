@@ -13,11 +13,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.ui.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 
 @Composable
 fun TogedyButtonBasic(
     buttonText: String,
     isActivated: Boolean,
+    onButtonClick: () -> Unit = { },
 ) {
     val buttonColor = if (isActivated) TogedyTheme.colors.yellowMain else TogedyTheme.colors.gray200
     Box(
@@ -25,7 +27,16 @@ fun TogedyButtonBasic(
             .fillMaxWidth()
             .height(44.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(buttonColor),
+            .background(buttonColor)
+            .noRippleClickable(
+                onClick = {
+                    if (isActivated) {
+                        onButtonClick()
+                    } else {
+                        /* 클릭 방지 */
+                    }
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
