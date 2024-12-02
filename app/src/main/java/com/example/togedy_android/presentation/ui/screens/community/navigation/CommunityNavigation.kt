@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
+import com.example.togedy_android.presentation.ui.screens.community.CommunityScreen
 import kotlinx.serialization.Serializable
 
 fun NavHostController.navigateToCommunity(navOptions: NavOptions? = null) = navigate(Community)
@@ -16,7 +17,7 @@ fun NavGraphBuilder.communityScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Community> {
-
+        CommunityScreen {  }
     }
 }
 

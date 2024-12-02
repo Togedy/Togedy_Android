@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.R
+import com.example.togedy_android.presentation.ui.screens.community.navigation.Community
 import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.Gpt
 import kotlinx.serialization.Serializable
 
@@ -50,8 +51,6 @@ enum class MainTab(
 
         @Serializable
         data object Planner: MainTabRoute
-        @Serializable
-        data object Community: MainTabRoute
         @Serializable
         data object Calendar: MainTabRoute
         @Serializable
