@@ -17,7 +17,10 @@ fun NavGraphBuilder.plannerScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Planner> {
-        PlannerScreen()
+        PlannerScreen(
+            modifier = modifier,
+            onSettingButtonClick = { /* 설정 화면으로 이동 */ }
+        )
     }
 }
 
