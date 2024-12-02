@@ -64,12 +64,10 @@ fun BottomNavigationBar() {
             modifier = Modifier.padding(paddingValues = paddingValues)) {
             composable(Screens.Home.route) {
                 GPTScreen(
-                    navController
                 )
             }
             composable(Screens.Planner.route) {
                 PlannerScreen(
-                    navController
                 )
             }
             composable(Screens.Calendar.route) {
@@ -89,7 +87,6 @@ fun BottomNavigationBar() {
             }
             composable(Screens.MyPage.route) {
                 MyPageScreen(
-                    navController
                 )
             }
         }
