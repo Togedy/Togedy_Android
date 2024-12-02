@@ -9,9 +9,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.togedy_android.core.navigation.Route
+import com.example.togedy_android.presentation.calendar.navigation.navigateToCalendar
 import com.example.togedy_android.presentation.community.navigation.navigateToCommunity
 import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
 import com.example.togedy_android.presentation.gptscreen.navigation.navigateToGPT
+import com.example.togedy_android.presentation.mypage.navigation.navigateToMyPage
+import com.example.togedy_android.presentation.planner.navigation.navigateToPlanner
 
 class MainNavigator(
     val navController: NavHostController,
@@ -43,11 +46,11 @@ class MainNavigator(
         }
 
         when (tab) {
-            MainTab.PLANNER -> {}
+            MainTab.PLANNER -> navController.navigateToPlanner(navOptions = mainNavOption)
             MainTab.COMMUNITY -> navController.navigateToCommunity(navOptions = mainNavOption)
             MainTab.GPT -> navController.navigateToGPT(navOptions = mainNavOption)
-            MainTab.CALENDAR -> {}
-            MainTab.MYPAGE -> {}
+            MainTab.CALENDAR -> navController.navigateToCalendar(navOptions = mainNavOption)
+            MainTab.MYPAGE -> navController.navigateToMyPage(navOptions = mainNavOption)
         }
     }
 }

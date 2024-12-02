@@ -24,7 +24,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 
 @Composable
-fun MyPageScreen(navController: NavController) {
+fun MyPageScreen() {
     Togedy_AndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),

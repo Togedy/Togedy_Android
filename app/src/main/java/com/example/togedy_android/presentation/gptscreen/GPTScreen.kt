@@ -38,7 +38,6 @@ import com.example.togedy_android.core.design_system.theme.defaultTogedyColors
 
 @Composable
 fun GPTScreen(
-    navController: NavController,
     viewModel: ChatViewModel = viewModel()
 ) {
     Togedy_AndroidTheme {
@@ -94,6 +93,5 @@ fun GPTScreen(
 @Preview()
 @Composable
 fun PreviewGPTScreen() {
-    val navController = rememberNavController()
-    GPTScreen(navController = navController)
+    GPTScreen()
 }

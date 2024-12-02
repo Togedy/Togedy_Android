@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.gptscreen.navigation
+package com.example.togedy_android.presentation.planner.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -7,19 +7,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
-import com.example.togedy_android.presentation.gptscreen.GPTScreen
+import com.example.togedy_android.presentation.planner.PlannerScreen
 import kotlinx.serialization.Serializable
 
-fun NavHostController.navigateToGPT(navOptions: NavOptions? = null) = navigate(Gpt)
+fun NavHostController.navigateToPlanner(navOptions: NavOptions? = null) = navigate(Planner)
 
-fun NavGraphBuilder.gptScreen(
+fun NavGraphBuilder.plannerScreen(
     navController: NavController,
     modifier: Modifier = Modifier,
 ) {
-    composable<Gpt> {
-        GPTScreen()
+    composable<Planner> {
+        PlannerScreen()
     }
 }
 
 @Serializable
-data object Gpt: MainTabRoute
+data object Planner: MainTabRoute

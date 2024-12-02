@@ -24,7 +24,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 
 @Composable
-fun PlannerScreen(navController: NavController) {
+fun PlannerScreen() {
     Togedy_AndroidTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
