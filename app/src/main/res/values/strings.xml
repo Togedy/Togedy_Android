@@ -15,6 +15,7 @@
     <string name="add_image">사진을 추가하세요</string>
     <string name="btn_delete_content_all_description">모두 지우기 버튼</string>
     <string name="btn_close_description">닫기 버튼</string>
+    <string name="btn_settings_description">설정 버튼</string>
 
     <!-- HomeScreen -->
     <string name="home_text_hint">검색어를 입력하세요</string>
@@ -27,4 +28,7 @@
     <string name="calendar_btn_select_period_description">기간 선택 버튼</string>
     <string name="calendar_period">기간</string>
     <string name="calendar_btn_calendar_description">달력 아이콘</string>
+
+    <!-- PlannerScreen -->
+    <string name="planner_home_title">Study Planner</string>
 </resources>
