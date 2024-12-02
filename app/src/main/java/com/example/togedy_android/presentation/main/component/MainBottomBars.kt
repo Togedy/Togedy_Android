@@ -40,7 +40,7 @@ fun MainBottomBars(
     ) {
         tabs.forEach { tab ->
             val selected = tab == selectedTab
-            val color = if(selected) selectedColor else unselectedColor
+            val color = if (selected) selectedColor else unselectedColor
             Column(
                 modifier = Modifier.noRippleClickable { onTabSelect(tab) },
                 horizontalAlignment = Alignment.CenterHorizontally

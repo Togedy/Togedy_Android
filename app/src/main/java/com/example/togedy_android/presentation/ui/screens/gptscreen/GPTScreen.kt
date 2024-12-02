@@ -37,8 +37,10 @@ import com.example.togedy_android.ui.theme.Togedy_AndroidTheme
 import com.example.togedy_android.ui.theme.defaultTogedyColors
 
 @Composable
-fun GPTScreen(navController: NavController,
-              viewModel: ChatViewModel = viewModel()) {
+fun GPTScreen(
+    navController: NavController,
+    viewModel: ChatViewModel = viewModel()
+) {
     Togedy_AndroidTheme {
         var chatText by remember { mutableStateOf("") }
         val messages by viewModel.messages.collectAsState()
