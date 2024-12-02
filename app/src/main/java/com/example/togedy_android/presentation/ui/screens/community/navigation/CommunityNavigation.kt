@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
+import kotlinx.serialization.Serializable
 
 fun NavHostController.navigateToCommunity(navOptions: NavOptions? = null) = navigate(Community)
 
@@ -19,4 +20,5 @@ fun NavGraphBuilder.communityScreen(
     }
 }
 
+@Serializable
 data object Community: MainTabRoute
