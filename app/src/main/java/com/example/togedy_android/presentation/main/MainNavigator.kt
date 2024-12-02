@@ -8,8 +8,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.main.MainTab.Companion.Gpt
 import com.example.togedy_android.presentation.ui.screens.community.navigation.navigateToCommunity
+import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.Gpt
 import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.navigateToGPT
 
 class MainNavigator(
@@ -43,8 +43,8 @@ class MainNavigator(
 
         when (tab) {
             MainTab.PLANNER -> {}
-            MainTab.COMMUNITY -> navController.navigateToCommunity()
-            MainTab.GPT -> navController.navigateToGPT()
+            MainTab.COMMUNITY -> navController.navigateToCommunity(navOptions = mainNavOption)
+            MainTab.GPT -> navController.navigateToGPT(navOptions = mainNavOption)
             MainTab.CALENDAR -> {}
             MainTab.MYPAGE -> {}
         }
