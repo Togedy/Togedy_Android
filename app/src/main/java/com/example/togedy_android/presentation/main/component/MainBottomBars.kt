@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.presentation.main.MainTab
-import com.example.togedy_android.ui.theme.TogedyTheme
 import com.example.togedy_android.util.noRippleClickable
 
 @Composable

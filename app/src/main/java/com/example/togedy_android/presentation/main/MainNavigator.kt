@@ -9,9 +9,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.ui.screens.community.navigation.navigateToCommunity
-import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.Gpt
-import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.navigateToGPT
+import com.example.togedy_android.presentation.community.navigation.navigateToCommunity
+import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
+import com.example.togedy_android.presentation.gptscreen.navigation.navigateToGPT
 
 class MainNavigator(
     val navController: NavHostController,

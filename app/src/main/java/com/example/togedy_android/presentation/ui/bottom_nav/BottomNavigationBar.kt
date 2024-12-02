@@ -17,11 +17,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.togedy_android.presentation.ui.model.Routes
-import com.example.togedy_android.presentation.ui.screens.calendar.CalendarScreen
-import com.example.togedy_android.presentation.ui.screens.community.CommunityScreen
-import com.example.togedy_android.presentation.ui.screens.gptscreen.GPTScreen
-import com.example.togedy_android.presentation.ui.screens.mypage.MyPageScreen
-import com.example.togedy_android.presentation.ui.screens.planner.PlannerScreen
+import com.example.togedy_android.presentation.calendar.CalendarScreen
+import com.example.togedy_android.presentation.community.CommunityScreen
+import com.example.togedy_android.presentation.gptscreen.GPTScreen
+import com.example.togedy_android.presentation.mypage.MyPageScreen
+import com.example.togedy_android.presentation.planner.PlannerScreen
 
 @Composable
 fun BottomNavigationBar() {

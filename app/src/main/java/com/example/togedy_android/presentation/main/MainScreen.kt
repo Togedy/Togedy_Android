@@ -9,8 +9,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.main.component.MainBottomBars
-import com.example.togedy_android.presentation.ui.screens.community.navigation.communityScreen
-import com.example.togedy_android.presentation.ui.screens.gptscreen.navigation.gptScreen
+import com.example.togedy_android.presentation.community.navigation.communityScreen
+import com.example.togedy_android.presentation.gptscreen.navigation.gptScreen
 
 @Composable
 fun MainScreen(
