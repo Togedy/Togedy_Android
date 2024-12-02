@@ -40,8 +40,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
-import com.example.togedy_android.presentation.ui.screens.calendar.component.CalendarCategoryViewModel
-import com.example.togedy_android.ui.theme.TogedyTheme
+import com.example.togedy_android.presentation.calendar.component.CalendarCategoryViewModel
+import com.example.togedy_android.core.design_system.theme.TogedyTheme
 
 @Composable
 fun CategorySelection(

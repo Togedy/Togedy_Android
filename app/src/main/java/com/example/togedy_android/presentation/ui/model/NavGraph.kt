@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.togedy_android.presentation.ui.screens.calendar.CalendarScreen
-import com.example.togedy_android.presentation.ui.screens.community.CommunityScreen
-import com.example.togedy_android.presentation.ui.screens.gptscreen.GPTScreen
-import com.example.togedy_android.presentation.ui.screens.mypage.MyPageScreen
-import com.example.togedy_android.presentation.ui.screens.planner.PlannerScreen
-import com.example.togedy_android.presentation.ui.screens.calendar.component.AddPersonalSchedule
+import com.example.togedy_android.presentation.calendar.CalendarScreen
+import com.example.togedy_android.presentation.community.CommunityScreen
+import com.example.togedy_android.presentation.gptscreen.GPTScreen
+import com.example.togedy_android.presentation.mypage.MyPageScreen
+import com.example.togedy_android.presentation.planner.PlannerScreen
+import com.example.togedy_android.presentation.calendar.component.AddPersonalSchedule
 
 sealed class BottomNavRoutes(val route: String) {
     object Planner : BottomNavRoutes("planner")

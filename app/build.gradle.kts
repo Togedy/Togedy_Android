@@ -2,8 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
     kotlin("kapt")
-
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 kapt {
@@ -67,7 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
-    implementation(libs.androidx.navigation.compose)
+//    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -76,6 +77,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //navigation
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.compose.navigation)
 
     // Hilt
     implementation(libs.hilt.android)

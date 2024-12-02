@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.ui.component
+package com.example.togedy_android.core.design_system.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
@@ -31,8 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
-import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 import java.time.LocalDate
 
 @Composable
@@ -89,7 +91,7 @@ fun BorderTextField(
             if (onFocus && value.isNotEmpty()) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_x_circle),
-                    contentDescription = "모두 지우기",
+                    contentDescription = stringResource(R.string.btn_delete_content_all_description),
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .clickable {
@@ -126,24 +128,24 @@ fun BorderDateInput(
     ) {
         Row {
             Text(
-                text = "날짜 선택",
+                text = stringResource(R.string.calendar_select_date),
                 style = TogedyTheme.typography.body2B,
                 color = borderColor,
             )
             Spacer(modifier = Modifier.width(14.dp))
             Row(
-                modifier = Modifier.noRippleClickable { 
+                modifier = Modifier.noRippleClickable {
                     onIsSingleDateClicked()
                 }
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(isSingleDateIcon),
-                    contentDescription = "기간 선택 버튼",
+                    contentDescription = stringResource(R.string.calendar_btn_select_period_description),
                     tint = isSingleDateTextColor
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "기간",
+                    text = stringResource(R.string.calendar_period),
                     style = TogedyTheme.typography.body2M,
                     color = isSingleDateTextColor
                 )
@@ -173,7 +175,7 @@ fun BorderDateInput(
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_calendar),
-                    contentDescription = "달력 아이콘",
+                    contentDescription = stringResource(R.string.calendar_btn_calendar_description),
                     tint = calendarIconColor
                 )
                 Spacer(modifier = Modifier.width(10.dp))
@@ -194,9 +196,70 @@ fun BorderDateInput(
     }
 }
 
+@Composable
+fun WritingTitleField( //게시글 제목 텍스트 필드
+    value: String,
+    onTextFieldChange: (String) -> Unit,
+    isSingleLine: Boolean = true,
+    placeholder: String,
+) {
+    Column {
+        BasicTextField(
+            value = value,
+            onValueChange = onTextFieldChange,
+            textStyle = TogedyTheme.typography.headline3B,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            singleLine = isSingleLine,
+            decorationBox = { innerTextField ->
+                if (value.isEmpty()) {
+                    Text(
+                        text = placeholder,
+                        color = TogedyTheme.colors.gray100,
+                        style = TogedyTheme.typography.headline3B
+                    )
+                }
+                innerTextField()
+            }
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = TogedyTheme.colors.gray200
+        )
+    }
+}
+
+
+@Composable
+fun WritingContentTextField(
+    value: String,
+    onTextFieldChange: (String) -> Unit,
+    placeholder: String,
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onTextFieldChange,
+        textStyle = TogedyTheme.typography.body1M,
+        modifier = Modifier.fillMaxWidth(),
+        decorationBox = { innerTextField ->
+            if (value.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    color = TogedyTheme.colors.gray100,
+                    style = TogedyTheme.typography.body1M
+                )
+            }
+            innerTextField()
+        }
+    )
+}
+
+
 @Preview
 @Composable
-fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
+fun BorderTextFieldPreview() {
     var text by remember { mutableStateOf("") }
     BorderTextField(
         title = "title",
@@ -207,12 +270,34 @@ fun BorderTextFieldPreview(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun BorderDateInputPreview(modifier: Modifier = Modifier) {
+fun BorderDateInputPreview() {
     BorderDateInput(
         startDate = LocalDate.now(),
         endDate = LocalDate.now(),
         isSingleDate = true,
         onIsSingleDateClicked = { },
         openCalendarDialog = { }
+    )
+}
+
+@Preview
+@Composable
+fun WritingTitleFieldPreview() {
+    var title by remember { mutableStateOf("") }
+    WritingTitleField(
+        value = title,
+        onTextFieldChange = { title = it },
+        placeholder = "제목을 입력해주세요"
+    )
+}
+
+@Preview
+@Composable
+fun WritingContentTextFieldPreview() {
+    var content by remember { mutableStateOf("") }
+    WritingContentTextField(
+        value = content,
+        onTextFieldChange = { content = it },
+        placeholder = "내용을 입력해주세요"
     )
 }
