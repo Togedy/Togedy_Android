@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.togedy_android.core.design_system.theme.TogedyColors
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
-import com.example.togedy_android.core.design_system.theme.yellowMain
 import com.example.togedy_android.util.noRippleClickable
 
 @Composable

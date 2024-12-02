@@ -29,7 +29,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
-import com.example.togedy_android.core.design_system.theme.TogedyColors
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 
 @Composable
