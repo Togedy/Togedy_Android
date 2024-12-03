@@ -1,6 +1,8 @@
-package com.example.togedy_android.presentation.ui.model
+package com.example.togedy_android.presentation.gptscreen
 
 import androidx.lifecycle.ViewModel
+import com.example.togedy_android.domain.type.ChatMessage
+import com.example.togedy_android.domain.type.MessageType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
