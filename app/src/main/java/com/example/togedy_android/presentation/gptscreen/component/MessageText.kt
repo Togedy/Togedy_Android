@@ -2,6 +2,7 @@ package com.example.togedy_android.presentation.gptscreen.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -20,7 +21,8 @@ fun MessageText(
     isSent: Boolean,
     backgroundColor: Color = if (isSent) TogedyTheme.colors.gray100 else TogedyTheme.colors.yellow500,
     textColor: Color = if (isSent) TogedyTheme.colors.gray900 else TogedyTheme.colors.white,
-    alignment: Alignment.Horizontal = if (isSent) Alignment.End else Alignment.Start
+    alignment: Alignment.Horizontal = if (isSent) Alignment.End else Alignment.Start,
+    modifier: Modifier= if(isSent) Modifier.padding(start = 26.dp) else Modifier.padding(end = 26.dp)
 ) {
     Box(
         modifier = Modifier
@@ -29,7 +31,7 @@ fun MessageText(
     ) {
         Text(
             text = text,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .wrapContentWidth(alignment)
                 .background(

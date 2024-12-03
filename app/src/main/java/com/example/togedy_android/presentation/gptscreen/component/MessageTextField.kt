@@ -29,9 +29,9 @@ import com.example.togedy_android.presentation.gptscreen.ChatViewModel
 import com.example.togedy_android.util.noRippleClickable
 
 @Composable
-fun  MessageTextField(
+fun MessageTextField(
     viewModel: ChatViewModel = viewModel(),
-){
+) {
     var chatText by remember { mutableStateOf("") }
 
     BasicTextField(
@@ -60,28 +60,43 @@ fun  MessageTextField(
                     modifier = Modifier.weight(1f)
                 ) {
                     if (chatText.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.home_text_hint),
-                            style = TogedyTheme.typography.body1R,
-                            color = TogedyTheme.colors.gray300
-                        )
+                        PlaceholderText()
                     }
                     innerTextField()
                 }
-                Image(
-                    painter = painterResource(R.drawable.ic_right_arrow),
-                    contentDescription = "전송 버튼",
-                    modifier = Modifier
-                        .background(
-                            color = TogedyTheme.colors.yellow200,
-                            shape = RoundedCornerShape(8.dp))
-                        .padding(horizontal = 6.dp, vertical = 1.dp)
-                        .noRippleClickable {
-                                viewModel.postSendData(chatText)
-                                chatText = ""
+                SendButton(
+                    onClick = {
+                        if (chatText.isNotEmpty()) {
+                            viewModel.postSendData(chatText)
+                            chatText = ""
                         }
+                    }
                 )
             }
         }
+    )
+}
+
+@Composable
+fun PlaceholderText() {
+    Text(
+        text = stringResource(id = R.string.home_text_hint),
+        style = TogedyTheme.typography.body1R,
+        color = TogedyTheme.colors.gray300
+    )
+}
+
+@Composable
+fun SendButton(onClick: () -> Unit) {
+    Image(
+        painter = painterResource(R.drawable.ic_right_arrow),
+        contentDescription = "전송 버튼",
+        modifier = Modifier
+            .background(
+                color = TogedyTheme.colors.yellow200,
+                shape = RoundedCornerShape(8.dp)
+            )
+            .padding(horizontal = 6.dp, vertical = 1.dp)
+            .noRippleClickable { onClick() }
     )
 }
