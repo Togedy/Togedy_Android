@@ -13,11 +13,14 @@ import androidx.compose.ui.unit.dp
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
+import com.example.togedy_android.presentation.planner.component.TodaysGoal
 
 @Composable
 fun PlannerScreen(
     modifier: Modifier = Modifier,
     onSettingButtonClick: () -> Unit,
+    navigateToSetGoalTime: () -> Unit,
+    navigateToEditGoalTime: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -30,6 +33,16 @@ fun PlannerScreen(
         PlannerHomeTopBar(
             onSettingButtonClick = onSettingButtonClick
         )
+
+        Spacer(Modifier.height(16.dp))
+
+        TodaysGoal(
+            goalTime = "00:00",
+            percentage = 90,
+            navigateToSetGoalTime = navigateToSetGoalTime,
+            navigateToEditGoalTime = navigateToEditGoalTime
+        )
+
     }
 }
 
@@ -38,7 +51,9 @@ fun PlannerScreen(
 fun PlannerScreenPreview() {
     Togedy_AndroidTheme {
         PlannerScreen(
-            onSettingButtonClick = { }
+            onSettingButtonClick = { },
+            navigateToEditGoalTime = { },
+            navigateToSetGoalTime = { }
         )
     }
 }

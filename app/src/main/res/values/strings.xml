@@ -31,4 +31,10 @@
 
     <!-- PlannerScreen -->
     <string name="planner_home_title">Study Planner</string>
+    <string name="planner_today_goal_title">오늘의 공부 달성량</string>
+    <string name="planner_no_goal_mention">아직 공부 목표량을 정하지 않았군요\n아래 버튼을 눌러 하루 공부 목표량을 정해봅시다!</string>
+    <string name="planner_set_goal_button">목표 설정하기</string>
+    <string name="planner_edit_goal_button">목표 수정하기</string>
+    <string name="planner_approve_goal_mention">목표했던 공부량을 모두 채웠습니다!\n열공하셨군요!</string>
+    <string name="btn_star_description">별표 버튼</string>
 </resources>

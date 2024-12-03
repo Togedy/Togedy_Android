@@ -19,7 +19,9 @@ fun NavGraphBuilder.plannerScreen(
     composable<Planner> {
         PlannerScreen(
             modifier = modifier,
-            onSettingButtonClick = { /* 설정 화면으로 이동 */ }
+            onSettingButtonClick = { /* 설정 화면으로 이동 */ },
+            navigateToSetGoalTime = { /* 목표 설정화면으로 이동 */ },
+            navigateToEditGoalTime = { /* 목표 수정화면으로 이동 */ }
         )
     }
 }
