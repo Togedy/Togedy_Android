@@ -17,7 +17,9 @@ fun NavGraphBuilder.gptScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Gpt> {
-        GPTScreen()
+        GPTScreen(
+            modifier = modifier,
+        )
     }
 }
 
