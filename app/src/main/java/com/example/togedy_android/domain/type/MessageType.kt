@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.ui.model
+package com.example.togedy_android.domain.type
 
 enum class MessageType { Sent, Received }
 data class ChatMessage(
