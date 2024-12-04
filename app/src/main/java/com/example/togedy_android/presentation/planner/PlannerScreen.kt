@@ -6,14 +6,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
+import com.example.togedy_android.core.design_system.theme.gray100
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
+import com.example.togedy_android.presentation.planner.component.PlannerWeeklyCalendar
 import com.example.togedy_android.presentation.planner.component.TodaysGoal
+import java.time.LocalDate
 
 @Composable
 fun PlannerScreen(
@@ -22,6 +30,8 @@ fun PlannerScreen(
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: () -> Unit,
 ) {
+    var selectedDay: LocalDate by remember { mutableStateOf(LocalDate.now()) }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -42,6 +52,35 @@ fun PlannerScreen(
             navigateToSetGoalTime = navigateToSetGoalTime,
             navigateToEditGoalTime = navigateToEditGoalTime
         )
+
+        Spacer(Modifier.height(40.dp))
+
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = gray100
+        )
+
+        Spacer(Modifier.height(20.dp))
+
+        Column(
+            modifier = Modifier.padding(horizontal = 10.dp)
+        ) {
+            PlannerWeeklyCalendar(
+                selectedDay = selectedDay,
+                onCalendarButtonClick = { },
+                onDaySelected = { selectedDay = it }
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            repeat(2) { index ->
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = gray100
+                )
+                Spacer(Modifier.height(8.dp))
+            }
+        }
 
     }
 }
