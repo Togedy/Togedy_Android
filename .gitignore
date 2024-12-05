@@ -9,9 +9,12 @@
 /.idea/assetWizardSettings.xml
 /.idea/vcs.xml
 /.idea/deploymentTargetSelector.xml
+deploymentTargetSelector.xml
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+/.idea/misc.xml
+misc.xml
