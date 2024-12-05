@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -18,11 +20,13 @@ import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import java.time.LocalDate
 import com.example.togedy_android.R
+import com.example.togedy_android.core.design_system.component.GrayLine
+import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.util.noRippleClickable
 
 @Composable
-fun PlannerWeeklyCalendar(
+fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
@@ -49,6 +53,12 @@ fun PlannerWeeklyCalendar(
                 onDaySelected = { onDaySelected(it) }
             )
         }
+
+        Spacer(Modifier.height(16.dp))
+
+        ShortPlanner(
+            selectedDay = selectedDay,
+        )
     }
 }
 
@@ -82,10 +92,52 @@ fun PlannerWeeklyCalendarTitle(
     }
 }
 
+@Composable
+fun ShortPlanner(
+    selectedDay: LocalDate,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        repeat(2) {
+            GrayLine()
+            Spacer(Modifier.height(8.dp))
+        }
+
+        Text(
+            text = selectedDay.toString(),
+            style = TogedyTheme.typography.headline3B,
+            color = TogedyTheme.colors.black,
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        GrayLine()
+
+
+        Spacer(Modifier.height(8.dp))
+
+        repeat(3) {
+            PlannerInputSection(
+                planColor = null,
+                planContent = "",
+                planState = PlanState.NOT_STARTED,
+                onPlanStateClicked = { /* 플랜 상태 변경 dialog */ }
+            )
+        }
+
+        GrayLine()
+
+        PlannerInputMoreSection(
+            onMoreButtonClicked = { /* 일별 플래너 페이지로 이동 */ }
+        )
+    }
+}
+
 @Preview
 @Composable
-fun PlannerWeeklyCalendarPreview() {
-    PlannerWeeklyCalendar(
+fun PlannerWeeklyShortPlannerPreview() {
+    PlannerWeeklyShortPlanner(
         selectedDay = LocalDate.now(),
         onCalendarButtonClick = { },
         onDaySelected = { }

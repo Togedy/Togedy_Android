@@ -19,7 +19,7 @@ import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.core.design_system.theme.gray100
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
-import com.example.togedy_android.presentation.planner.component.PlannerWeeklyCalendar
+import com.example.togedy_android.presentation.planner.component.PlannerWeeklyShortPlanner
 import com.example.togedy_android.presentation.planner.component.TodaysGoal
 import java.time.LocalDate
 
@@ -65,21 +65,12 @@ fun PlannerScreen(
         Column(
             modifier = Modifier.padding(horizontal = 10.dp)
         ) {
-            PlannerWeeklyCalendar(
+            PlannerWeeklyShortPlanner(
                 selectedDay = selectedDay,
                 onCalendarButtonClick = { },
                 onDaySelected = { selectedDay = it }
             )
 
-            Spacer(Modifier.height(16.dp))
-
-            repeat(2) { index ->
-                HorizontalDivider(
-                    thickness = 1.dp,
-                    color = gray100
-                )
-                Spacer(Modifier.height(8.dp))
-            }
         }
 
     }
