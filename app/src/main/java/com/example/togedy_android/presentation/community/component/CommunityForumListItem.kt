@@ -4,13 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,6 +35,7 @@ fun CommunityForumListItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .height(84.dp)
             .background(color = TogedyTheme.colors.white)
             .padding(horizontal = 6.dp, vertical = 8.dp)
     ) {
@@ -81,6 +85,10 @@ fun CommunityForumListItem(
             )
         }
     }
+    HorizontalDivider(
+        thickness = 1.dp,
+        color = TogedyTheme.colors.gray300
+    )
 }
 
 @Preview
@@ -88,8 +96,9 @@ fun CommunityForumListItem(
 fun CommunityForumListItemPreview() {
     Column(
         modifier = Modifier.fillMaxSize()
+            .background(TogedyTheme.colors.white)
     ) {
-        // 장터 게시판
+        // 사진 있는 경우
         CommunityForumListItem(
             title = "건대 맛집 리스트 팝니다",
             date = "2024.12.05",
@@ -98,21 +107,12 @@ fun CommunityForumListItemPreview() {
             image = R.drawable.img_example_board
         )
 
-        // 장터 게시판 사진 없는 경우
+        // 사진 없는 경우
         CommunityForumListItem(
             title = "건대 맛집 리스트 팝니다",
             date = "2024.12.05",
             content = "건대 근처 학원 다니면서 맛집 정말 많이 다녀봤고, 제가 맛잘알로써 진짜 맛있는 집들만 정리해뒀습니다. 가격은 3000원!! 편하게 연락주세요",
             type = "market",
-            image = null
-        )
-
-        // 자유 게시판
-        CommunityForumListItem(
-            title = "건대 맛집 리스트 팝니다",
-            date = "2024.12.05",
-            content = "건대 근처 학원 다니면서 맛집 정말 많이 다녀봤고, 제가 맛잘알로써 진짜 맛있는 집들만 정리해뒀습니다. 가격은 3000원!! 편하게 연락주세요",
-            type = "free",
             image = null
         )
     }
