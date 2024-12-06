@@ -28,4 +28,8 @@
     <string name="calendar_btn_select_period_description">기간 선택 버튼</string>
     <string name="calendar_period">기간</string>
     <string name="calendar_btn_calendar_description">달력 아이콘</string>
+
+    <!-- CommunityDetailScreen -->
+    <string name="community_detail_comment">댓글</string>
+
 </resources>
