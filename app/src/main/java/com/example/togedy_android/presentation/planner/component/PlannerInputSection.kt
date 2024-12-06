@@ -27,6 +27,7 @@ fun PlannerInputSection(
     planColor: Color? = null,
     planContent: String = "",
     planState: PlanState = PlanState.NOT_STARTED,
+    onPlanContentClicked: () -> Unit,
     onPlanStateClicked: () -> Unit,
 ) {
     val icon = when (planState) {
@@ -46,7 +47,8 @@ fun PlannerInputSection(
                 Text(
                     text = stringResource(R.string.planner_no_plan),
                     style = TogedyTheme.typography.body2M,
-                    color = TogedyTheme.colors.gray200
+                    color = TogedyTheme.colors.gray200,
+                    modifier = Modifier.noRippleClickable(onPlanContentClicked)
                 )
             } else {
                 Icon(
@@ -60,7 +62,8 @@ fun PlannerInputSection(
                 Text(
                     text = planContent,
                     style = TogedyTheme.typography.body2M,
-                    color = TogedyTheme.colors.black
+                    color = TogedyTheme.colors.black,
+                    modifier = Modifier.noRippleClickable(onPlanContentClicked)
                 )
             }
 
@@ -87,6 +90,7 @@ fun PlannerInputSectionPreview() {
         planColor = TogedyTheme.colors.color1,
         planContent = "1단원 공부하기",
         planState = PlanState.NOT_STARTED,
+        onPlanContentClicked = { },
         onPlanStateClicked = { }
     )
 }

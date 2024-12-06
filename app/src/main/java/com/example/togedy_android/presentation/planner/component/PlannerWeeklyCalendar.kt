@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
+    //플래너 관련 동작 연결 필요
 ) {
     val today = LocalDate.now()
     val startOfWeek = today.minusDays(today.dayOfWeek.value.toLong() - 1)
@@ -122,6 +122,7 @@ fun ShortPlanner(
                 planColor = null,
                 planContent = "",
                 planState = PlanState.NOT_STARTED,
+                onPlanContentClicked = { /* 플랜 내용 변경 dialog */ },
                 onPlanStateClicked = { /* 플랜 상태 변경 dialog */ }
             )
         }
