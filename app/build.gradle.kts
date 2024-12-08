@@ -1,14 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.kotlin.serialization)
-    kotlin("kapt")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
-}
-
-kapt {
-    correctErrorTypes = true
+    alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -26,6 +22,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String","BASE_URL", properties["base.url"].toString())
     }
 
     buildTypes {
@@ -46,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.13"
@@ -55,6 +53,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 dependencies {
@@ -68,7 +70,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.runtime.ktx)
-//    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -84,13 +85,18 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    implementation(libs.kotlinx.coroutines.android)
-    kapt(libs.hilt.android.compiler)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.appcompat)
+    kapt(libs.hilt.compiler)
 
     // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
+    implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
-    implementation(libs.okhttp.urlconnection)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.kotlin.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
+
+    // Gson
+    implementation(libs.converter.gson)
 }

@@ -21,6 +21,7 @@
     <string name="home_text_hint">검색어를 입력하세요</string>
 
     <!-- CommunityScreen -->
+    <string name="community_general_forum">자유게시판</string>
 
 
     <!-- CalendarScreen -->
