@@ -11,9 +11,13 @@ composeBom = "2024.04.01"
 navigationRuntimeKtx = "2.8.0"
 roomKtx = "2.6.1"
 
+## Kotlin Symbol Processing
+ksp = "2.0.0-1.0.21"
+
 ## Hilt
 hilt = "2.51.1"
-hiltAndroid =  "2.51.1"
+hiltNavigationCompose = "1.2.0"
+hiltManager = "1.0.0"
 androidx-hilt-navigation-compose = "1.2.0"
 appcompat = "1.7.0"
 
@@ -50,10 +54,13 @@ androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navig
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 ## hilt
-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltAndroid" }
-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hilt-manager = {group = "androidx.hilt" , name = "hilt-compiler", version.ref = "hiltManager"}
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
+hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 
 ## third Party
 okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
@@ -74,6 +81,9 @@ converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+#hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
