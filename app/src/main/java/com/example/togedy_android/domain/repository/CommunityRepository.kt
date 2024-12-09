@@ -5,6 +5,6 @@ import com.example.togedy_android.domain.model.BoardWriting
 import com.example.togedy_android.domain.model.BoardWritingId
 
 interface CommunityRepository {
-    suspend fun getBoardList(boardType: String): Result<ArrayList<BoardList>>
+    suspend fun getBoardList(boardType: String): Result<List<BoardList>>
     suspend fun postBoardWriting(boardType: String, boardWriting: BoardWriting): Result<BoardWritingId>
 }

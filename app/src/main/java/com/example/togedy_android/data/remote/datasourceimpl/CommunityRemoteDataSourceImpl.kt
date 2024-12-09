@@ -11,7 +11,7 @@ import javax.inject.Inject
 class CommunityRemoteDataSourceImpl @Inject constructor(
     private val communityService: CommunityService
 ) : CommunityRemoteDataSource{
-    override suspend fun getBoardList(boardType: String): BaseResponse<ArrayList<BoardListResponseDto>> =
+    override suspend fun getBoardList(boardType: String): BaseResponse<List<BoardListResponseDto>> =
         communityService.getBoardList(boardType)
 
 

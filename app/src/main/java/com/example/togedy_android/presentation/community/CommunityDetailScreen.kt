@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
@@ -32,12 +31,14 @@ import com.example.togedy_android.core.design_system.theme.TogedyTheme
 
 @Composable
 fun CommunityDetailScreen(
+    postId: Int,
+    modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel()
 ) {
     var heartClicked = true
 
     LazyColumn(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = TogedyTheme.colors.white)
             .padding(horizontal = 18.dp, vertical = 16.dp)
@@ -54,7 +55,7 @@ fun CommunityDetailScreen(
             DetailDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 7.dp)
+                    .padding(top = 15.dp, bottom = 7.dp)
             )
         }
 
@@ -132,7 +133,8 @@ fun CommunityDetailScreen(
                 )
                 Image(
                     painter = painterResource(R.drawable.ic_message),
-                    contentDescription = "댓글 버튼"
+                    contentDescription = "댓글 버튼",
+                    modifier = Modifier.padding(end = 6.dp)
                 )
                 Text(
                     text = "2",
@@ -304,5 +306,8 @@ fun CommunityDetailImage(image: Int) {
 @Preview
 @Composable
 fun CommunityDetailPreviewScreen() {
-    CommunityDetailScreen()
+    CommunityDetailScreen(
+        postId = 1,
+        viewModel = viewModel()
+    )
 }

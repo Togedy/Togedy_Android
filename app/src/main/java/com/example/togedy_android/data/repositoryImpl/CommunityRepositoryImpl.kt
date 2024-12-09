@@ -13,7 +13,7 @@ import javax.inject.Inject
 class CommunityRepositoryImpl @Inject constructor(
     private val communityRemoteDataSource: CommunityRemoteDataSource
 ) : CommunityRepository {
-    override suspend fun getBoardList(boardType: String): Result<ArrayList<BoardList>> {
+    override suspend fun getBoardList(boardType: String): Result<List<BoardList>> {
         return runCatching {
             communityRemoteDataSource.getBoardList(boardType = boardType)
                 .handleBaseResponse().getOrThrow().toDomain()

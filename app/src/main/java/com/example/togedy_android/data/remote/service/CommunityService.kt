@@ -14,8 +14,8 @@ interface CommunityService {
 
     @GET("board/{boardType}")
     suspend fun getBoardList(
-        @Path("boardType") boardType: String
-    ): BaseResponse<ArrayList<BoardListResponseDto>>
+        @Path("boardType") boardType: String = "free"
+    ): BaseResponse<List<BoardListResponseDto>>
 
     @Multipart
     @POST("board/{boardType}/post")

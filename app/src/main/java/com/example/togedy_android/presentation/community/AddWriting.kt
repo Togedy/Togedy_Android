@@ -25,8 +25,8 @@ import com.example.togedy_android.core.design_system.component.TogedyButtonBasic
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.component.WritingContentTextField
 import com.example.togedy_android.core.design_system.component.WritingTitleField
-import com.example.togedy_android.presentation.community.component.SelectingWritingType
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.presentation.community.component.SelectingWritingType
 
 @Composable
 fun AddWriting(
