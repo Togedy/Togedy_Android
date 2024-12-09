@@ -40,4 +40,10 @@
     <string name="btn_star_description">별표 버튼</string>
     <string name="planner_no_plan">눌러서 스터디 플랜 추가하기</string>
     <string name="planner_input_plan_more">+ 더보기</string>
+
+    <!-- SetGoalTimeScreen -->
+    <string name="planner_today_goal">오늘의 목표</string>
+    <string name="planner_top_bar_set_goal">설정</string>
+    <string name="planner_top_bar_edit_goal">수정</string>
+    <string name="planner_goal_time_notification">정확한 목표 시간 설정을 위해 "HH:mm" 형식으로 입력해주시길 바랍니다.</string>
 </resources>

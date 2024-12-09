@@ -24,12 +24,15 @@ fun NavGraphBuilder.plannerScreen(
             modifier = modifier,
             onSettingButtonClick = { /* 설정 화면으로 이동 */ },
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
-            navigateToEditGoalTime = { /* 목표 수정화면으로 이동 */ }
+            navigateToEditGoalTime = { navController.navigateToSetGoalTime() }
         )
     }
 
     composable<SetGoalTime> {
         SetGoalTimeScreen(
+            //goalTime 인자로 넘기기
+            onCloseButtonClicked = { navController.popBackStack() },
+            onSetButtonClicked = { navController.popBackStack() },
             modifier = modifier,
         )
     }
