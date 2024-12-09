@@ -2,7 +2,6 @@ package com.example.togedy_android.presentation.community
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -32,11 +32,11 @@ import com.example.togedy_android.presentation.community.component.CommunityForu
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun CommunityForumScreen(
+fun CommunityBoardScreen(
     viewModel: CommunityViewModel = hiltViewModel(),
     boardType: String = "free"
 ) {
-    val boardListData by viewModel.boardListData.collectAsStateWithLifecycle()
+    val boardListData by viewModel.boardListData.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.getBoardList(boardType = boardType)
@@ -70,10 +70,10 @@ fun CommunityForumScreen(
                 onLeftButtonClicked = {}
             )
 
-            BoardListInfo(
-                boardListData = boardListData,
-                boardType = boardType
-            )
+//            BoardListInfo(
+//                boardListData = boardListData,
+//                boardType = boardType
+//            )
         }
     }
 
@@ -105,6 +105,6 @@ fun BoardListInfo(
 @Composable
 fun CommunityForumScreenPreview() {
     Togedy_AndroidTheme {
-        CommunityForumScreen()
+        CommunityBoardScreen()
     }
 }

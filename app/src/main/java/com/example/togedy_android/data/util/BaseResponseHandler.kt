@@ -4,7 +4,7 @@ import com.example.togedy_android.data.remote.model.base.BaseResponse
 
 
 fun <T> BaseResponse<T>.handleBaseResponse(): Result<T> {
-    return when (this.status) {
+    return when (this.responseCode) {
         in 200..299 -> {
             if (this.result != null) {
                 Result.success(this.result)
@@ -13,16 +13,16 @@ fun <T> BaseResponse<T>.handleBaseResponse(): Result<T> {
             }
         }
         in 300..399 -> {
-            Result.failure(Exception("Redirection error: ${this.message}"))
+            Result.failure(Exception("Redirection error: ${this.responseMessage}"))
         }
         in 400..499 -> {
-            Result.failure(Exception("Client error: ${this.message}"))
+            Result.failure(Exception("Client error: ${this.responseMessage}"))
         }
         in 500..599 -> {
-            Result.failure(Exception("Server error: ${this.message}"))
+            Result.failure(Exception("Server error: ${this.responseMessage}"))
         }
         else -> {
-            Result.failure(Exception("Unexpected error: ${this.message}"))
+            Result.failure(Exception("Unexpected error: ${this.responseMessage}"))
         }
     }
 }

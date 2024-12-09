@@ -23,12 +23,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 
 @Composable
-fun CommunityDetailScreen() {
+fun CommunityDetailScreen(
+    viewModel: CommunityViewModel = hiltViewModel()
+) {
     var heartClicked = true
 
     LazyColumn(

@@ -18,7 +18,7 @@ import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 
 @Composable
 fun CommunityScreen(
-    onMenuBtnClicked: () -> Unit,
+    navigateToCommunityBoard: () -> Unit
 ) {
     Togedy_AndroidTheme {
         Surface(
@@ -30,7 +30,7 @@ fun CommunityScreen(
                     .fillMaxSize()
             ) {
                 CommunityHomeTopBar(
-                    onMenuBtnClicked = onMenuBtnClicked
+                    onMenuBtnClicked = { }
                 )
 
                 CommunityFastTab(
@@ -44,7 +44,7 @@ fun CommunityScreen(
 
                 Spacer(modifier = Modifier.height(30.dp))
                 HomeBulletinBoard(
-                    onBulletinBoardMoreClicked = { }
+                    onBulletinBoardMoreClicked = navigateToCommunityBoard
                 )
             }
         }
@@ -55,6 +55,6 @@ fun CommunityScreen(
 @Composable
 fun CommunityScreenPreview() {
     CommunityScreen(
-        onMenuBtnClicked = { }
+        navigateToCommunityBoard = { }
     )
 }
