@@ -4,6 +4,7 @@ import com.example.togedy_android.data.mapper.todata.toData
 import com.example.togedy_android.data.mapper.todomain.toDomain
 import com.example.togedy_android.data.remote.datasource.CommunityRemoteDataSource
 import com.example.togedy_android.data.util.handleBaseResponse
+import com.example.togedy_android.domain.model.BoardDetail
 import com.example.togedy_android.domain.model.BoardList
 import com.example.togedy_android.domain.model.BoardWriting
 import com.example.togedy_android.domain.model.BoardWritingId
@@ -23,6 +24,13 @@ class CommunityRepositoryImpl @Inject constructor(
     override suspend fun postBoardWriting(boardType: String, boardWriting: BoardWriting): Result<BoardWritingId> {
         return runCatching {
              communityRemoteDataSource.postBoardWriting(boardType = boardType, boardWritingRequestDto = boardWriting.toData())
+                .handleBaseResponse().getOrThrow().toDomain()
+        }
+    }
+
+    override suspend fun getBoardDetail(postId: Int): Result<BoardDetail> {
+        return runCatching {
+            communityRemoteDataSource.getBoardDetail(postId = postId)
                 .handleBaseResponse().getOrThrow().toDomain()
         }
     }

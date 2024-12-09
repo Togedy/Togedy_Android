@@ -2,6 +2,7 @@ package com.example.togedy_android.data.remote.service
 
 import com.example.togedy_android.data.remote.model.base.BaseResponse
 import com.example.togedy_android.data.remote.model.request.BoardWritingRequestDto
+import com.example.togedy_android.data.remote.model.response.BoardDetailResponseDto
 import com.example.togedy_android.data.remote.model.response.BoardListResponseDto
 import com.example.togedy_android.data.remote.model.response.BoardWritingResponseDto
 import retrofit2.http.Body
@@ -23,4 +24,9 @@ interface CommunityService {
         @Path("boardType") boardType: String,
         @Body boardWriteRequestDto: BoardWritingRequestDto
     ): BaseResponse<BoardWritingResponseDto>
+
+    @GET("board/post/{postId}")
+    suspend fun getBoardDetail(
+        @Path("postId") postId: Int
+    ): BaseResponse<BoardDetailResponseDto>
 }

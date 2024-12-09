@@ -17,6 +17,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,6 +31,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.presentation.community.state.BoardListState
 
 @Composable
 fun CommunityDetailScreen(
@@ -35,7 +39,12 @@ fun CommunityDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel()
 ) {
+    val boardDetailState by viewModel.boardDetailState.collectAsState()
     var heartClicked = true
+
+    LaunchedEffect(Unit) {
+        viewModel.getBoardDetail(postId)
+    }
 
     LazyColumn(
         modifier = modifier
