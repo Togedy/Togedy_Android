@@ -1,6 +1,5 @@
 package com.example.togedy_android.core.design_system.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -17,6 +16,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 
 @Composable
 fun TopBarWithTextBtn(
@@ -38,7 +38,7 @@ fun TopBarWithTextBtn(
         Icon(
             imageVector = ImageVector.vectorResource(leftButtonIcon),
             contentDescription = stringResource(R.string.btn_close_description),
-            modifier = Modifier.clickable { onLeftButtonClicked() }
+            modifier = Modifier.noRippleClickable { onLeftButtonClicked() }
         )
 
         Text(
@@ -51,7 +51,7 @@ fun TopBarWithTextBtn(
             text = buttonText,
             style = TogedyTheme.typography.headline3B,
             color = color,
-            modifier = Modifier.clickable { onRightButtonClicked() }
+            modifier = Modifier.noRippleClickable { onRightButtonClicked() }
         )
     }
 }
@@ -71,7 +71,7 @@ fun TopBarBasic(
             Icon(
                 imageVector = ImageVector.vectorResource(leftButtonIcon),
                 contentDescription = stringResource(R.string.btn_close_description),
-                modifier = Modifier.clickable { onLeftButtonClicked() }
+                modifier = Modifier.noRippleClickable { onLeftButtonClicked() }
             )
             Spacer(modifier = Modifier.weight(1f))
         }
