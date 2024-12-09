@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import com.example.togedy_android.core.design_system.component.GrayLine
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
-import com.example.togedy_android.core.design_system.theme.gray100
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
 import com.example.togedy_android.presentation.planner.component.PlannerWeeklyShortPlanner
 import com.example.togedy_android.presentation.planner.component.TodaysGoal
@@ -29,6 +28,7 @@ fun PlannerScreen(
     onSettingButtonClick: () -> Unit,
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: () -> Unit,
+    navigateToPlannerCalendar: () -> Unit,
 ) {
     var selectedDay: LocalDate by remember { mutableStateOf(LocalDate.now()) }
 
@@ -55,10 +55,7 @@ fun PlannerScreen(
 
         Spacer(Modifier.height(40.dp))
 
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = gray100
-        )
+        GrayLine()
 
         Spacer(Modifier.height(20.dp))
 
@@ -67,7 +64,7 @@ fun PlannerScreen(
         ) {
             PlannerWeeklyShortPlanner(
                 selectedDay = selectedDay,
-                onCalendarButtonClick = { },
+                onCalendarButtonClick = navigateToPlannerCalendar,
                 onDaySelected = { selectedDay = it }
             )
 
@@ -83,7 +80,8 @@ fun PlannerScreenPreview() {
         PlannerScreen(
             onSettingButtonClick = { },
             navigateToEditGoalTime = { },
-            navigateToSetGoalTime = { }
+            navigateToSetGoalTime = { },
+            navigateToPlannerCalendar = { },
         )
     }
 }

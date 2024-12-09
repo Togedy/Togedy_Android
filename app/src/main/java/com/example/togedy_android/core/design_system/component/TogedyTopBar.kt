@@ -60,10 +60,11 @@ fun TopBarWithTextBtn(
 fun TopBarBasic(
     leftButtonIcon: Int,
     title: String,
-    onLeftButtonClicked: () -> Unit
+    onLeftButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {

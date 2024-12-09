@@ -8,12 +8,18 @@ import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.PlannerScreen
+import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarScreen
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
 import kotlinx.serialization.Serializable
 
-fun NavHostController.navigateToPlanner(navOptions: NavOptions? = null) = navigate(Planner)
+fun NavHostController.navigateToPlanner(navOptions: NavOptions? = null) =
+    navigate(Planner)
 
-fun NavHostController.navigateToSetGoalTime(navOptions: NavOptions?= null) = navigate(SetGoalTime)
+fun NavHostController.navigateToSetGoalTime(navOptions: NavOptions? = null) =
+    navigate(SetGoalTime)
+
+fun NavHostController.navigateToPlannerCalendar(navOptions: NavOptions? = null) =
+    navigate(PlannerCalendar)
 
 fun NavGraphBuilder.plannerScreen(
     navController: NavHostController,
@@ -24,7 +30,8 @@ fun NavGraphBuilder.plannerScreen(
             modifier = modifier,
             onSettingButtonClick = { /* 설정 화면으로 이동 */ },
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
-            navigateToEditGoalTime = { navController.navigateToSetGoalTime() }
+            navigateToEditGoalTime = { navController.navigateToSetGoalTime() },
+            navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() }
         )
     }
 
@@ -36,9 +43,20 @@ fun NavGraphBuilder.plannerScreen(
             modifier = modifier,
         )
     }
+
+    composable<PlannerCalendar> {
+        PlannerCalendarScreen(
+            onCloseButtonClicked = { navController.popBackStack() },
+            modifier = modifier,
+        )
+    }
 }
 
 @Serializable
-data object Planner: MainTabRoute
+data object Planner : MainTabRoute
+
 @Serializable
-data object SetGoalTime: Route
+data object SetGoalTime : Route
+
+@Serializable
+data object PlannerCalendar : Route
