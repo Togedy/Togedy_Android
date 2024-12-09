@@ -33,6 +33,7 @@ import java.time.temporal.TemporalAdjusters
 @Composable
 fun PlannerCalendarScreen(
     onCloseButtonClicked: () -> Unit,
+    navigateToPlannerDetail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var selectedDay by remember { mutableStateOf(LocalDate.now()) }
@@ -61,11 +62,11 @@ fun PlannerCalendarScreen(
             modifier = Modifier.padding(horizontal = 20.dp)
         ) {
             ShortPlanner(
-                selectedDay = selectedDay
+                selectedDay = selectedDay,
+                onMoreButtonClicked = navigateToPlannerDetail
             )
         }
     }
-
 }
 
 @Composable
@@ -127,6 +128,7 @@ fun PlannerMonthlyCalendar(
 @Composable
 fun PlannerCalendarScreenPreview(modifier: Modifier = Modifier) {
     PlannerCalendarScreen(
-        onCloseButtonClicked = { }
+        onCloseButtonClicked = { },
+        navigateToPlannerDetail = { }
     )
 }

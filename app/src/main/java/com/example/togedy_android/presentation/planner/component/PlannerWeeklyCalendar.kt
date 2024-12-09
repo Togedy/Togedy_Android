@@ -29,7 +29,7 @@ fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
-    //플래너 관련 동작 연결 필요
+    onMoreButtonClicked: () -> Unit,
 ) {
     val today = LocalDate.now()
     val startOfWeek = today.minusDays(today.dayOfWeek.value.toLong() - 1)
@@ -58,6 +58,7 @@ fun PlannerWeeklyShortPlanner(
 
         ShortPlanner(
             selectedDay = selectedDay,
+            onMoreButtonClicked = onMoreButtonClicked
         )
     }
 }
@@ -95,6 +96,7 @@ fun PlannerWeeklyCalendarTitle(
 @Composable
 fun ShortPlanner(
     selectedDay: LocalDate,
+    onMoreButtonClicked: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -130,7 +132,7 @@ fun ShortPlanner(
         GrayLine()
 
         PlannerInputMoreSection(
-            onMoreButtonClicked = { /* 일별 플래너 페이지로 이동 */ }
+            onMoreButtonClicked = onMoreButtonClicked
         )
     }
 }
@@ -141,6 +143,7 @@ fun PlannerWeeklyShortPlannerPreview() {
     PlannerWeeklyShortPlanner(
         selectedDay = LocalDate.now(),
         onCalendarButtonClick = { },
-        onDaySelected = { }
+        onDaySelected = { },
+        onMoreButtonClicked = { }
     )
 }

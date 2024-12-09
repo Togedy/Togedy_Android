@@ -9,8 +9,10 @@ import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.PlannerScreen
 import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarScreen
+import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailRoute
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
 fun NavHostController.navigateToPlanner(navOptions: NavOptions? = null) =
     navigate(Planner)
@@ -20,6 +22,9 @@ fun NavHostController.navigateToSetGoalTime(navOptions: NavOptions? = null) =
 
 fun NavHostController.navigateToPlannerCalendar(navOptions: NavOptions? = null) =
     navigate(PlannerCalendar)
+
+fun NavHostController.navigateToPlannerDetial(navOptions: NavOptions? = null) =
+    navigate(PlannerDetail)
 
 fun NavGraphBuilder.plannerScreen(
     navController: NavHostController,
@@ -31,7 +36,8 @@ fun NavGraphBuilder.plannerScreen(
             onSettingButtonClick = { /* 설정 화면으로 이동 */ },
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
             navigateToEditGoalTime = { navController.navigateToSetGoalTime() },
-            navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() }
+            navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() },
+            navigateToPlannerDetail = { navController.navigateToPlannerDetial() }
         )
     }
 
@@ -46,8 +52,17 @@ fun NavGraphBuilder.plannerScreen(
 
     composable<PlannerCalendar> {
         PlannerCalendarScreen(
-            onCloseButtonClicked = { navController.popBackStack() },
             modifier = modifier,
+            onCloseButtonClicked = { navController.popBackStack() },
+            navigateToPlannerDetail = { navController.navigateToPlannerDetial() }
+        )
+    }
+
+    composable<PlannerDetail> {
+        PlannerDetailRoute(
+            selectedDay = LocalDate.now(), //추후 선택된 값으로 변경
+            onCloseButtonClicked = { navController.popBackStack() },
+            modifier = modifier
         )
     }
 }
@@ -60,3 +75,6 @@ data object SetGoalTime : Route
 
 @Serializable
 data object PlannerCalendar : Route
+
+@Serializable
+data object PlannerDetail : Route

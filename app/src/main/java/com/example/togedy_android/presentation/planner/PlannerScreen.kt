@@ -29,6 +29,7 @@ fun PlannerScreen(
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: () -> Unit,
     navigateToPlannerCalendar: () -> Unit,
+    navigateToPlannerDetail: () -> Unit,
 ) {
     var selectedDay: LocalDate by remember { mutableStateOf(LocalDate.now()) }
 
@@ -65,7 +66,8 @@ fun PlannerScreen(
             PlannerWeeklyShortPlanner(
                 selectedDay = selectedDay,
                 onCalendarButtonClick = navigateToPlannerCalendar,
-                onDaySelected = { selectedDay = it }
+                onDaySelected = { selectedDay = it },
+                onMoreButtonClicked = navigateToPlannerDetail
             )
 
         }
@@ -82,6 +84,7 @@ fun PlannerScreenPreview() {
             navigateToEditGoalTime = { },
             navigateToSetGoalTime = { },
             navigateToPlannerCalendar = { },
+            navigateToPlannerDetail = { }
         )
     }
 }
