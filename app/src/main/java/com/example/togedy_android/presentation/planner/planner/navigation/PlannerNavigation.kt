@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.planner.navigation
+package com.example.togedy_android.presentation.planner.planner.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -7,7 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.planner.PlannerScreen
+import com.example.togedy_android.presentation.planner.planner.PlannerRoute
 import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarScreen
 import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailScreen
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
@@ -36,7 +36,7 @@ fun NavGraphBuilder.plannerScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Planner> {
-        PlannerScreen(
+        PlannerRoute(
             modifier = modifier,
             onSettingButtonClick = { navController.navigateToStopWatch() }, //추후 버튼 디자인 변경
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
