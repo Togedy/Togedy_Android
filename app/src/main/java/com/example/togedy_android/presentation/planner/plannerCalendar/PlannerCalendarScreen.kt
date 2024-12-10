@@ -126,7 +126,7 @@ fun PlannerMonthlyCalendar(
 
 @Preview(showBackground = true)
 @Composable
-fun PlannerCalendarScreenPreview(modifier: Modifier = Modifier) {
+fun PlannerCalendarScreenPreview() {
     PlannerCalendarScreen(
         onCloseButtonClicked = { },
         navigateToPlannerDetail = { }

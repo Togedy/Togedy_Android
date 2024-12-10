@@ -1,5 +1,6 @@
 package com.example.togedy_android.presentation.planner.stopwatch
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -141,6 +142,7 @@ fun StopWatchScreen(
     }
 }
 
+@SuppressLint("DefaultLocale")
 fun formatTime(seconds: Int): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
@@ -154,7 +156,7 @@ val formatTimeForServer = DateTimeFormatter.ofPattern("HH:mm")
 
 @Preview
 @Composable
-fun StopWatchScreenPreview(modifier: Modifier = Modifier) {
+fun StopWatchScreenPreview() {
     StopWatchScreen(
         onCloseButtonClicked = { }
     )
