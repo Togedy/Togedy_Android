@@ -3,7 +3,6 @@ package com.example.togedy_android.presentation.community
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.togedy_android.domain.model.BoardDetail
 import com.example.togedy_android.domain.repository.CommunityRepository
 import com.example.togedy_android.presentation.community.state.BoardDetailState
 import com.example.togedy_android.presentation.community.state.BoardListState

@@ -44,4 +44,6 @@
     <string name="btn_star_description">별표 버튼</string>
     <string name="planner_no_plan">눌러서 스터디 플랜 추가하기</string>
     <string name="planner_input_plan_more">+ 더보기</string>
+    <string name="side_title_community">커뮤니티</string>
+    <string name="side_title_univ">대학별 게시판</string>
 </resources>
