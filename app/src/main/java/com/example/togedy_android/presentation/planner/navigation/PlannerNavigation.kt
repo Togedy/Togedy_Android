@@ -9,8 +9,9 @@ import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.PlannerScreen
 import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarScreen
-import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailRoute
+import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailScreen
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
+import com.example.togedy_android.presentation.planner.stopwatch.StopWatchScreen
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
@@ -23,8 +24,12 @@ fun NavHostController.navigateToSetGoalTime(navOptions: NavOptions? = null) =
 fun NavHostController.navigateToPlannerCalendar(navOptions: NavOptions? = null) =
     navigate(PlannerCalendar)
 
-fun NavHostController.navigateToPlannerDetial(navOptions: NavOptions? = null) =
+fun NavHostController.navigateToPlannerDetail(navOptions: NavOptions? = null) =
     navigate(PlannerDetail)
+
+fun NavHostController.navigateToStopWatch(navOptions: NavOptions? = null) =
+    navigate(StopWatch)
+
 
 fun NavGraphBuilder.plannerScreen(
     navController: NavHostController,
@@ -33,11 +38,11 @@ fun NavGraphBuilder.plannerScreen(
     composable<Planner> {
         PlannerScreen(
             modifier = modifier,
-            onSettingButtonClick = { /* 설정 화면으로 이동 */ },
+            onSettingButtonClick = { navController.navigateToStopWatch() }, //추후 버튼 디자인 변경
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
             navigateToEditGoalTime = { navController.navigateToSetGoalTime() },
             navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetial() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
         )
     }
 
@@ -54,13 +59,21 @@ fun NavGraphBuilder.plannerScreen(
         PlannerCalendarScreen(
             modifier = modifier,
             onCloseButtonClicked = { navController.popBackStack() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetial() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
         )
     }
 
     composable<PlannerDetail> {
-        PlannerDetailRoute(
+        PlannerDetailScreen(
             selectedDay = LocalDate.now(), //추후 선택된 값으로 변경
+            onCloseButtonClicked = { navController.popBackStack() },
+            onRightButtonClicked = { navController.navigateToStopWatch() },
+            modifier = modifier
+        )
+    }
+
+    composable<StopWatch>{
+        StopWatchScreen(
             onCloseButtonClicked = { navController.popBackStack() },
             modifier = modifier
         )
@@ -78,3 +91,6 @@ data object PlannerCalendar : Route
 
 @Serializable
 data object PlannerDetail : Route
+
+@Serializable
+data object StopWatch : Route

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,20 +23,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.GrayLine
-import com.example.togedy_android.core.design_system.component.TopBarBasic
+import com.example.togedy_android.core.design_system.component.TopBarBasicWithRightIcon
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.presentation.planner.component.PlannerInputSection
 import com.example.togedy_android.presentation.planner.plannerDetail.component.DailyPlanList
 import com.example.togedy_android.presentation.planner.plannerDetail.component.TimeTable
 import com.example.togedy_android.presentation.planner.plannerDetail.state.PlannerDetailIntent
 import java.time.LocalDate
 
 @Composable
-fun PlannerDetailRoute(
+fun PlannerDetailScreen(
     selectedDay: LocalDate,
     dDay: String = "",
     onCloseButtonClicked: () -> Unit,
+    onRightButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlannerDetailViewModel = hiltViewModel()
 ) {
@@ -54,10 +53,12 @@ fun PlannerDetailRoute(
             .padding(horizontal = 20.dp)
             .padding(top = 20.dp)
     ) {
-        TopBarBasic(
+        TopBarBasicWithRightIcon(
             leftButtonIcon = R.drawable.ic_x_close,
+            rightButtonIcon = R.drawable.ic_study_play,
             title = "플래너", //추후 변경 필요
-            onLeftButtonClicked = onCloseButtonClicked
+            onLeftButtonClicked = onCloseButtonClicked,
+            onRightButtonClicked = onRightButtonClicked,
         )
 
         Spacer(Modifier.height(18.dp))
@@ -135,9 +136,10 @@ fun PlannerDetailRoute(
 @Preview(showBackground = true)
 @Composable
 fun PlannerDetailScreenPreview(modifier: Modifier = Modifier) {
-    PlannerDetailRoute(
+    PlannerDetailScreen(
         modifier = modifier,
         onCloseButtonClicked = { },
+        onRightButtonClicked = { },
         selectedDay = LocalDate.now(),
         dDay = ""
     )

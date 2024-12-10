@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -62,6 +63,42 @@ fun TopBarBasic(
     title: String,
     onLeftButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
+    textColor: Color = TogedyTheme.colors.black,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Row {
+            Icon(
+                imageVector = ImageVector.vectorResource(leftButtonIcon),
+                contentDescription = stringResource(R.string.btn_close_description),
+                modifier = Modifier.noRippleClickable { onLeftButtonClicked() },
+                tint = textColor
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+        Row {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = TogedyTheme.typography.headline2B,
+                color = textColor
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+fun TopBarBasicWithRightIcon(
+    leftButtonIcon: Int,
+    rightButtonIcon: Int,
+    title: String,
+    onLeftButtonClicked: () -> Unit,
+    onRightButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -75,6 +112,11 @@ fun TopBarBasic(
                 modifier = Modifier.noRippleClickable { onLeftButtonClicked() }
             )
             Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = ImageVector.vectorResource(rightButtonIcon),
+                contentDescription = "",
+                modifier = Modifier.noRippleClickable { onRightButtonClicked() }
+            )
         }
         Row {
             Spacer(modifier = Modifier.weight(1f))
