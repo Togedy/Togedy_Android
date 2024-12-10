@@ -4,7 +4,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BaseResponse<T>(
-    val status: Int,
-    val message: String,
-    val result: T?
+    val isSuccess: Boolean,
+    val responseCode: Int,
+    val responseMessage: String,
+    val result: T? = null
 )

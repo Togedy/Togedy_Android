@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.core.design_system.theme.gray100

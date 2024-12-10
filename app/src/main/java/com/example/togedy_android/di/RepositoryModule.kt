@@ -15,7 +15,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindTicketRepository(
-        ticketRepositoryImpl: CommunityRepositoryImpl
+    abstract fun bindCommunityRepository(
+        communityRepositoryImpl: CommunityRepositoryImpl
     ): CommunityRepository
 }
