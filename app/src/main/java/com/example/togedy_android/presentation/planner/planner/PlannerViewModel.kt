@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.entity.PlannerHomeInformation
 import com.example.togedy_android.domain.model.planner.DayOfPlan
+import com.example.togedy_android.domain.model.planner.StudyTag
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -18,9 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class PlannerViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(PlannerUiState())
-    val uiState= _uiState.asStateFlow()
+    val uiState = _uiState.asStateFlow()
 
     private val _dialogState: MutableStateFlow<PlannerDialogState> =
         MutableStateFlow(PlannerDialogState())
@@ -28,21 +29,39 @@ class PlannerViewModel @Inject constructor(
 
     fun getPlannerHomeInformation() {
         // get api 연결
-        updateLoadState(loadState = UiState.Success(
-            PlannerHomeInformation(
-                todaysPlan = DayOfPlan(
-                    planList = emptyList(),
-                    timeline = listOf(listOf("10:20","14:43"), listOf("15:00","16:03"))
-                ),
-                studyTagList = emptyList()
+        updateLoadState(
+            loadState = UiState.Success(
+                PlannerHomeInformation(
+                    todaysPlan = DayOfPlan(
+                        planList = emptyList(),
+                        timeline = listOf(listOf("10:20", "14:43"), listOf("15:00", "16:03"))
+                    ),
+                    studyTagList = listOf(
+                        StudyTag(name = "국어", color = "color4"),
+                        StudyTag(name = "수학", color = "color5"),
+                        StudyTag(name = "국어", color = "color4"),
+                        StudyTag(name = "수학", color = "color5"),
+                        StudyTag(name = "국어", color = "color4"),
+                        StudyTag(name = "수학", color = "color5"),
+                        StudyTag(name = "국어", color = "color4"),
+                        StudyTag(name = "수학", color = "color5"),
+                    )
+                )
             )
-        ))
+        )
     }
 
-    fun updateSelectedDay(selectedDay : LocalDate) =
+    fun updateSelectedDay(selectedDay: LocalDate) =
         _uiState.update { currentState ->
             currentState.copy(
                 selectedDay = selectedDay
+            )
+        }
+
+    fun updateStudyTag(studyTag: StudyTag) =
+        _dialogState.update { currentState ->
+            currentState.copy(
+                studyTagInfo = studyTag
             )
         }
 

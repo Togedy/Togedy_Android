@@ -38,16 +38,20 @@ import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TogedyButtonBasic
 import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.util.toColor
 
 @Composable
 fun StudyTagDialog(
     title: String,
+    studyTag: StudyTag = StudyTag(name = "", color = ""),
     onDismissRequest: () -> Unit,
     onSubmitButtonClicked: (StudyTag) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var subjectName by remember { mutableStateOf("") }
-    var selectedColor by remember { mutableStateOf<Color?>(null) }
+    val initName = if (studyTag.name!="") studyTag.name else ""
+    val initColor = if (studyTag.color!="") studyTag.color.toColor() else null
+    var subjectName by remember { mutableStateOf(initName) }
+    var selectedColor by remember { mutableStateOf<Color?>(initColor) }
 
     Dialog(onDismissRequest = onDismissRequest) {
         Column(

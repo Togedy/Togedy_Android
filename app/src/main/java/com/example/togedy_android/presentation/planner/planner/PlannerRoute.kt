@@ -1,6 +1,7 @@
 package com.example.togedy_android.presentation.planner.planner
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -68,7 +69,11 @@ fun PlannerRoute(
         navigateToPlannerCalendar = navigateToPlannerCalendar,
         navigateToPlannerDetail = navigateToPlannerDetail,
         onDismissRequest = viewModel::updateDialogVisibility,
-        onAddStudyTagClicked = { viewModel.updateDialogVisibility(PlannerDialogType.ADD_SUBJECT) }
+        onAddStudyTagClicked = { viewModel.updateDialogVisibility(PlannerDialogType.ADD_SUBJECT) },
+        onEditStudyTagClicked = {
+            viewModel.updateStudyTag(it)
+            viewModel.updateDialogVisibility(PlannerDialogType.EDIT_SUBJECT)
+        }
     )
 }
 
@@ -85,6 +90,7 @@ fun PlannerScreen(
     navigateToPlannerDetail: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
     onAddStudyTagClicked: () -> Unit,
+    onEditStudyTagClicked: (StudyTag) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -126,6 +132,7 @@ fun PlannerScreen(
                         navigateToPlannerCalendar = navigateToPlannerCalendar,
                         navigateToPlannerDetail = navigateToPlannerDetail,
                         onAddStudyTagClicked = onAddStudyTagClicked,
+                        onEditStudyTagClicked = { onEditStudyTagClicked(it) },
                     )
                 }
             }
@@ -135,7 +142,8 @@ fun PlannerScreen(
     PlannerDialogScreen(
         dialogState = dialogState,
         onDismissRequest = onDismissRequest,
-        onStudyTagConfirm = { /* 공부태그 추가 api */ }
+        onStudyTagConfirm = { /* 공부태그 추가 api */ },
+        onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
 //        onResetReturnConfirm = onBackClick,
     )
 }
@@ -151,12 +159,13 @@ fun PlannerSuccessScreen(
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
+    onEditStudyTagClicked: (StudyTag) -> Unit,
 ) {
     Column {
         Spacer(Modifier.height(16.dp))
 
         TodaysGoal(
-            goalTime = "00:00",
+            goalTime = "10:00",
             percentage = 90,
             navigateToSetGoalTime = navigateToSetGoalTime,
             navigateToEditGoalTime = navigateToEditGoalTime
@@ -208,9 +217,17 @@ fun PlannerSuccessScreen(
                     color = TogedyTheme.colors.gray200
                 )
             } else {
-                LazyRow {
+                Spacer(Modifier.height(16.dp))
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
                     items(studyTagList) { studyTag ->
-                        StudyTag(studyTag)
+                        StudyTag(
+                            studyTag,
+                            onTagClicked = {
+                                onEditStudyTagClicked(studyTag)
+                            }
+                        )
                     }
                 }
             }
