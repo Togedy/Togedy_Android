@@ -1,6 +1,5 @@
 package com.example.togedy_android.core.design_system.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,12 +10,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 
 @Composable
 fun TopBarWithTextBtn(
@@ -38,7 +39,7 @@ fun TopBarWithTextBtn(
         Icon(
             imageVector = ImageVector.vectorResource(leftButtonIcon),
             contentDescription = stringResource(R.string.btn_close_description),
-            modifier = Modifier.clickable { onLeftButtonClicked() }
+            modifier = Modifier.noRippleClickable { onLeftButtonClicked() }
         )
 
         Text(
@@ -51,7 +52,7 @@ fun TopBarWithTextBtn(
             text = buttonText,
             style = TogedyTheme.typography.headline3B,
             color = color,
-            modifier = Modifier.clickable { onRightButtonClicked() }
+            modifier = Modifier.noRippleClickable { onRightButtonClicked() }
         )
     }
 }
@@ -60,10 +61,12 @@ fun TopBarWithTextBtn(
 fun TopBarBasic(
     leftButtonIcon: Int,
     title: String,
-    onLeftButtonClicked: () -> Unit
+    onLeftButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+    textColor: Color = TogedyTheme.colors.black,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
@@ -71,9 +74,49 @@ fun TopBarBasic(
             Icon(
                 imageVector = ImageVector.vectorResource(leftButtonIcon),
                 contentDescription = stringResource(R.string.btn_close_description),
-                modifier = Modifier.clickable { onLeftButtonClicked() }
+                modifier = Modifier.noRippleClickable { onLeftButtonClicked() },
+                tint = textColor
             )
             Spacer(modifier = Modifier.weight(1f))
+        }
+        Row {
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = title,
+                style = TogedyTheme.typography.headline2B,
+                color = textColor
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+fun TopBarBasicWithRightIcon(
+    leftButtonIcon: Int,
+    rightButtonIcon: Int,
+    title: String,
+    onLeftButtonClicked: () -> Unit,
+    onRightButtonClicked: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Row {
+            Icon(
+                imageVector = ImageVector.vectorResource(leftButtonIcon),
+                contentDescription = stringResource(R.string.btn_close_description),
+                modifier = Modifier.noRippleClickable { onLeftButtonClicked() }
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                imageVector = ImageVector.vectorResource(rightButtonIcon),
+                contentDescription = "",
+                modifier = Modifier.noRippleClickable { onRightButtonClicked() }
+            )
         }
         Row {
             Spacer(modifier = Modifier.weight(1f))

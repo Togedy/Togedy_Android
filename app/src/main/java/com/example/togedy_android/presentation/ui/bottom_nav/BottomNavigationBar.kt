@@ -21,7 +21,7 @@
 //import com.example.togedy_android.presentation.community.CommunityScreen
 //import com.example.togedy_android.presentation.gptscreen.GPTScreen
 //import com.example.togedy_android.presentation.mypage.MyPageScreen
-//import com.example.togedy_android.presentation.planner.PlannerScreen
+//import com.example.togedy_android.presentation.planner.planner.PlannerScreen
 //
 //@Composable
 //fun BottomNavigationBar() {

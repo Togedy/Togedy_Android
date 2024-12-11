@@ -1,8 +1,11 @@
 package com.example.togedy_android.domain.entity
 
+import com.example.togedy_android.domain.model.planner.DayOfPlan
+import com.example.togedy_android.domain.model.planner.StudyTag
 
-//data class PlannerHomeInformation(
+
+data class PlannerHomeInformation(
 //    val todaysGoal: TodaysGoal,
-//    val todaysPlan: PlannerDTO,
-//    val subjectList: List<PlannerSubject>
-//)
+    val todaysPlan: DayOfPlan = DayOfPlan(emptyList(), emptyList()),
+    val studyTagList: List<StudyTag> = emptyList<StudyTag>()
+)

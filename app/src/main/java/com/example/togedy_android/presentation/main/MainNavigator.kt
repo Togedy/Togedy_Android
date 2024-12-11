@@ -14,7 +14,7 @@ import com.example.togedy_android.presentation.community.navigation.navigateToCo
 import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
 import com.example.togedy_android.presentation.gptscreen.navigation.navigateToGPT
 import com.example.togedy_android.presentation.mypage.navigation.navigateToMyPage
-import com.example.togedy_android.presentation.planner.navigation.navigateToPlanner
+import com.example.togedy_android.presentation.planner.planner.navigation.navigateToPlanner
 
 class MainNavigator(
     val navController: NavHostController,

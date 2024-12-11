@@ -1,7 +1,6 @@
 package com.example.togedy_android.core.design_system.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -94,7 +93,7 @@ fun BorderTextField(
                     contentDescription = stringResource(R.string.btn_delete_content_all_description),
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .clickable {
+                        .noRippleClickable {
                             onTextFieldChange("")
                         }
                 )

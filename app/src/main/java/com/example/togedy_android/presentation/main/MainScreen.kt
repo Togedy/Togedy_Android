@@ -13,7 +13,7 @@ import com.example.togedy_android.presentation.main.component.MainBottomBars
 import com.example.togedy_android.presentation.community.navigation.communityScreen
 import com.example.togedy_android.presentation.gptscreen.navigation.gptScreen
 import com.example.togedy_android.presentation.mypage.navigation.myPageScreen
-import com.example.togedy_android.presentation.planner.navigation.plannerScreen
+import com.example.togedy_android.presentation.planner.planner.navigation.plannerScreen
 
 @Composable
 fun MainScreen(
