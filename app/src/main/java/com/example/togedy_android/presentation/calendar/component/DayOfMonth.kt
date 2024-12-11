@@ -95,6 +95,6 @@ private fun getModifierForDay(isToday: Boolean, isSelected: Boolean): Modifier {
 
 @Preview
 @Composable
-fun DayOfMonthRowPreview(modifier: Modifier = Modifier) {
+fun DayOfMonthRowPreview() {
     DayOfMonthRow(LocalDate.now(), LocalDate.now()) { }
 }
