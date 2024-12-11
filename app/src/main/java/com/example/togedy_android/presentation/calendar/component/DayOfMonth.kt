@@ -2,7 +2,6 @@ package com.example.togedy_android.presentation.calendar.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 import java.time.LocalDate
 
 @Composable
@@ -41,7 +41,7 @@ fun DayOfMonthRow(
 
             val color = getColorForDay(isToday, i)
             val dayModifier = getModifierForDay(isToday, isSelected)
-                .clickable(
+                .noRippleClickable(
                     onClick = { onDaySelected(currentDay) }
                 )
 
@@ -56,7 +56,7 @@ fun DayOfMonthRow(
                     color = color,
                     modifier = Modifier
                         .weight(1f, fill = true)
-                        .clickable { onDaySelected(currentDay) },
+                        .noRippleClickable { onDaySelected(currentDay) },
                     textAlign = TextAlign.Center
                 )
             }
