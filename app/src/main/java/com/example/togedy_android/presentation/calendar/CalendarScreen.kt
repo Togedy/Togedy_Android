@@ -77,7 +77,6 @@ fun CalendarScreen(
                 Box(modifier = Modifier.fillMaxSize()) {
                     MonthlyCalendar() {
                         selectedDay = it
-                        Log.d("chrin", "CalendarScreen: MonthlyCalendar selectedDay = $selectedDay")
                     }
 
                     if (isFabExpanded) {
