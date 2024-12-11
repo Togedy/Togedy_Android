@@ -1,7 +1,5 @@
-import org.gradle.kotlin.dsl.android
-import org.gradle.kotlin.dsl.hilt
+
 import java.util.Properties
-import kotlin.apply
 
 plugins {
     alias(libs.plugins.android.application)
@@ -112,4 +110,7 @@ dependencies {
 
     //coil
     implementation (libs.coil.compose)
+
+    // kakao
+    implementation(libs.v2.user)
 }
