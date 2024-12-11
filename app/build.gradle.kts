@@ -1,5 +1,7 @@
 import org.gradle.kotlin.dsl.android
 import org.gradle.kotlin.dsl.hilt
+import java.util.Properties
+import kotlin.apply
 
 plugins {
     alias(libs.plugins.android.application)
@@ -7,8 +9,11 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
     id("kotlin-kapt")
+}
+
+val properties = Properties().apply {
+    load(project.rootProject.file("local.properties").inputStream())
 }
 
 android {
@@ -92,9 +97,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.hilt.core)
-    ksp(libs.hilt.android.compiler)
-    ksp(libs.hilt.compiler)
-    ksp(libs.hilt.manager)
+    kapt(libs.hilt.compiler)
 
     // Retrofit
     implementation(platform(libs.okhttp.bom))
@@ -106,4 +109,7 @@ dependencies {
 
     // Gson
     implementation(libs.converter.gson)
+
+    //coil
+    implementation (libs.coil.compose)
 }

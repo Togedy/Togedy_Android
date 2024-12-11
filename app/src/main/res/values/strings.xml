@@ -30,6 +30,10 @@
     <string name="calendar_period">기간</string>
     <string name="calendar_btn_calendar_description">달력 아이콘</string>
 
+    <!-- CommunityDetailScreen -->
+    <string name="community_detail_comment">댓글</string>
+
+
     <!-- PlannerScreen -->
     <string name="planner_home_title">Study Planner</string>
     <string name="planner_today_goal_title">오늘의 공부 달성량</string>
