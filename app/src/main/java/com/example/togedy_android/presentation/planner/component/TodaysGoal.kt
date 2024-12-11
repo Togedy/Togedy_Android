@@ -104,34 +104,67 @@ fun ShowGoalStatus(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Row( //위치 조정
-            horizontalArrangement = Arrangement.End,
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 15.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val icon = if (percentage==100) R.drawable.ic_full_star else R.drawable.ic_empty_star
+            val icon = if (percentage == 100) R.drawable.ic_full_star else R.drawable.ic_empty_star
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .background(
+                        color = TogedyTheme.colors.gray100,
+                        shape = RoundedCornerShape(size = 10.dp)
+                    )
+                    .height(14.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 2.dp)
+                ) {
+                    val progress = percentage / 100f
+                    Box(
+                        modifier = Modifier
+                            .weight(progress)
+                            .background(
+                                color = TogedyTheme.colors.yellowMain,
+                                shape = RoundedCornerShape(size = 10.dp)
+                            )
+                            .height(10.dp)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(1 - progress)
+                            .height(10.dp)
+                    )
+                }
+            }
+
+            Spacer(Modifier.width(4.dp))
+
             Icon(
                 imageVector = ImageVector.vectorResource(icon),
                 contentDescription = stringResource(R.string.btn_star_description),
                 tint = Color.Unspecified
             )
-
-            Box (
-                modifier = Modifier
-                    .padding(start = 15.dp, end = 40.dp)
-                    .fillMaxWidth()
-                    .background(color = TogedyTheme.colors.gray100, shape = RoundedCornerShape(size = 10.dp))
-                    .height(14.dp)
-            ) {
-
-            }
-
-
-            Spacer(Modifier.width(15.dp))
         }
+
+        Text(
+            text = "3h 20m",
+            style = TogedyTheme.typography.body3M,
+            color = TogedyTheme.colors.gray500,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.fillMaxWidth()
+                .padding(start = 20.dp)
+        )
 
         Spacer(Modifier.height(18.dp))
 
-        if (percentage==100) {
+        if (percentage == 100) {
             Text(
                 text = stringResource(R.string.planner_approve_goal_mention),
                 style = TogedyTheme.typography.body3B,
@@ -182,7 +215,7 @@ fun TodaysGoalPreview() {
     Togedy_AndroidTheme {
         TodaysGoal(
             goalTime = "01:00",
-            percentage = 100,
+            percentage = 50,
             navigateToSetGoalTime = { },
             navigateToEditGoalTime = { }
         )
