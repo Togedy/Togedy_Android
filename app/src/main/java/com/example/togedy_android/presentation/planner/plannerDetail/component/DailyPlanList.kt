@@ -15,8 +15,8 @@ fun DailyPlanList(modifier: Modifier = Modifier) {
 
         repeat(12) {
             PlannerInputSection(
-                onPlanContentClicked = { },
-                onPlanStateClicked = { },
+                onPlanTitleClicked = { },
+                onPlanStatusClicked = { },
             )
         }
     }

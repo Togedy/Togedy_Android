@@ -146,18 +146,18 @@ fun ShortPlanner(
             val dayPlan = dayPlanItems[index]
 
             PlannerInputSection(
-                planColor = dayPlan.subjectColor.toColor(),
-                planContent = dayPlan.title,
-                planState = dayPlan.status.toPlanState(),
-                onPlanContentClicked = { onPlanContentClicked(dayPlan.todoID, dayPlan) },
-                onPlanStateClicked = { onPlanStateClicked(dayPlan.todoID) }
+                studyTagColor = dayPlan.subjectColor.toColor(),
+                planTitle = dayPlan.title,
+                status = dayPlan.status.toPlanState(),
+                onPlanTitleClicked = { onPlanContentClicked(dayPlan.todoID, dayPlan) },
+                onPlanStatusClicked = { onPlanStateClicked(dayPlan.todoID) }
             )
         }
 
         repeat(placeholdersNeeded) {
             PlannerInputSection(
-                onPlanContentClicked = { onPlanContentClicked(-1, PlanItem(todoID = -1, subjectColor = "", title = "", status = "")) },
-                onPlanStateClicked = { /* 플랜이 입력 안되어 있을 때 비활성화 */ }
+                onPlanTitleClicked = { onPlanContentClicked(-1, PlanItem(todoID = -1, subjectColor = "", title = "", status = "")) },
+                onPlanStatusClicked = { /* 플랜이 입력 안되어 있을 때 비활성화 */ }
             )
         }
 
