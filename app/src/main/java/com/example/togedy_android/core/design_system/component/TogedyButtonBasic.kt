@@ -29,6 +29,7 @@ fun TogedyButtonBasic(
     buttonText: String,
     isActivated: Boolean,
     onButtonClick: () -> Unit = { },
+    onNotActivatedButtonClick: () -> Unit = { },
 ) {
     val buttonColor = if (isActivated) TogedyTheme.colors.yellowMain else TogedyTheme.colors.gray200
     Box(
@@ -42,7 +43,7 @@ fun TogedyButtonBasic(
                     if (isActivated) {
                         onButtonClick()
                     } else {
-                        /* 클릭 방지 */
+                        onNotActivatedButtonClick()
                     }
                 }
             ),

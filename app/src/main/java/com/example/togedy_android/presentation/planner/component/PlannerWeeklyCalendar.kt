@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,13 +31,16 @@ fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
-    //플래너 관련 동작 연결 필요
+    onMoreButtonClicked: () -> Unit,
 ) {
     val today = LocalDate.now()
     val startOfWeek = today.minusDays(today.dayOfWeek.value.toLong() - 1)
     val endOfWeek = startOfWeek.plusDays(6)
+    var selectedDay by remember { mutableStateOf(selectedDay) }
 
-    Column {
+    Column(
+        modifier = Modifier.padding(horizontal = 10.dp)
+    ) {
         PlannerWeeklyCalendarTitle(
             onCalendarButtonClick = onCalendarButtonClick
         )
@@ -50,7 +55,10 @@ fun PlannerWeeklyShortPlanner(
             DayOfMonthRow(
                 startOfWeek = startOfWeek,
                 selectedDay = selectedDay,
-                onDaySelected = { onDaySelected(it) }
+                onDaySelected = {
+                    selectedDay = it
+                    onDaySelected(it)
+                }
             )
         }
 
@@ -58,6 +66,7 @@ fun PlannerWeeklyShortPlanner(
 
         ShortPlanner(
             selectedDay = selectedDay,
+            onMoreButtonClicked = onMoreButtonClicked
         )
     }
 }
@@ -95,6 +104,7 @@ fun PlannerWeeklyCalendarTitle(
 @Composable
 fun ShortPlanner(
     selectedDay: LocalDate,
+    onMoreButtonClicked: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -130,7 +140,7 @@ fun ShortPlanner(
         GrayLine()
 
         PlannerInputMoreSection(
-            onMoreButtonClicked = { /* 일별 플래너 페이지로 이동 */ }
+            onMoreButtonClicked = onMoreButtonClicked
         )
     }
 }
@@ -141,6 +151,7 @@ fun PlannerWeeklyShortPlannerPreview() {
     PlannerWeeklyShortPlanner(
         selectedDay = LocalDate.now(),
         onCalendarButtonClick = { },
-        onDaySelected = { }
+        onDaySelected = { },
+        onMoreButtonClicked = { }
     )
 }
