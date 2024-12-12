@@ -73,8 +73,8 @@ fun PlannerWeeklyShortPlanner(
             selectedDay = selectedDay,
             dayPlanItems = dayPlanItems,
             onMoreButtonClicked = onMoreButtonClicked,
-            onPlanContentClicked = { id, planItem ->
-                onPlanContentClicked(id, planItem)
+            onPlanContentClicked = { todoId, planItem ->
+                onPlanContentClicked(todoId, planItem)
             },
             onPlanStateClicked = { onPlanStateClicked(it) },
         )

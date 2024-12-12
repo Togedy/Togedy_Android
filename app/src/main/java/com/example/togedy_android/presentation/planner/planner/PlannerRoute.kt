@@ -112,11 +112,10 @@ fun PlannerScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = TogedyTheme.colors.white)
+            .padding(top = 20.dp)
             .padding(horizontal = 20.dp)
             .verticalScroll(scrollState)
     ) {
-        Spacer(Modifier.height(20.dp))
-
         PlannerHomeTopBar(
             onSettingButtonClick = onSettingButtonClick
         )

@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,26 +20,78 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.white
+import com.example.togedy_android.core.state.UiState
+import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.presentation.calendar.component.MonthTitleOfFullCalendar
 import com.example.togedy_android.presentation.calendar.component.YearTitleOfFullCalendar
+import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
 import com.example.togedy_android.presentation.planner.component.ShortPlanner
+import com.example.togedy_android.presentation.planner.planner.PlannerViewModel
+import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
+import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
+import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
 
 @Composable
-fun PlannerCalendarScreen(
+fun PlannerCalendarRoute(
     onCloseButtonClicked: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     modifier: Modifier = Modifier,
+    viewModel: PlannerViewModel = hiltViewModel()
 ) {
-    var selectedDay by remember { mutableStateOf(LocalDate.now()) }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(uiState) {
+        viewModel.getPlannerHomeInformation() //일별 정보 조회만 하기
+    }
+
+    PlannerCalendarScreen(
+        modifier = modifier,
+        uiState = uiState,
+        dialogState = dialogState,
+        onDaySelected = viewModel::updateSelectedDay,
+        onCloseButtonClicked = onCloseButtonClicked,
+        navigateToPlannerDetail = navigateToPlannerDetail,
+        onDismissRequest = viewModel::updateDialogVisibility,
+        onPlanContentClicked = { todoId, planItem ->
+            if (todoId == -1) {
+                viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
+            } else {
+                viewModel.updatePlanInfo(planItem)
+                viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
+            }
+        },
+        onPlanStateClicked = {
+            viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        }
+    )
+}
+
+@Composable
+fun PlannerCalendarScreen(
+    modifier: Modifier = Modifier,
+    uiState: PlannerUiState,
+    dialogState: PlannerDialogState,
+    onDaySelected: (LocalDate) -> Unit,
+    onCloseButtonClicked: () -> Unit,
+    navigateToPlannerDetail: () -> Unit,
+    onDismissRequest: (PlannerDialogType) -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
+) {
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
@@ -44,6 +99,7 @@ fun PlannerCalendarScreen(
             .fillMaxSize()
             .padding(top = 20.dp)
             .padding(horizontal = 10.dp)
+            .verticalScroll(scrollState)
     ) {
         TopBarBasic(
             leftButtonIcon = R.drawable.ic_x_close,
@@ -52,8 +108,61 @@ fun PlannerCalendarScreen(
             modifier = Modifier.padding(horizontal = 10.dp)
         )
 
+        when (uiState.loadState) {
+            is UiState.Loading -> {
+                // 로딩 중 UI 표시 (구현 예정 X)
+            }
+
+            is UiState.Empty -> {
+                // 빈 UI 표시 (구현 예정 X)
+            }
+
+            is UiState.Error -> {
+                // 에러 UI 표시 (구현 예정 X)
+            }
+
+            is UiState.Success -> {
+                with(uiState.loadState.data) {
+                    PlannerCalendarSuccessScreen(
+                        selectedDay = uiState.selectedDay,
+                        onDaySelected = onDaySelected,
+                        dayPlanItems = planList,
+                        navigateToPlannerDetail = navigateToPlannerDetail,
+                        onPlanContentClicked = onPlanContentClicked,
+                        onPlanStateClicked = { onPlanStateClicked(it) },
+                    )
+                }
+            }
+        }
+    }
+
+    PlannerDialogScreen(
+        dialogState = dialogState,
+        onDismissRequest = onDismissRequest,
+        onStudyTagConfirm = { /* 공부태그 추가 api */ },
+        onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
+        onPlanAddConfirm = { },
+        onPlanEditConfirm = { }
+    )
+}
+
+@Composable
+fun PlannerCalendarSuccessScreen(
+    selectedDay: LocalDate,
+    onDaySelected: (LocalDate) -> Unit,
+    dayPlanItems: List<PlanItem>,
+    navigateToPlannerDetail: () -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
+) {
+    var selectedDay by remember { mutableStateOf(selectedDay) }
+
+    Column {
         PlannerMonthlyCalendar(
-            onDaySelected = { selectedDay = it }
+            onDaySelected = {
+                selectedDay = it
+                onDaySelected(it)
+            }
         )
 
         Spacer(Modifier.height(38.dp))
@@ -63,19 +172,12 @@ fun PlannerCalendarScreen(
         ) {
             ShortPlanner(
                 selectedDay = selectedDay,
-                dayPlanItems = emptyList(), //추후 변경 필요
+                dayPlanItems = dayPlanItems,
                 onMoreButtonClicked = navigateToPlannerDetail,
                 onPlanContentClicked = { todoId, planItem ->
-//                    if (todoId == -1) {
-//                        viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
-//                    } else {
-//                        viewModel.updatePlanInfo(planItem)
-//                        viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
-//                    }
+                    onPlanContentClicked(todoId, planItem)
                 },
-                onPlanStateClicked = {
-//                    viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
-                }
+                onPlanStateClicked = { onPlanStateClicked(it) }
             )
         }
     }
@@ -139,7 +241,7 @@ fun PlannerMonthlyCalendar(
 @Preview(showBackground = true)
 @Composable
 fun PlannerCalendarScreenPreview() {
-    PlannerCalendarScreen(
+    PlannerCalendarRoute(
         onCloseButtonClicked = { },
         navigateToPlannerDetail = { }
     )

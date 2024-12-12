@@ -50,7 +50,9 @@ fun PlannerInputSection(
                     text = stringResource(R.string.planner_no_plan),
                     style = TogedyTheme.typography.body2M,
                     color = TogedyTheme.colors.gray200,
-                    modifier = Modifier.noRippleClickable(onPlanTitleClicked)
+                    modifier = Modifier
+                        .weight(1f)
+                        .noRippleClickable(onPlanTitleClicked)
                 )
             } else {
                 Icon(
