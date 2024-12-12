@@ -49,7 +49,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun CommunityScreen(
     viewModel: CommunityViewModel = hiltViewModel(),
-    navigateToCommunityBoard: (String, String?) -> Unit
+    navigateToCommunityBoard: (String, String?) -> Unit,
+    navigateToCommunityAdd: () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -73,9 +74,7 @@ fun CommunityScreen(
                 )
 
                 CommunityFastTab(
-                    onStudyRecordItemClicked = { },
-                    onCollegeItemClicked = { },
-                    onMarketplaceClicked = { }
+                    navigateToCommunityBoard = navigateToCommunityBoard
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))

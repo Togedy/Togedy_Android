@@ -12,7 +12,7 @@ data class BoardDetail(
 )
 
 data class DetailComments(
-    val commentId: String,
+    val commentId: Int,
     val userProfileImg: String?,
     val userName: String,
     val content: String,
@@ -23,7 +23,7 @@ data class DetailComments(
 )
 
 data class DetailReplies(
-    val commentId: String,
+    val commentId: Int,
     val userProfileImg: String?,
     val userName: String,
     val content: String,

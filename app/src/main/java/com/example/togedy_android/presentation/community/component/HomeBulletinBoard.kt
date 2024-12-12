@@ -1,5 +1,6 @@
 package com.example.togedy_android.presentation.community.component
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +38,8 @@ fun HomeBulletinBoard(
             modifier = Modifier
                 .padding(start = 10.dp)
                 .clickable {
-                    onBulletinBoardMoreClicked(WritingType.BULLETIN_BOARD.type, null)
+                    onBulletinBoardMoreClicked("free", null)
+                    Log.d("more", WritingType.BULLETIN_BOARD.type)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {

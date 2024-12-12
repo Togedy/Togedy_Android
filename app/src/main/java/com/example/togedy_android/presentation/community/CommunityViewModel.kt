@@ -108,4 +108,36 @@ class CommunityViewModel @Inject constructor(
             }
         )
     }
+
+    fun toggleCommentHeart(commentId: Int) {
+        _boardDetailData.value = _boardDetailData.value.copy(
+            comments = _boardDetailData.value.comments.map { comment ->
+                if (comment.commentId == commentId) {
+                    comment.copy(
+                        commentLike = !comment.commentLike,
+                        likeCount = if (comment.commentLike) comment.likeCount - 1 else comment.likeCount + 1
+                    )
+                } else comment
+            }
+        )
+    }
+
+    fun toggleReplyHeart(commentId: Int, replyId: Int) {
+        _boardDetailData.value = _boardDetailData.value.copy(
+            comments = _boardDetailData.value.comments.map { comment ->
+                if (comment.commentId == commentId) {
+                    comment.copy(
+                        replies = comment.replies.map { reply ->
+                            if (reply.commentId == replyId) {
+                                reply.copy(
+                                    commentLike = !reply.commentLike,
+                                    likeCount = if (reply.commentLike) reply.likeCount - 1 else reply.likeCount + 1
+                                )
+                            } else reply
+                        }
+                    )
+                } else comment
+            }
+        )
+    }
 }

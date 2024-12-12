@@ -17,7 +17,7 @@ data class BoardDetailResponseDto (
 
 @Serializable
 data class DetailCommentsDto(
-    @SerialName("commentId") val commentId: String,
+    @SerialName("commentId") val commentId: Int,
     @SerialName("userProfileImg") val userProfileImg: String?,
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,
@@ -29,7 +29,7 @@ data class DetailCommentsDto(
 
 @Serializable
 data class DetailRepliesDto(
-    @SerialName("commentId") val commentId: String,
+    @SerialName("commentId") val commentId: Int,
     @SerialName("userProfileImg") val userProfileImg: String?,
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,

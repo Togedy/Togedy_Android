@@ -40,7 +40,8 @@ fun NavGraphBuilder.communityScreen(
         CommunityScreen(
             navigateToCommunityBoard = { boardType, univName ->
                 navController.navigateToCommunityBoard(boardType = boardType, univName = univName)
-            }
+            },
+            navigateToCommunityAdd = { navController.navigateToCommunityAdd() }
         )
     }
 

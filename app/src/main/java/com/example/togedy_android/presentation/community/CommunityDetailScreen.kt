@@ -41,13 +41,11 @@ import com.example.togedy_android.util.formatToSimpleDate
 
 @Composable
 fun CommunityDetailScreen(
-    postId: Int,
-    modifier: Modifier = Modifier,
-    viewModel: CommunityViewModel = hiltViewModel()
+    postId: Int, modifier: Modifier = Modifier, viewModel: CommunityViewModel = hiltViewModel()
 ) {
     val boardDetailState by viewModel.boardDetailState.collectAsState()
     val boardDetailData by viewModel.boardDetailData.collectAsState()
-    var heartClicked = true
+    val heartClicked = viewModel.boardDetailData.collectAsState().value.postLike
 
     LaunchedEffect(Unit) {
         viewModel.getBoardDetail(postId)
@@ -61,11 +59,9 @@ fun CommunityDetailScreen(
             .padding(horizontal = 18.dp, vertical = 16.dp)
     ) {
         item {
-            TopBarBasic(
-                leftButtonIcon = R.drawable.ic_chevron_left,
+            TopBarBasic(leftButtonIcon = R.drawable.ic_chevron_left,
                 title = "",
-                onLeftButtonClicked = { }
-            )
+                onLeftButtonClicked = { })
         }
 
         item {
@@ -98,7 +94,7 @@ fun CommunityDetailScreen(
                         style = TogedyTheme.typography.body2B
                     )
                     Text(
-                        text = boardDetailData.createdAt,
+                        text = boardDetailData.createdAt.formatToSimpleDate(),
                         color = TogedyTheme.colors.gray400,
                         style = TogedyTheme.typography.caption
                     )
@@ -132,17 +128,15 @@ fun CommunityDetailScreen(
             Row(
                 modifier = Modifier.padding(bottom = 14.dp)
             ) {
-                Image(
-                    painter = painterResource(
-                        if (boardDetailData.postLike) R.drawable.ic_heart else R.drawable.ic_heart_clicked
-                    ),
+                Image(painter = painterResource(
+                    if (boardDetailData.postLike) R.drawable.ic_heart_clicked else R.drawable.ic_heart
+                ),
                     contentDescription = "좋아요 버튼",
                     modifier = Modifier
                         .padding(end = 6.dp)
                         .clickable {
                             viewModel.toggleHeart()
-                        }
-                )
+                        })
                 Text(
                     text = boardDetailData.likeCount.toString(),
                     modifier = Modifier.padding(end = 10.dp),
@@ -207,10 +201,7 @@ fun CommentItem(
         modifier = Modifier.padding(vertical = 5.dp),
     ) {
         DetailComment(
-            userImage = commentInfo.userProfileImg.toString(),
-            username = commentInfo.userName,
-            content = commentInfo.content,
-            heartCount = commentInfo.likeCount
+            commentInfo  = commentInfo
         )
 
         Column() {
@@ -223,11 +214,9 @@ fun CommentItem(
                         contentDescription = "답글 아이콘"
                     )
                     Column() {
-                        DetailComment(
-                            userImage = reply.userProfileImg,
-                            username = reply.userName,
-                            content = reply.content,
-                            heartCount = reply.likeCount
+                        DetailReply(
+                            commentId = commentInfo.commentId,
+                            replyInfo = reply
                         )
                     }
                 }
@@ -239,21 +228,21 @@ fun CommentItem(
 
 @Composable
 fun DetailComment(
-    userImage: String?, username: String, content: String, heartCount: Int
+    commentInfo: DetailComments,
+    viewModel: CommunityViewModel = hiltViewModel()
 ) {
     Row(
-        modifier = Modifier.padding(bottom = 5.dp),
-        verticalAlignment = Alignment.CenterVertically
+        modifier = Modifier.padding(bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(
-            model = if(userImage == null) painterResource(R.drawable.ic_user_none) else userImage,
+            model = commentInfo.userProfileImg ?: R.drawable.ic_user_none,
             contentDescription = "유저 이미지",
             modifier = Modifier
                 .size(20.dp)
                 .padding(vertical = 2.dp)
         )
         Text(
-            text = username,
+            text = commentInfo.userName,
             modifier = Modifier.padding(start = 6.dp),
             color = TogedyTheme.colors.gray700,
             style = TogedyTheme.typography.body3B
@@ -262,7 +251,7 @@ fun DetailComment(
     }
 
     Text(
-        text = content,
+        text = commentInfo.content,
         modifier = Modifier.padding(bottom = 10.dp),
         color = TogedyTheme.colors.gray700,
         style = TogedyTheme.typography.body2M
@@ -271,14 +260,68 @@ fun DetailComment(
     Row(
         modifier = Modifier.padding(bottom = 8.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.ic_heart_clicked),
+        Image(painter = painterResource(if (commentInfo.commentLike) R.drawable.ic_heart_clicked else R.drawable.ic_heart),
             contentDescription = "좋아요 버튼",
             modifier = Modifier
                 .size(16.dp)
+                .clickable {
+                    viewModel.toggleCommentHeart(commentInfo.commentId)
+                })
+        Text(
+            text = commentInfo.likeCount.toString(),
+            modifier = Modifier.padding(start = 6.dp),
+            color = TogedyTheme.colors.gray700,
+            style = TogedyTheme.typography.body3M
+        )
+    }
+
+    DetailDivider(modifier = Modifier.fillMaxWidth())
+}
+
+@Composable
+fun DetailReply(
+    commentId: Int,
+    replyInfo: DetailReplies,
+    viewModel: CommunityViewModel = hiltViewModel()
+) {
+    Row(
+        modifier = Modifier.padding(bottom = 5.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        AsyncImage(
+            model = replyInfo.userProfileImg ?: R.drawable.ic_user_none,
+            contentDescription = "유저 이미지",
+            modifier = Modifier
+                .size(20.dp)
+                .padding(vertical = 2.dp)
         )
         Text(
-            text = heartCount.toString(),
+            text = replyInfo.userName,
+            modifier = Modifier.padding(start = 6.dp),
+            color = TogedyTheme.colors.gray700,
+            style = TogedyTheme.typography.body3B
+        )
+
+    }
+
+    Text(
+        text = replyInfo.content,
+        modifier = Modifier.padding(bottom = 10.dp),
+        color = TogedyTheme.colors.gray700,
+        style = TogedyTheme.typography.body2M
+    )
+
+    Row(
+        modifier = Modifier.padding(bottom = 8.dp)
+    ) {
+        Image(painter = painterResource(if (replyInfo.commentLike) R.drawable.ic_heart_clicked else R.drawable.ic_heart),
+            contentDescription = "좋아요 버튼",
+            modifier = Modifier
+                .size(16.dp)
+                .clickable {
+                    viewModel.toggleReplyHeart(commentId, replyInfo.commentId)
+                })
+        Text(
+            text = replyInfo.likeCount.toString(),
             modifier = Modifier.padding(start = 6.dp),
             color = TogedyTheme.colors.gray700,
             style = TogedyTheme.typography.body3M
@@ -293,9 +336,7 @@ fun DetailDivider(
     modifier: Modifier
 ) {
     HorizontalDivider(
-        modifier = modifier,
-        thickness = 1.dp,
-        color = TogedyTheme.colors.gray300
+        modifier = modifier, thickness = 1.dp, color = TogedyTheme.colors.gray300
     )
 }
 
@@ -330,7 +371,6 @@ fun CommunityDetailImage(image: String) {
 @Composable
 fun CommunityDetailPreviewScreen() {
     CommunityDetailScreen(
-        postId = 1,
-        viewModel = viewModel()
+        postId = 1, viewModel = viewModel()
     )
 }

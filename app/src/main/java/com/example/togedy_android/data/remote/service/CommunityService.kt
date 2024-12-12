@@ -16,7 +16,7 @@ interface CommunityService {
     @GET("board/{boardType}")
     suspend fun getBoardList(
         @Path("boardType") boardType: String,
-        @Query("univname") univname: String? = null
+        @Query("univName") univName: String? = null
     ): BaseResponse<List<BoardListResponseDto>>
 
     @Multipart
