@@ -10,12 +10,13 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface CommunityService {
-
     @GET("board/{boardType}")
     suspend fun getBoardList(
-        @Path("boardType") boardType: String = "free"
+        @Path("boardType") boardType: String,
+        @Query("univname") univname: String? = null
     ): BaseResponse<List<BoardListResponseDto>>
 
     @Multipart

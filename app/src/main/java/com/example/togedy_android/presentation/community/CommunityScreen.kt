@@ -1,8 +1,10 @@
 package com.example.togedy_android.presentation.community
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.domain.type.WritingType
@@ -45,7 +48,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun CommunityScreen(
-    navigateToCommunityBoard: () -> Unit
+    viewModel: CommunityViewModel = hiltViewModel(),
+    navigateToCommunityBoard: (String, String?) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
@@ -107,7 +111,7 @@ fun CommunityScreen(
 @Composable
 fun CommunitySideBar(
     modifier: Modifier,
-    navigateToCommunityBoard: () -> Unit
+    navigateToCommunityBoard: (String, String?) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -191,7 +195,8 @@ fun CommunitySideBar(
             itemsIndexed(WritingType.entries.slice(3 until WritingType.entries.size)) { index: Int, item: WritingType ->
                 SideBoardInfo(
                     boardName = item.type,
-                    navigateToCommunityBoard = navigateToCommunityBoard)
+                    navigateToCommunityBoard = navigateToCommunityBoard
+                )
             }
         }
     }
@@ -212,23 +217,24 @@ fun SideBoardTitle(
 @Composable
 fun SideBoardInfo(
     boardName: String,
-    navigateToCommunityBoard: () -> Unit
+    viewModel: CommunityViewModel = hiltViewModel(),
+    navigateToCommunityBoard: (String, String?) -> Unit
 ) {
     Text(
         text = boardName,
         modifier = Modifier.fillMaxWidth()
-            .noRippleClickable(
-                navigateToCommunityBoard
-            ),
+            .clickable {
+                val writingType = viewModel.getBoardType(boardName)
+                if (writingType != null) {
+                    val boardType = viewModel.getBoardPath(writingType)
+                    val univName = if (boardType == "univ") writingType.type else null
+                    Log.d("Navigation", "boardType: $boardType, univName: $univName")
+                    navigateToCommunityBoard(boardType, univName)
+                } else {
+                    Log.e("pathError", "없는 이름, $boardName")
+                }
+            },
         color = TogedyTheme.colors.black,
         style = TogedyTheme.typography.body2M
-    )
-}
-
-@Preview
-@Composable
-fun CommunityScreenPreview() {
-    CommunityScreen(
-        navigateToCommunityBoard = { }
     )
 }

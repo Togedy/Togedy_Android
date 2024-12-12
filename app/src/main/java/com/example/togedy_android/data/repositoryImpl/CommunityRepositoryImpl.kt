@@ -14,9 +14,9 @@ import javax.inject.Inject
 class CommunityRepositoryImpl @Inject constructor(
     private val communityRemoteDataSource: CommunityRemoteDataSource
 ) : CommunityRepository {
-    override suspend fun getBoardList(boardType: String): Result<List<BoardList>> {
+    override suspend fun getBoardList(boardType: String, univName: String?): Result<List<BoardList>> {
         return runCatching {
-            communityRemoteDataSource.getBoardList(boardType = boardType)
+            communityRemoteDataSource.getBoardList(boardType = boardType, univName = univName)
                 .handleBaseResponse().getOrThrow().toDomain()
         }
     }

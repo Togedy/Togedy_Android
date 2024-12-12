@@ -22,10 +22,11 @@ import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TogedyTitle
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.domain.type.WritingType
 
 @Composable
 fun HomeBulletinBoard(
-    onBulletinBoardMoreClicked: () -> Unit,
+    onBulletinBoardMoreClicked: (String, String?) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -36,7 +37,7 @@ fun HomeBulletinBoard(
             modifier = Modifier
                 .padding(start = 10.dp)
                 .clickable {
-                    onBulletinBoardMoreClicked()
+                    onBulletinBoardMoreClicked(WritingType.BULLETIN_BOARD.type, null)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -85,13 +86,4 @@ fun HomeBulletinBoardItem() {
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-fun HomeBulletinBoardPreview() {
-    HomeBulletinBoard(
-        onBulletinBoardMoreClicked = { }
-    )
 }

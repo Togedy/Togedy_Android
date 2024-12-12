@@ -98,7 +98,7 @@ fun CommunityDetailScreen(
                         style = TogedyTheme.typography.body2B
                     )
                     Text(
-                        text = boardDetailData.createdAt.formatToSimpleDate(),
+                        text = boardDetailData.createdAt,
                         color = TogedyTheme.colors.gray400,
                         style = TogedyTheme.typography.caption
                     )
@@ -180,7 +180,7 @@ fun CommunityDetailScreen(
 
         item {
             CommentSection(
-                comments = boardDetailData.comments
+                commentsInfo = boardDetailData.comments
             )
         }
     }
@@ -188,33 +188,33 @@ fun CommunityDetailScreen(
 
 @Composable
 fun CommentSection(
-    comments: List<DetailComments>
+    commentsInfo: List<DetailComments>
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        comments.forEach { comment ->
+        commentsInfo.forEach { commentInfo ->
             CommentItem(
-                userImage = R.drawable.img_example_board,
-                username = comment.userName,
-                content = comment.content,
-                replies = comment.replies
+                commentInfo = commentInfo
             )
         }
     }
 }
 
 @Composable
-fun CommentItem(userImage: Int, username: String, content: String, replies: List<DetailReplies>) {
+fun CommentItem(
+    commentInfo: DetailComments
+) {
     Column(
         modifier = Modifier.padding(vertical = 5.dp),
     ) {
         DetailComment(
-            userImage = userImage,
-            username = username,
-            content = content
+            userImage = commentInfo.userProfileImg.toString(),
+            username = commentInfo.userName,
+            content = commentInfo.content,
+            heartCount = commentInfo.likeCount
         )
 
         Column() {
-            replies.forEach { reply ->
+            commentInfo.replies.forEach { reply ->
                 Row(
                     modifier = Modifier.padding(top = 9.dp)
                 ) {
@@ -224,9 +224,10 @@ fun CommentItem(userImage: Int, username: String, content: String, replies: List
                     )
                     Column() {
                         DetailComment(
-                            userImage = userImage,
+                            userImage = reply.userProfileImg,
                             username = reply.userName,
-                            content = reply.content
+                            content = reply.content,
+                            heartCount = reply.likeCount
                         )
                     }
                 }
@@ -238,22 +239,22 @@ fun CommentItem(userImage: Int, username: String, content: String, replies: List
 
 @Composable
 fun DetailComment(
-    userImage: Int, username: String, content: String
+    userImage: String?, username: String, content: String, heartCount: Int
 ) {
     Row(
         modifier = Modifier.padding(bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(userImage),
+        AsyncImage(
+            model = if(userImage == null) painterResource(R.drawable.ic_user_none) else userImage,
             contentDescription = "유저 이미지",
             modifier = Modifier
                 .size(20.dp)
                 .padding(vertical = 2.dp)
-                .padding(end = 6.dp)
         )
         Text(
             text = username,
+            modifier = Modifier.padding(start = 6.dp),
             color = TogedyTheme.colors.gray700,
             style = TogedyTheme.typography.body3B
         )
@@ -275,10 +276,10 @@ fun DetailComment(
             contentDescription = "좋아요 버튼",
             modifier = Modifier
                 .size(16.dp)
-                .padding(end = 6.dp)
         )
         Text(
-            text = "3",
+            text = heartCount.toString(),
+            modifier = Modifier.padding(start = 6.dp),
             color = TogedyTheme.colors.gray700,
             style = TogedyTheme.typography.body3M
         )

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.domain.model.BoardDetail
 import com.example.togedy_android.domain.repository.CommunityRepository
+import com.example.togedy_android.domain.type.WritingType
 import com.example.togedy_android.presentation.community.state.BoardDetailState
 import com.example.togedy_android.presentation.community.state.BoardListState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,10 +39,32 @@ class CommunityViewModel @Inject constructor(
     )
     val boardDetailData: StateFlow<BoardDetail> = _boardDetailData
 
-    fun getBoardList(boardType: String) {
+    fun getBoardType(boardName: String): WritingType? {
+        return WritingType.entries.find { it.type == boardName }
+    }
+
+    fun getBoardPath(writingType: WritingType): String {
+        return when (writingType) {
+            WritingType.BULLETIN_BOARD -> "free"
+            WritingType.MARKETPLACE -> "market"
+            WritingType.STUDY_RECORD -> "study"
+            else -> "univ"
+        }
+    }
+
+    fun getBoardTitlePath(boardType: String): WritingType? {
+        return when (boardType) {
+            "free" -> WritingType.BULLETIN_BOARD
+            "market" -> WritingType.MARKETPLACE
+            "study" -> WritingType.STUDY_RECORD
+            else -> null
+        }
+    }
+
+    fun getBoardList(boardType: String, univName: String?) {
         _boardListState.value = BoardListState.Loading
         viewModelScope.launch {
-            val result = communityRepository.getBoardList(boardType)
+            val result = communityRepository.getBoardList(boardType, univName)
             result.fold(
                 onSuccess = { boardList ->
                     _boardListState.value = BoardListState.Success(boardList)

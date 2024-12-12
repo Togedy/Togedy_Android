@@ -17,9 +17,14 @@ import kotlinx.serialization.Serializable
 
 fun NavHostController.navigateToCommunity(navOptions: NavOptions? = null) = navigate(Community)
 
-fun NavHostController.navigateToCommunityBoard(navOptions: NavOptions? = null) = navigate(CommunityBoard)
+fun NavHostController.navigateToCommunityBoard(boardType: String, univName: String?, navOptions: NavOptions? = null) =
+    navigate(
+        route = CommunityBoard(boardType = boardType, univName = univName),
+        navOptions = navOptions
+    )
 
-fun NavHostController.navigateToCommunityAdd(navOptions: NavOptions? = null) = navigate(CommunityAdd)
+fun NavHostController.navigateToCommunityAdd(navOptions: NavOptions? = null) =
+    navigate(CommunityAdd)
 
 fun NavController.navigateToCommunityDetail(postId: Int = 1, navOptions: NavOptions? = null) =
     navigate(
@@ -32,26 +37,31 @@ fun NavGraphBuilder.communityScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Community> {
-        CommunityScreen (
-            navigateToCommunityBoard = { navController.navigateToCommunityBoard() }
+        CommunityScreen(
+            navigateToCommunityBoard = { boardType, univName ->
+                navController.navigateToCommunityBoard(boardType = boardType, univName = univName)
+            }
         )
     }
 
     composable<CommunityBoard> {
-        CommunityBoardScreen (
+        val args = it.toRoute<CommunityBoard>()
+        CommunityBoardScreen(
+            boardType = args.boardType,
+            univName = args.univName,
             modifier = modifier,
-            navigateToCommunityDetail = { navController.navigateToCommunityDetail( postId = it) },
+            navigateToCommunityDetail = { navController.navigateToCommunityDetail(postId = it) },
             navigateToCommunityAdd = { navController.navigateToCommunityAdd() }
         )
     }
 
     composable<CommunityAdd> {
-        AddWriting (
+        AddWriting(
             closeButtonClicked = { }
         )
     }
 
-    composable<CommunityDetail>{
+    composable<CommunityDetail> {
         val args = it.toRoute<CommunityDetail>()
         CommunityDetailScreen(
             postId = args.postId,
@@ -61,10 +71,13 @@ fun NavGraphBuilder.communityScreen(
 }
 
 @Serializable
-data object Community: MainTabRoute
+data object Community : MainTabRoute
+
 @Serializable
-data object CommunityBoard: Route
+data class CommunityBoard(val boardType: String, val univName: String?) : Route
+
 @Serializable
 data class CommunityDetail(val postId: Int) : Route
+
 @Serializable
-data object CommunityAdd: Route
+data object CommunityAdd : Route
