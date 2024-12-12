@@ -3,6 +3,7 @@ package com.example.togedy_android.presentation.community
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.togedy_android.domain.model.BoardDetail
 import com.example.togedy_android.domain.repository.CommunityRepository
 import com.example.togedy_android.presentation.community.state.BoardDetailState
 import com.example.togedy_android.presentation.community.state.BoardListState
@@ -15,13 +16,27 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityViewModel @Inject constructor(
     private val communityRepository: CommunityRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _boardListState = MutableStateFlow<BoardListState>(BoardListState.Idle)
     val boardListState: StateFlow<BoardListState> = _boardListState
 
     private val _boardDetailState = MutableStateFlow<BoardDetailState>(BoardDetailState.Idle)
     val boardDetailState: StateFlow<BoardDetailState> = _boardDetailState
+
+    private val _boardDetailData = MutableStateFlow<BoardDetail>(
+        BoardDetail(
+            title = "",
+            createdAt = "",
+            content = "",
+            postImages = emptyList(),
+            likeCount = 0,
+            commentCount = 0,
+            comments = emptyList(),
+            postLike = false
+        )
+    )
+    val boardDetailData: StateFlow<BoardDetail> = _boardDetailData
 
     fun getBoardList(boardType: String) {
         _boardListState.value = BoardListState.Loading
@@ -33,7 +48,8 @@ class CommunityViewModel @Inject constructor(
                     Log.d("boardListState", boardListState.toString())
                 },
                 onFailure = { throwable ->
-                    _boardListState.value = BoardListState.Failure(throwable.message ?: "Unknown error")
+                    _boardListState.value =
+                        BoardListState.Failure(throwable.message ?: "Unknown error")
                     Log.d("boardListStateFailure", throwable.message.toString())
                 }
             )
@@ -46,14 +62,27 @@ class CommunityViewModel @Inject constructor(
             val result = communityRepository.getBoardDetail(postId)
             result.fold(
                 onSuccess = { boardDetail ->
+                    _boardDetailData.value = boardDetail
                     _boardDetailState.value = BoardDetailState.Success(boardDetail)
                     Log.d("boardDetailState", boardDetailState.toString())
                 },
                 onFailure = { throwable ->
-                    _boardDetailState.value = BoardDetailState.Failure(throwable.message ?: "Unknown error")
+                    _boardDetailState.value =
+                        BoardDetailState.Failure(throwable.message ?: "Unknown error")
                     Log.d("boardDetailStateFailure", throwable.message.toString())
                 }
             )
         }
+    }
+
+    fun toggleHeart() {
+        _boardDetailData.value = _boardDetailData.value.copy(
+            postLike = !_boardDetailData.value.postLike,
+            likeCount = if (_boardDetailData.value.postLike) {
+                _boardDetailData.value.likeCount - 1
+            } else {
+                _boardDetailData.value.likeCount + 1
+            }
+        )
     }
 }

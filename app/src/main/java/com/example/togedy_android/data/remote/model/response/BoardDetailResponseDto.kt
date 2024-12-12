@@ -22,6 +22,7 @@ data class DetailCommentsDto(
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,
     @SerialName("likeCount") val likeCount: Int,
+    @SerialName("commentStatus") val commentStatus: String,
     @SerialName("replies") val replies: List<DetailRepliesDto>,
     @SerialName("commentLike") val commentLike: Boolean
 )
@@ -33,6 +34,7 @@ data class DetailRepliesDto(
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,
     @SerialName("likeCount") val likeCount: Int,
+    @SerialName("commentStatus") val commentStatus: String,
     @SerialName("replies") val replies: List<String>,
     @SerialName("commentLike") val commentLike: Boolean
 )
