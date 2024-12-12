@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
@@ -26,6 +27,7 @@ import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.presentation.calendar.component.MonthTitleOfFullCalendar
 import com.example.togedy_android.presentation.calendar.component.YearTitleOfFullCalendar
 import com.example.togedy_android.presentation.planner.component.ShortPlanner
+import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.temporal.TemporalAdjusters
@@ -63,7 +65,19 @@ fun PlannerCalendarScreen(
         ) {
             ShortPlanner(
                 selectedDay = selectedDay,
-                onMoreButtonClicked = navigateToPlannerDetail
+                dayPlanItems = emptyList(), //추후 변경 필요
+                onMoreButtonClicked = navigateToPlannerDetail,
+                onPlanContentClicked = { todoId, planItem ->
+//                    if (todoId == -1) {
+//                        viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
+//                    } else {
+//                        viewModel.updatePlanInfo(planItem)
+//                        viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
+//                    }
+                },
+                onPlanStateClicked = {
+//                    viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+                }
             )
         }
     }

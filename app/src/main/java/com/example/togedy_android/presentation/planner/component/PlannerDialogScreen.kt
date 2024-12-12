@@ -1,7 +1,9 @@
 package com.example.togedy_android.presentation.planner.component
 
 import androidx.compose.runtime.Composable
+import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.presentation.planner.planInfoDialog.PlanInfoDialog
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 
@@ -20,6 +22,9 @@ fun PlannerDialogScreen(
     onDismissRequest: (PlannerDialogType) -> Unit,
     onStudyTagConfirm: (StudyTag) -> Unit,
     onStudyTagEditConfirm: (StudyTag) -> Unit,
+    onPlanAddConfirm: (PlanItem) -> Unit,
+    onPlanEditConfirm: (PlanItem) -> Unit,
+
 ) {
     with(dialogState) {
         if (isAddSubjectDialogVisible) {
@@ -41,6 +46,29 @@ fun PlannerDialogScreen(
                 onSubmitButtonClicked = {
                     onStudyTagEditConfirm(it)
                     onDismissRequest(PlannerDialogType.EDIT_SUBJECT)
+                }
+            )
+        }
+
+        if (isAddPlanDialogVisible) {
+            PlanInfoDialog(
+                title = "플랜 추가하기",
+                onDismissRequest = { onDismissRequest(PlannerDialogType.ADD_PLAN) },
+                onSubmitButtonClicked = {
+                    onPlanAddConfirm(it)
+                    onDismissRequest(PlannerDialogType.ADD_PLAN)
+                }
+            )
+        }
+
+        if (isEditPlanDialogVisible) {
+            PlanInfoDialog(
+                title = "플랜 수정하기",
+                planItem = dialogState.planInfo,
+                onDismissRequest = { onDismissRequest(PlannerDialogType.EDIT_PLAN) },
+                onSubmitButtonClicked = {
+                    onPlanEditConfirm(it)
+                    onDismissRequest(PlannerDialogType.EDIT_PLAN)
                 }
             )
         }

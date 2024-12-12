@@ -72,6 +72,7 @@ fun PlannerInputSection(
             Icon(
                 imageVector = ImageVector.vectorResource(icon),
                 contentDescription = "플랜 상태 버튼",
+                tint = if (planState!= PlanState.NOT_STARTED) TogedyTheme.colors.red100 else TogedyTheme.colors.gray200,
                 modifier = Modifier.noRippleClickable(onPlanStateClicked)
             )
         }
