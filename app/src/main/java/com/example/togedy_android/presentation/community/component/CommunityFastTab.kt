@@ -24,14 +24,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.domain.type.WritingType
+import com.example.togedy_android.presentation.community.CommunityViewModel
 
 @Composable
 fun CommunityFastTab(
-    onStudyRecordItemClicked: () -> Unit,
-    onCollegeItemClicked: () -> Unit,
-    onMarketplaceClicked: () -> Unit,
+    navigateToCommunityBoard: (String, String?) -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -58,17 +59,20 @@ fun CommunityFastTab(
             CommunityFastTabItem(
                 icon = R.drawable.ic_annotation_dots_light_line,
                 label = "공부인증글",
-                onCommunityItemClicked = { onStudyRecordItemClicked() }
+                boardType = WritingType.STUDY_RECORD,
+                navigateToCommunityBoard = navigateToCommunityBoard
             )
             CommunityFastTabItem(
                 icon = R.drawable.ic_building_light_line,
                 label = "대학별 게시판",
-                onCommunityItemClicked = { onCollegeItemClicked() }
+                boardType = WritingType.KONKUK_UNIV,
+                navigateToCommunityBoard = navigateToCommunityBoard
             )
             CommunityFastTabItem(
                 icon = R.drawable.ic_shopping_bag_light_line,
                 label = "장터게시판",
-                onCommunityItemClicked = { onMarketplaceClicked() }
+                boardType = WritingType.MARKETPLACE,
+                navigateToCommunityBoard = navigateToCommunityBoard
             )
         }
     }
@@ -78,7 +82,9 @@ fun CommunityFastTab(
 fun CommunityFastTabItem(
     icon: Int,
     label: String,
-    onCommunityItemClicked: () -> Unit
+    viewModel: CommunityViewModel = hiltViewModel(),
+    boardType: WritingType,
+    navigateToCommunityBoard: (String, String?) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -88,7 +94,9 @@ fun CommunityFastTabItem(
                 color = Color.White,
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable { onCommunityItemClicked() },
+            .clickable {
+                val type = viewModel.getBoardPath(boardType)
+                navigateToCommunityBoard(type, if(type != "univ") null else boardType.type) },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -129,8 +137,8 @@ fun CommunityFastTabItem(
 @Composable
 fun CommunityFastTabPreview() {
     CommunityFastTab(
-        onStudyRecordItemClicked = { },
-        onCollegeItemClicked = { },
-        onMarketplaceClicked = { }
+        navigateToCommunityBoard = { boardType, univName ->
+            println("boardType: $boardType, univName: $univName")
+        }
     )
 }

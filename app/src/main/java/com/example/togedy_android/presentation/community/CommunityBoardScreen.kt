@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,14 +40,15 @@ import com.example.togedy_android.util.formatToSimpleDate
 fun CommunityBoardScreen(
     modifier: Modifier = Modifier,
     viewModel: CommunityViewModel = hiltViewModel(),
-    boardType: String = "free",
+    boardType: String,
+    univName: String?,
     navigateToCommunityDetail: (Int) -> Unit,
     navigateToCommunityAdd: () -> Unit
 ) {
     val boardListState by viewModel.boardListState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.getBoardList(boardType = boardType)
+        viewModel.getBoardList(boardType = boardType, univName = univName)
     }
 
     Scaffold(
@@ -85,12 +84,12 @@ fun CommunityBoardScreen(
         ) {
             TopBarBasic(
                 leftButtonIcon = R.drawable.ic_chevron_left,
-                title = stringResource(R.string.community_general_forum),
+                title = if (univName == null) viewModel.getBoardTitlePath(boardType = boardType)!!.type else univName,
                 onLeftButtonClicked = {},
             )
 
             when (boardListState) {
-                is BoardListState.Loading -> { }
+                is BoardListState.Loading -> {}
                 is BoardListState.Success -> {
                     BoardListInfo(
                         boardListData = (boardListState as BoardListState.Success).data,
@@ -98,8 +97,9 @@ fun CommunityBoardScreen(
                         navigateToCommunityDetail = navigateToCommunityDetail
                     )
                 }
-                is BoardListState.Failure -> { }
-                else -> { }
+
+                is BoardListState.Failure -> {}
+                else -> {}
             }
         }
     }
@@ -113,7 +113,9 @@ fun BoardListInfo(
     navigateToCommunityDetail: (Int) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = TogedyTheme.colors.white)
             .padding(top = 15.dp)
     ) {
         itemsIndexed(items = boardListData) { index, item ->
@@ -136,6 +138,8 @@ fun BoardListInfo(
 fun CommunityForumScreenPreview() {
     Togedy_AndroidTheme {
         CommunityBoardScreen(
+            boardType = "free",
+            univName = null,
             navigateToCommunityDetail = { },
             navigateToCommunityAdd = { }
         )

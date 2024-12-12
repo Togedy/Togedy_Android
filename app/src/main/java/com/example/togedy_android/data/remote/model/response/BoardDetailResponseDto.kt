@@ -17,22 +17,24 @@ data class BoardDetailResponseDto (
 
 @Serializable
 data class DetailCommentsDto(
-    @SerialName("commentId") val commentId: String,
+    @SerialName("commentId") val commentId: Int,
     @SerialName("userProfileImg") val userProfileImg: String?,
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,
     @SerialName("likeCount") val likeCount: Int,
+    @SerialName("commentStatus") val commentStatus: String,
     @SerialName("replies") val replies: List<DetailRepliesDto>,
     @SerialName("commentLike") val commentLike: Boolean
 )
 
 @Serializable
 data class DetailRepliesDto(
-    @SerialName("commentId") val commentId: String,
+    @SerialName("commentId") val commentId: Int,
     @SerialName("userProfileImg") val userProfileImg: String?,
     @SerialName("userName") val userName: String,
     @SerialName("content") val content: String,
     @SerialName("likeCount") val likeCount: Int,
+    @SerialName("commentStatus") val commentStatus: String,
     @SerialName("replies") val replies: List<String>,
     @SerialName("commentLike") val commentLike: Boolean
 )
