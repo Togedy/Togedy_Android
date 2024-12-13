@@ -9,7 +9,7 @@ import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.planner.PlannerRoute
 import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarRoute
-import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailScreen
+import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailRoute
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
 import com.example.togedy_android.presentation.planner.stopwatch.StopWatchScreen
 import kotlinx.serialization.Serializable
@@ -64,7 +64,7 @@ fun NavGraphBuilder.plannerScreen(
     }
 
     composable<PlannerDetail> {
-        PlannerDetailScreen(
+        PlannerDetailRoute(
             selectedDay = LocalDate.now(), //추후 선택된 값으로 변경
             onCloseButtonClicked = { navController.popBackStack() },
             onRightButtonClicked = { navController.navigateToStopWatch() },
