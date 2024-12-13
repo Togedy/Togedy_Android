@@ -2,30 +2,38 @@ package com.example.togedy_android.presentation.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
+import com.example.togedy_android.core.design_system.component.WritingContentTextField
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import kotlinx.coroutines.launch
-import com.example.togedy_android.R
-import com.example.togedy_android.core.design_system.component.WritingContentTextField
 
 @Composable
-fun UnivListScreen() {
+fun UnivListScreen(
+    viewModel: UnivListViewModel = hiltViewModel()
+) {
     val pagerState = rememberPagerState { 2 }
     val tabTitles = listOf("전체", "저장한 대학")
     val coroutineScope = rememberCoroutineScope()
+    val allUnivGroups = viewModel.univGroups.collectAsState().value
+    val savedUnivGroups = viewModel.savedUnivGroups.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -65,23 +73,47 @@ fun UnivListScreen() {
         )
 
         HorizontalPager(state = pagerState) { page ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        when (page) {
-                            0 -> Color.Red
-                            1 -> Color.Green
-                            else -> Color.Gray
-                        }
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Page: $page", color = Color.White, fontSize = 24.sp)
+            when (page) {
+                0 -> UnivListPager(univGroups = allUnivGroups)
+                1 -> UnivListPager(univGroups = savedUnivGroups)
             }
         }
     }
 }
+
+@Composable
+fun UnivListPager(univGroups: Map<Char, List<String>>) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 8.dp)
+    ) {
+        univGroups.forEach { (initial, universities) ->
+            item {
+                Text(
+                    text = initial.toString(),
+                    style = TogedyTheme.typography.headline3B,
+                    color = TogedyTheme.colors.black,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
+                )
+            }
+
+            itemsIndexed(universities) { _, university ->
+                Text(
+                    text = university,
+                    style = TogedyTheme.typography.body2R,
+                    color = TogedyTheme.colors.gray500,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 2.dp)
+                )
+            }
+        }
+    }
+}
+
 
 
 @Preview
