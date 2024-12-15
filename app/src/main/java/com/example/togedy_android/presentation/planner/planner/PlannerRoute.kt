@@ -34,8 +34,9 @@ import com.example.togedy_android.presentation.planner.component.StudyGoalBlock
 import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.R
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.StudyGoal
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
@@ -57,15 +58,18 @@ fun PlannerRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true) {
-        viewModel.getPlannerHomeInformation()
+    LaunchedEffect(uiState) {
+        viewModel.getPlannerHomeInformation(uiState.selectedDay)
     }
 
     PlannerScreen(
         modifier = modifier,
         uiState = uiState,
         dialogState = dialogState,
-        onDaySelected = viewModel::updateSelectedDay,
+        onDaySelected = {
+            viewModel.updateSelectedDay(it)
+            viewModel.getPlannerHomeInformation(it)
+        },
         onSettingButtonClick = onSettingButtonClick,
         navigateToSetGoalTime = navigateToSetGoalTime,
         navigateToEditGoalTime = { navigateToEditGoalTime(it) },
@@ -81,7 +85,9 @@ fun PlannerRoute(
             if (todoId == -1) {
                 viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
             } else {
-                viewModel.updatePlanInfo(planItem)
+                if (planItem!=null) {
+//                    viewModel.updatePlanInfo(planItem)
+                }
                 viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
             }
         },
@@ -93,6 +99,9 @@ fun PlannerRoute(
         },
         onStudyTagEditConfirm = {
             viewModel.putStudyTag(it)
+        },
+        onPlanAddConfirm = {
+            viewModel.postStudyPlan(it)
         }
     )
 }
@@ -111,10 +120,11 @@ fun PlannerScreen(
     onDismissRequest: (PlannerDialogType) -> Unit,
     onAddStudyTagClicked: () -> Unit,
     onEditStudyTagClicked: (StudyTagItem) -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
     onStudyTagAddConfirm: (StudyTagItem) -> Unit,
     onStudyTagEditConfirm: (StudyTagItem) -> Unit,
+    onPlanAddConfirm: (NewStudyPlan) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -149,7 +159,7 @@ fun PlannerScreen(
                         studyGoal = studyGoal,
                         selectedDay = uiState.selectedDay,
                         onDaySelected = onDaySelected,
-                        planList = planList,
+                        planList = studyPlanList,
                         studyTagItemList = studyTagItemLists,
                         navigateToSetGoalTime = navigateToSetGoalTime,
                         navigateToEditGoalTime = { navigateToEditGoalTime(it) },
@@ -172,7 +182,7 @@ fun PlannerScreen(
         onDismissRequest = onDismissRequest,
         onStudyTagConfirm = { onStudyTagAddConfirm(it) },
         onStudyTagEditConfirm = { onStudyTagEditConfirm(it) },
-        onPlanAddConfirm = { },
+        onPlanAddConfirm = { onPlanAddConfirm(it) },
         onPlanEditConfirm = { }
     )
 }
@@ -181,7 +191,7 @@ fun PlannerScreen(
 fun PlannerSuccessScreen(
     studyGoal: StudyGoal,
     selectedDay: LocalDate,
-    planList: List<PlanItem>,
+    planList: List<StudyPlanItem>,
     studyTagItemList: List<StudyTagItem>,
     onDaySelected: (LocalDate) -> Unit,
     navigateToSetGoalTime: () -> Unit,
@@ -190,7 +200,7 @@ fun PlannerSuccessScreen(
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
     onEditStudyTagClicked: (StudyTagItem) -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
     Column {
@@ -214,10 +224,10 @@ fun PlannerSuccessScreen(
 
         PlannerWeeklyShortPlanner(
             selectedDay = selectedDay,
-            dayPlanItems = planList, //추후 수정 필요
+            dayPlanItems = planList,
             onCalendarButtonClick = navigateToPlannerCalendar,
             onDaySelected = {
-                onDaySelected(selectedDay)
+                onDaySelected(it)
             },
             onMoreButtonClicked = navigateToPlannerDetail,
             onPlanContentClicked = { id, planItem ->

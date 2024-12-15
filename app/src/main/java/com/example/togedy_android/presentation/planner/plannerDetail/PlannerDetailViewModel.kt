@@ -1,9 +1,14 @@
 package com.example.togedy_android.presentation.planner.plannerDetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
+import com.example.togedy_android.domain.model.planner.Date
 import com.example.togedy_android.domain.model.planner.DayOfPlan
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.repository.PlannerRepository
 import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -13,14 +18,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class PlannerDetailViewModel @Inject constructor(
-    //repository 연결
+    private val plannerRepository: PlannerRepository
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(PlannerDetailUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -28,40 +33,54 @@ class PlannerDetailViewModel @Inject constructor(
         MutableStateFlow(PlannerDialogState())
     val dialogState: StateFlow<PlannerDialogState> = _dialogState.asStateFlow()
 
-    fun updatePlanInfo(planItem: PlanItem) =
-        _dialogState.update { currentState ->
+//    fun updatePlanInfo(planItem: NewStudyPlan) =
+//        _dialogState.update { currentState ->
+//            currentState.copy(
+//                planInfo = planItem
+//            )
+//        }
+
+    fun getDayPlanInformation(date: LocalDate) {
+        _uiState.update { currentState ->
             currentState.copy(
-                planInfo = planItem
+                selectedDay = date
             )
         }
-
-    suspend fun getDayPlanInformation(date: LocalDate){
-        updateLoadState(
-            loadState = UiState.Success(
-                DayOfPlan(
-                    planList = listOf(
-                        PlanItem(
-                            todoID = 1,
-                            subjectId = 1,
-                            subjectColor = "color10",
-                            title = "국어 1강",
-                            status = PlanState.NOT_STARTED.state
-                        ),
-                        PlanItem(
-                            todoID = 1,
-                            subjectId = 1,
-                            subjectColor = "color10",
-                            title = "국어 1강",
-                            status = PlanState.NOT_STARTED.state
-                        ),
-                    ),
-                    timeline = listOf(
-                        listOf("07:00", "10:00"),
-                        listOf("13:30", "14:13")
+        viewModelScope.launch {
+            plannerRepository.getStudyPlanList(Date(date.toString()))
+                .onSuccess { studyPlanItemList ->
+                    updateLoadState(
+                        loadState = UiState.Success(
+                            DayOfPlan(
+                                planList = studyPlanItemList
+                            )
+                        )
                     )
-                )
-            )
-        )
+                }
+                .onFailure { throwable ->
+                    Log.d("API-PlannerDetailViewModel", "getDayPlanInformation: ${throwable.message}")
+                    Log.d("API-PlannerDetailViewModel", "getStudyPlanList: 실패")
+                    updateLoadState(
+                        loadState = UiState.Success(
+                            DayOfPlan(
+                                planList = emptyList()
+                            )
+                        )
+                    )
+                }
+        }
+    }
+
+    fun postStudyPlan(studyPlanItem: NewStudyPlan) {
+        viewModelScope.launch {
+            plannerRepository.postStudyPlan(request = studyPlanItem)
+                .onSuccess {
+                    Log.d("API-PlannerDetailViewModel", "postStudyPlan: 성공")
+                    getDayPlanInformation(_uiState.value.selectedDay)
+                }.onFailure {
+                    Log.d("API-PlannerDetailViewModel", "postStudyPlan: 실패")
+                }
+        }
     }
 
     private fun updateLoadState(loadState: UiState<DayOfPlan>) =

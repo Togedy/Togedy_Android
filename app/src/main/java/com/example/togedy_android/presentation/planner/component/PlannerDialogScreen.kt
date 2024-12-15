@@ -1,7 +1,9 @@
 package com.example.togedy_android.presentation.planner.component
 
 import androidx.compose.runtime.Composable
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planInfoDialog.PlanInfoDialog
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
@@ -22,8 +24,8 @@ fun PlannerDialogScreen(
     onDismissRequest: (PlannerDialogType) -> Unit,
     onStudyTagConfirm: (StudyTagItem) -> Unit,
     onStudyTagEditConfirm: (StudyTagItem) -> Unit,
-    onPlanAddConfirm: (PlanItem) -> Unit,
-    onPlanEditConfirm: (PlanItem) -> Unit,
+    onPlanAddConfirm: (NewStudyPlan) -> Unit,
+    onPlanEditConfirm: (StudyPlanItem) -> Unit,
 
     ) {
     with(dialogState) {
@@ -53,6 +55,7 @@ fun PlannerDialogScreen(
         if (isAddPlanDialogVisible) {
             PlanInfoDialog(
                 title = "플랜 추가하기",
+                selectedDay = dialogState.selectedDay,
                 onDismissRequest = { onDismissRequest(PlannerDialogType.ADD_PLAN) },
                 onSubmitButtonClicked = {
                     onPlanAddConfirm(it)
@@ -62,15 +65,15 @@ fun PlannerDialogScreen(
         }
 
         if (isEditPlanDialogVisible) {
-            PlanInfoDialog(
-                title = "플랜 수정하기",
-                planItem = dialogState.planInfo,
-                onDismissRequest = { onDismissRequest(PlannerDialogType.EDIT_PLAN) },
-                onSubmitButtonClicked = {
-                    onPlanEditConfirm(it)
-                    onDismissRequest(PlannerDialogType.EDIT_PLAN)
-                }
-            )
+//            PlanInfoDialog(
+//                title = "플랜 수정하기",
+//                planItem = dialogState.planInfo,
+//                onDismissRequest = { onDismissRequest(PlannerDialogType.EDIT_PLAN) },
+//                onSubmitButtonClicked = {
+//                    onPlanEditConfirm(it)
+//                    onDismissRequest(PlannerDialogType.EDIT_PLAN)
+//                }
+//            )
         }
     }
 }

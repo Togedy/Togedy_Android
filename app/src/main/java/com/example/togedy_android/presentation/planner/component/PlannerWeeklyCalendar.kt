@@ -22,7 +22,7 @@ import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import java.time.LocalDate
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.GrayLine
-import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.util.toColor
@@ -31,11 +31,11 @@ import com.example.togedy_android.util.toPlanState
 @Composable
 fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
-    dayPlanItems: List<PlanItem>,
+    dayPlanItems: List<StudyPlanItem>,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
     onMoreButtonClicked: () -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
     val today = LocalDate.now()
@@ -114,9 +114,9 @@ fun PlannerWeeklyCalendarTitle(
 @Composable
 fun ShortPlanner(
     selectedDay: LocalDate,
-    dayPlanItems: List<PlanItem> = emptyList(),
+    dayPlanItems: List<StudyPlanItem>,
     onMoreButtonClicked: () -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
     Column(
@@ -146,17 +146,17 @@ fun ShortPlanner(
             val dayPlan = dayPlanItems[index]
 
             PlannerInputSection(
-                studyTagColor = dayPlan.subjectColor.toColor(),
-                planTitle = dayPlan.title,
-                status = dayPlan.status.toPlanState(),
-                onPlanTitleClicked = { onPlanContentClicked(dayPlan.todoID, dayPlan) },
-                onPlanStatusClicked = { onPlanStateClicked(dayPlan.todoID) }
+                studyTagColor = dayPlan.studyTagColor.toColor(),
+                planTitle = dayPlan.name,
+                status = dayPlan.planStatus.toPlanState(),
+                onPlanTitleClicked = { onPlanContentClicked(dayPlan.studyPlanId, dayPlan) },
+                onPlanStatusClicked = { onPlanStateClicked(dayPlan.studyPlanId) }
             )
         }
 
         repeat(placeholdersNeeded) {
             PlannerInputSection(
-                onPlanTitleClicked = { onPlanContentClicked(-1, PlanItem(todoID = -1, subjectColor = "", title = "", status = "")) },
+                onPlanTitleClicked = { onPlanContentClicked(-1, null) },
                 onPlanStatusClicked = { /* 플랜이 입력 안되어 있을 때 비활성화 */ }
             )
         }
@@ -174,9 +174,7 @@ fun ShortPlanner(
 fun PlannerWeeklyShortPlannerPreview() {
     PlannerWeeklyShortPlanner(
         selectedDay = LocalDate.now(),
-        dayPlanItems = listOf(
-            PlanItem(todoID = 1, subjectColor = "color1", title = "국어 1강", status = "POSTPONED"),
-        ),
+        dayPlanItems = emptyList(),
         onCalendarButtonClick = { },
         onDaySelected = { },
         onMoreButtonClicked = { },

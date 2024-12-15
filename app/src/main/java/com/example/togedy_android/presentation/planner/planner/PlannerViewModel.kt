@@ -3,13 +3,13 @@ package com.example.togedy_android.presentation.planner.planner
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.util.copy
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.entity.PlannerHomeInformation
 import com.example.togedy_android.domain.model.planner.NewStudyTageItem
-import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
-import com.example.togedy_android.domain.model.planner.StudyGoalDate
+import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.domain.repository.PlannerRepository
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
@@ -35,18 +35,27 @@ class PlannerViewModel @Inject constructor(
         MutableStateFlow(PlannerDialogState())
     val dialogState: StateFlow<PlannerDialogState> = _dialogState.asStateFlow()
 
-    fun getPlannerHomeInformation() {
-        var studyGoal = StudyGoal(-1, "", "", 0)
+    fun getPlannerHomeInformation(selectedDay: LocalDate = LocalDate.now()) {
+        var studyGoal = StudyGoal(id = -1, targetTime = "00:00", actualTime = "", achievement = 0)
         var studyTagList = emptyList<StudyTagItem>()
-        val today = LocalDate.now().toString()
+        var studyPlanList = emptyList<StudyPlanItem>()
         viewModelScope.launch {
             // 공부 목표량
-            plannerRepository.getStudyGoal(StudyGoalDate(today))
+            plannerRepository.getStudyGoal(Date(selectedDay.toString()))
                 .onSuccess { studyGoalItem ->
                     studyGoal = studyGoalItem
                 }
                 .onFailure { throwable ->
                     Log.d("API-PlannerViewModel", "getStudyGoal: 실패")
+                }
+
+            // 플랜 리스트
+            plannerRepository.getStudyPlanList(Date(selectedDay.toString()))
+                .onSuccess { studyPlanItemList ->
+                    studyPlanList = studyPlanItemList
+                }
+                .onFailure { throwable ->
+                    Log.d("API-PlannerViewModel", "getStudyPlanList: 실패")
                 }
 
             // 공부태그 리스트
@@ -63,7 +72,8 @@ class PlannerViewModel @Inject constructor(
                 loadState = UiState.Success(
                     PlannerHomeInformation(
                         studyGoal = studyGoal,
-                        studyTagItemLists = studyTagList
+                        studyPlanList = studyPlanList,
+                        studyTagItemLists = studyTagList,
                     )
                 )
             )
@@ -78,7 +88,7 @@ class PlannerViewModel @Inject constructor(
                 )
             ).onSuccess {
                 Log.d("API-PlannerViewModel", "postStudyTag: 성공")
-                getPlannerHomeInformation()
+                getPlannerHomeInformation(_uiState.value.selectedDay)
             }.onFailure {
                 Log.d("API-PlannerViewModel", "postStudyTag: 실패")
             }
@@ -94,9 +104,35 @@ class PlannerViewModel @Inject constructor(
                 )
             ).onSuccess {
                 Log.d("API-PlannerViewModel", "putStudyTag: 성공")
-                getPlannerHomeInformation()
+                getPlannerHomeInformation(_uiState.value.selectedDay)
             }.onFailure {
                 Log.d("API-PlannerViewModel", "putStudyTag: 실패")
+            }
+        }
+    }
+
+    fun postStudyPlan(studyPlanItem: NewStudyPlan) {
+        viewModelScope.launch {
+            plannerRepository.postStudyPlan(request = studyPlanItem)
+                .onSuccess {
+                    Log.d("API-PlannerViewModel", "postStudyPlan: 성공")
+                    getPlannerHomeInformation(_uiState.value.selectedDay)
+                }.onFailure {
+                    Log.d("API-PlannerViewModel", "postStudyPlan: 실패")
+                }
+        }
+    }
+
+    fun putStudyPlanStatus(studyPlanId: Int, status: String) {
+        viewModelScope.launch {
+            plannerRepository.putStudyPlanStatus(
+                studyPlanId = studyPlanId,
+                status = status
+            ).onSuccess {
+                Log.d("API-PlannerViewModel", "putStudyPlanStatus: 성공")
+                getPlannerHomeInformation(_uiState.value.selectedDay)
+            }.onFailure {
+                Log.d("API-PlannerViewModel", "postStudyPlan: 실패")
             }
         }
     }
@@ -108,6 +144,7 @@ class PlannerViewModel @Inject constructor(
             )
         }
 
+
     fun updateStudyTag(studyTagItem: StudyTagItem) =
         _dialogState.update { currentState ->
             currentState.copy(
@@ -115,12 +152,12 @@ class PlannerViewModel @Inject constructor(
             )
         }
 
-    fun updatePlanInfo(planItem: PlanItem) =
-        _dialogState.update { currentState ->
-            currentState.copy(
-                planInfo = planItem
-            )
-        }
+//    fun updatePlanInfo(planItem: StudyPlanItem) =
+//        _dialogState.update { currentState ->
+//            currentState.copy(
+//                planInfo = planItem
+//            )
+//        }
 
     private fun updateLoadState(loadState: UiState<PlannerHomeInformation>) =
         _uiState.update { currentState ->

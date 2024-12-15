@@ -7,8 +7,12 @@ import com.example.togedy_android.data.util.handleBaseResponse
 import com.example.togedy_android.domain.model.planner.NewStudyGoal
 import com.example.togedy_android.domain.model.planner.NewStudyTageItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
-import com.example.togedy_android.domain.model.planner.StudyGoalDate
+import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.StudyGoalId
+import com.example.togedy_android.domain.model.planner.StudyPlanId
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
+import com.example.togedy_android.domain.model.planner.StudyPlanStatus
 import com.example.togedy_android.domain.model.planner.StudyTagId
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.domain.repository.PlannerRepository
@@ -17,7 +21,7 @@ import javax.inject.Inject
 class PlannerRepositoryImpl @Inject constructor(
     private val plannerRemoteDataSource: PlannerRemoteDataSource
 ) : PlannerRepository {
-    override suspend fun getStudyGoal(request: StudyGoalDate): Result<StudyGoal> {
+    override suspend fun getStudyGoal(request: Date): Result<StudyGoal> {
         return runCatching {
             plannerRemoteDataSource.getStudyGoal(request = request.toData())
                 .handleBaseResponse().getOrThrow().toDomain()
@@ -31,7 +35,7 @@ class PlannerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStudyTagList() : Result<List<StudyTagItem>> {
+    override suspend fun getStudyTagList(): Result<List<StudyTagItem>> {
         return runCatching {
             plannerRemoteDataSource.getStudyTagList()
                 .handleBaseResponse().getOrThrow().toDomain()
@@ -54,6 +58,30 @@ class PlannerRepositoryImpl @Inject constructor(
                 tagId = tagId,
                 request = request.toData()
             ).handleBaseResponse().getOrThrow().toDomain()
+        }
+    }
+
+    override suspend fun getStudyPlanList(request: Date): Result<List<StudyPlanItem>> {
+        return runCatching {
+            plannerRemoteDataSource.getStudyPlanList(request = request.toData())
+                .handleBaseResponse().getOrThrow().toDomain()
+        }
+    }
+
+    override suspend fun postStudyPlan(request: NewStudyPlan): Result<StudyPlanId> {
+        return runCatching {
+            plannerRemoteDataSource.postStudyPlan(request = request.toData())
+                .handleBaseResponse().getOrThrow().toDomain()
+        }
+    }
+
+    override suspend fun putStudyPlanStatus(
+        studyPlanId: Int,
+        status: String
+    ): Result<StudyPlanStatus> {
+        return runCatching {
+            plannerRemoteDataSource.putStudyPlanStatus(studyPlanId = studyPlanId, status = status)
+                .handleBaseResponse().getOrThrow().toDomain()
         }
     }
 }

@@ -32,22 +32,35 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.core.design_system.component.BorderTextField
 import com.example.togedy_android.core.design_system.component.TogedyButtonBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
-import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.util.toColor
+import kotlinx.coroutines.selects.select
+import java.time.LocalDate
 
 @Composable
 fun PlanInfoDialog(
     title: String,
-    planItem: PlanItem = PlanItem(todoID = -1, title = "", subjectColor = "", status = PlanState.NOT_STARTED.state),
+    selectedDay: LocalDate,
+    studyPlanItem: StudyPlanItem = StudyPlanItem(
+        studyPlanId = -1,
+        name = "",
+        studyTagColor = "",
+        studyTagId = -2,
+        studyRecords = emptyList(),
+        planStatus = PlanState.NOT_STARTED.state
+    ),
     onDismissRequest: () -> Unit,
-    onSubmitButtonClicked: (PlanItem) -> Unit,
+    onSubmitButtonClicked: (NewStudyPlan) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlanInfoDialogViewModel = hiltViewModel(),
 ) {
-    val initTitle = if (planItem.title != "") planItem.title else ""
-    val initColor = if (planItem.subjectColor != "") planItem.subjectColor.toColor() else null
+    val initTitle = if (studyPlanItem.name != "") studyPlanItem.name else ""
+    val initColor =
+        if (studyPlanItem.studyTagColor != "") studyPlanItem.studyTagColor.toColor() else null
     var planTitle by remember { mutableStateOf(initTitle) }
     var selectedColor by remember { mutableStateOf<Color?>(initColor) }
     var selectedStudyTagId by remember { mutableIntStateOf(-1) }
@@ -123,15 +136,13 @@ fun PlanInfoDialog(
 
             TogedyButtonBasic(
                 buttonText = "완료",
-                isActivated = planTitle != "" && selectedColor != null,
+                isActivated = planTitle != "" && selectedStudyTagId != -1,
                 onButtonClick = {
                     onSubmitButtonClicked(
-                        PlanItem(
-                            todoID = planItem.todoID,
-                            subjectColor = selectedColor.toString(),
-                            subjectId = selectedStudyTagId,
-                            title = planTitle,
-                            status = planItem.status
+                        NewStudyPlan(
+                            name = planTitle,
+                            date = selectedDay.toString(),
+                            studyTagId = selectedStudyTagId,
                         )
                     )
                 }
@@ -145,6 +156,7 @@ fun PlanInfoDialog(
 fun PlanInfoDialogPreview() {
     PlanInfoDialog(
         title = "플랜 상세정보",
+        selectedDay = LocalDate.now(),
         onDismissRequest = { },
         onSubmitButtonClicked = { }
     )
