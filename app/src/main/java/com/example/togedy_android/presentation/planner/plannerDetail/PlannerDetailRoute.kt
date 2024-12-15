@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.GrayLine
+import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.component.TopBarBasicWithRightIcon
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
@@ -106,13 +107,21 @@ fun PlannerDetailScreen(
             .padding(top = 20.dp)
             .verticalScroll(scrollState)
     ) {
-        TopBarBasicWithRightIcon(
-            leftButtonIcon = R.drawable.ic_x_close,
-            rightButtonIcon = R.drawable.ic_study_play,
-            title = "플래너", //추후 변경 필요
-            onLeftButtonClicked = onCloseButtonClicked,
-            onRightButtonClicked = onRightButtonClicked,
-        )
+        if (selectedDay == LocalDate.now()) {
+            TopBarBasicWithRightIcon(
+                leftButtonIcon = R.drawable.ic_x_close,
+                rightButtonIcon = R.drawable.ic_study_play,
+                title = "플래너", //추후 변경 필요
+                onLeftButtonClicked = onCloseButtonClicked,
+                onRightButtonClicked = onRightButtonClicked,
+            )
+        } else {
+            TopBarBasic(
+                leftButtonIcon = R.drawable.ic_x_close,
+                title = "플래너",
+                onLeftButtonClicked = onCloseButtonClicked,
+            )
+        }
 
         Spacer(Modifier.height(18.dp))
 
