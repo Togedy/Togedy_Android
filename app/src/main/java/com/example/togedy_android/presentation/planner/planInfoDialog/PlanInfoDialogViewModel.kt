@@ -1,27 +1,33 @@
 package com.example.togedy_android.presentation.planner.planInfoDialog
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.domain.model.planner.StudyTagItem
+import com.example.togedy_android.domain.repository.PlannerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PlanInfoDialogViewModel @Inject constructor(
-    //repository
+    private val plannerRepository: PlannerRepository
 ) : ViewModel() {
-    private val _studyTagItemList = MutableStateFlow(ArrayList<StudyTagItem>())
+    private val _studyTagItemList = MutableStateFlow(emptyList<StudyTagItem>())
     val studyTagList = _studyTagItemList.asStateFlow()
 
     fun getStudyTagList() {
-        _studyTagItemList.value = arrayListOf(
-            StudyTagItem(id = 3, name = "국어", color = "color4"),
-            StudyTagItem(id = 4, name = "수학", color = "color7"),
-            StudyTagItem(id = 5, name = "국어", color = "color14"),
-            StudyTagItem(id = 6, name = "수학", color = "color11"),
-            StudyTagItem(id = 7, name = "국어", color = "color10"),
-            StudyTagItem(id = 8, name = "수학", color = "color9"),
-        )
+        viewModelScope.launch{
+            plannerRepository.getStudyTagList()
+                .onSuccess { studyTagItemList ->
+                    _studyTagItemList.value = studyTagItemList
+                }
+                .onFailure { throwable ->
+                    Log.d("API-PlannerViewModel", "getStudyTagList: 실패")
+                }
+        }
     }
 }

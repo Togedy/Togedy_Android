@@ -88,7 +88,7 @@ fun PlanInfoDialog(
 
             Spacer(Modifier.height(6.dp))
 
-            if (studyTagList.isEmpty) {
+            if (studyTagList.isEmpty()) {
                 Text(
                     text = "공부 태그가 없습니다. 공부 태그를 먼저 추가해주세요!",
                     style = TogedyTheme.typography.body2M,
