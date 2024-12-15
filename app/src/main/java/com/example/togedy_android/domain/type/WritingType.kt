@@ -13,5 +13,6 @@ enum class WritingType(val type: String) {
     CAU_UNIV("중앙대학교"),
     KYUNGHEE_UNIV("경희대학교"),
     HANKUK_UNIV_OF_FOREIGN("한국외국어대학교"),
-    UNIV_OF_SEOUL("서울시립대학교")
+    UNIV_OF_SEOUL("서울시립대학교"),
+    KONKUK_UNIV("건국대학교")
 }

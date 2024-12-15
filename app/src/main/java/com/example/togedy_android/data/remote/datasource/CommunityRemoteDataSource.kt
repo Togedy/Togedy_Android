@@ -7,7 +7,7 @@ import com.example.togedy_android.data.remote.model.response.BoardListResponseDt
 import com.example.togedy_android.data.remote.model.response.BoardWritingResponseDto
 
 interface CommunityRemoteDataSource {
-    suspend fun getBoardList(boardType: String): BaseResponse<List<BoardListResponseDto>>
+    suspend fun getBoardList(boardType: String, univName: String?): BaseResponse<List<BoardListResponseDto>>
     suspend fun postBoardWriting(boardType: String, boardWritingRequestDto: BoardWritingRequestDto):
             BaseResponse<BoardWritingResponseDto>
     suspend fun getBoardDetail(postId: Int): BaseResponse<BoardDetailResponseDto>

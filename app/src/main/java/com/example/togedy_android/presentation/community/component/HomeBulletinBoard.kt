@@ -1,5 +1,6 @@
 package com.example.togedy_android.presentation.community.component
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,10 +23,11 @@ import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TogedyTitle
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.domain.type.WritingType
 
 @Composable
 fun HomeBulletinBoard(
-    onBulletinBoardMoreClicked: () -> Unit,
+    onBulletinBoardMoreClicked: (String, String?) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -36,7 +38,8 @@ fun HomeBulletinBoard(
             modifier = Modifier
                 .padding(start = 10.dp)
                 .clickable {
-                    onBulletinBoardMoreClicked()
+                    onBulletinBoardMoreClicked("free", null)
+                    Log.d("more", WritingType.BULLETIN_BOARD.type)
                 },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -85,13 +88,4 @@ fun HomeBulletinBoardItem() {
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-fun HomeBulletinBoardPreview() {
-    HomeBulletinBoard(
-        onBulletinBoardMoreClicked = { }
-    )
 }

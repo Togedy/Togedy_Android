@@ -24,6 +24,7 @@ fun DetailCommentsDto.toDomain(): DetailComments = DetailComments(
     userName = this.userName,
     content = this.content,
     likeCount = this.likeCount,
+    commentStatus = this.commentStatus,
     replies = this.replies.map { it.toDomain() },
     commentLike = this.commentLike
 )
@@ -34,6 +35,7 @@ fun DetailRepliesDto.toDomain(): DetailReplies = DetailReplies(
     userName = this.userName,
     content = this.content,
     likeCount = this.likeCount,
+    commentStatus = this.commentStatus,
     replies = this.replies,
     commentLike = this.commentLike
 )
