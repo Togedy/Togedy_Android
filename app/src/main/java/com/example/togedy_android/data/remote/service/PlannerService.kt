@@ -1,10 +1,10 @@
 package com.example.togedy_android.data.remote.service
 
 import com.example.togedy_android.data.remote.model.base.BaseResponse
-import com.example.togedy_android.data.remote.model.request.StudyGoalDateRequestDto
-import com.example.togedy_android.data.remote.model.request.StudyGoalRequestDto
-import com.example.togedy_android.data.remote.model.response.StudyGoalIdResponseDto
-import com.example.togedy_android.data.remote.model.response.StudyGoalResponseDto
+import com.example.togedy_android.data.remote.model.planner.request.StudyGoalDateRequestDto
+import com.example.togedy_android.data.remote.model.planner.request.StudyGoalRequestDto
+import com.example.togedy_android.data.remote.model.planner.resposne.StudyGoalIdResponseDto
+import com.example.togedy_android.data.remote.model.planner.resposne.StudyGoalResponseDto
 import retrofit2.http.Body
 import retrofit2.http.POST
 

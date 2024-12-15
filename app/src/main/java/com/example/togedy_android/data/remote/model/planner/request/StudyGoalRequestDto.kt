@@ -1,4 +1,4 @@
-package com.example.togedy_android.data.remote.model.request
+package com.example.togedy_android.data.remote.model.planner.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
