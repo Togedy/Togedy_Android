@@ -18,6 +18,7 @@ fun NavGraphBuilder.calendarScreen(
 ) {
     composable<Calendar> {
         CalendarScreen(
+            modifier = modifier,
             onCollegeScheduleBtnClicked = { },
             onPersonalScheduleAddBtnClicked = { },
         )
