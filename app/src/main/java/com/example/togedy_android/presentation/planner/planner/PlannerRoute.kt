@@ -41,7 +41,6 @@ import com.example.togedy_android.presentation.planner.planner.state.PlannerDial
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import com.example.togedy_android.util.noRippleClickable
-import com.example.togedy_android.util.toHHhMmm
 import com.example.togedy_android.util.toServerDataTime
 import java.time.LocalDate
 

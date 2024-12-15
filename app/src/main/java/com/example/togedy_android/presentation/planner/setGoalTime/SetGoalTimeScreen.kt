@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.BorderTextField
 import com.example.togedy_android.core.design_system.component.TopBarWithTextBtn
@@ -32,7 +31,6 @@ import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 @Composable
 fun SetGoalTimeScreen(
     targetTime: String? = "00:00",
-//    goalTime: String = "00:00",
     onCloseButtonClicked: () -> Unit,
     onSetButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
@@ -95,7 +93,7 @@ fun SetGoalTimeScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SetGoalTimeScreenPreview(modifier: Modifier = Modifier) {
+fun SetGoalTimeScreenPreview() {
     Togedy_AndroidTheme {
         SetGoalTimeScreen(
             onCloseButtonClicked = { },

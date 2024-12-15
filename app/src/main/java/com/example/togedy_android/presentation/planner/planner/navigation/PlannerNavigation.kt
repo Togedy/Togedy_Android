@@ -9,7 +9,6 @@ import androidx.navigation.toRoute
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.planner.PlannerRoute
-import com.example.togedy_android.presentation.planner.planner.navigation.SetGoalTime
 import com.example.togedy_android.presentation.planner.plannerCalendar.PlannerCalendarRoute
 import com.example.togedy_android.presentation.planner.plannerDetail.PlannerDetailRoute
 import com.example.togedy_android.presentation.planner.setGoalTime.SetGoalTimeScreen
