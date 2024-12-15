@@ -56,7 +56,7 @@ object NetworkModule {
     @Auth
     fun provideAuthInterceptor(): Interceptor = Interceptor { chain ->
         val request = chain.request().newBuilder()
-            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiZW1haWwiOiLtg5zsoJUiLCJleHAiOjE3Mzg5MTI4NTB9.e-qSBjl-05OkhXGOYq_H6b6sC2USOFXLmZ_INrW9bkc")
+            .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiZW1haWwiOiLssYwiLCJleHAiOjE3Mzk0MzY2MzZ9.gP1BTkbLjSrXrfhcw8aLWGs_iFNGJ1ubUgYRoJfoelU")
             .build()
         chain.proceed(request)
     }

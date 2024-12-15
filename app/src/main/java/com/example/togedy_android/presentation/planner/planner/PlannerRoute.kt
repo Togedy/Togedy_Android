@@ -30,16 +30,19 @@ import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
 import com.example.togedy_android.presentation.planner.component.PlannerWeeklyShortPlanner
-import com.example.togedy_android.presentation.planner.component.TodaysGoal
+import com.example.togedy_android.presentation.planner.component.StudyGoalBlock
 import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.R
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.StudyGoal
 import com.example.togedy_android.domain.model.planner.StudyTag
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import com.example.togedy_android.util.noRippleClickable
+import com.example.togedy_android.util.toHHhMmm
+import com.example.togedy_android.util.toServerDataTime
 import java.time.LocalDate
 
 @Composable
@@ -47,7 +50,7 @@ fun PlannerRoute(
     modifier: Modifier = Modifier,
     onSettingButtonClick: () -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     viewModel: PlannerViewModel = hiltViewModel()
@@ -55,8 +58,9 @@ fun PlannerRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true) {
-        viewModel.getPlannerHomeInformation()
+    LaunchedEffect(Unit) {
+//        viewModel.getPlannerHomeInformation()
+        viewModel.getStudyGoal()
     }
 
     PlannerScreen(
@@ -66,7 +70,7 @@ fun PlannerRoute(
         onDaySelected = viewModel::updateSelectedDay,
         onSettingButtonClick = onSettingButtonClick,
         navigateToSetGoalTime = navigateToSetGoalTime,
-        navigateToEditGoalTime = navigateToEditGoalTime,
+        navigateToEditGoalTime = { navigateToEditGoalTime(it) },
         navigateToPlannerCalendar = navigateToPlannerCalendar,
         navigateToPlannerDetail = navigateToPlannerDetail,
         onDismissRequest = viewModel::updateDialogVisibility,
@@ -97,7 +101,7 @@ fun PlannerScreen(
     onDaySelected: (LocalDate) -> Unit,
     onSettingButtonClick: () -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
@@ -107,6 +111,11 @@ fun PlannerScreen(
     onPlanStateClicked: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
+
+    val studyGoal = when (uiState.studyGoalState) {
+        is UiState.Success -> uiState.studyGoalState.data
+        else -> StudyGoal(-1,"","",0)
+    }
 
     Column(
         modifier = modifier
@@ -136,12 +145,13 @@ fun PlannerScreen(
             is UiState.Success -> {
                 with(uiState.loadState.data) {
                     PlannerSuccessScreen(
+                        studyGoal = studyGoal,
                         selectedDay = uiState.selectedDay,
                         onDaySelected = onDaySelected,
                         planList = planList,
                         studyTagList = studyTagList,
                         navigateToSetGoalTime = navigateToSetGoalTime,
-                        navigateToEditGoalTime = navigateToEditGoalTime,
+                        navigateToEditGoalTime = { navigateToEditGoalTime(it) },
                         navigateToPlannerCalendar = navigateToPlannerCalendar,
                         navigateToPlannerDetail = navigateToPlannerDetail,
                         onAddStudyTagClicked = onAddStudyTagClicked,
@@ -168,12 +178,13 @@ fun PlannerScreen(
 
 @Composable
 fun PlannerSuccessScreen(
+    studyGoal: StudyGoal,
     selectedDay: LocalDate,
     planList: List<PlanItem>,
     studyTagList: List<StudyTag>,
     onDaySelected: (LocalDate) -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
@@ -184,11 +195,14 @@ fun PlannerSuccessScreen(
     Column {
         Spacer(Modifier.height(16.dp))
 
-        TodaysGoal(
-            goalTime = "10:00",
-            percentage = 90,
+        StudyGoalBlock(
+            studyGoal = studyGoal,
             navigateToSetGoalTime = navigateToSetGoalTime,
-            navigateToEditGoalTime = navigateToEditGoalTime
+            navigateToEditGoalTime = {
+                navigateToEditGoalTime(
+                    studyGoal.targetTime.toServerDataTime().toString()
+                )
+            }
         )
 
         Spacer(Modifier.height(40.dp))
