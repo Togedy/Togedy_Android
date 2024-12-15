@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -26,13 +29,17 @@ import com.example.togedy_android.core.design_system.component.GrayLine
 import com.example.togedy_android.core.design_system.component.TopBarBasicWithRightIcon
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
+import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
+import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
+import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import com.example.togedy_android.presentation.planner.plannerDetail.component.DailyPlanList
 import com.example.togedy_android.presentation.planner.plannerDetail.component.TimeTable
-import com.example.togedy_android.presentation.planner.plannerDetail.state.PlannerDetailIntent
+import com.example.togedy_android.presentation.planner.plannerDetail.state.PlannerDetailUiState
 import java.time.LocalDate
 
 @Composable
-fun PlannerDetailScreen(
+fun PlannerDetailRoute(
     selectedDay: LocalDate,
     dDay: String = "",
     onCloseButtonClicked: () -> Unit,
@@ -40,11 +47,50 @@ fun PlannerDetailScreen(
     modifier: Modifier = Modifier,
     viewModel: PlannerDetailViewModel = hiltViewModel()
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(selectedDay) {
-        viewModel.processIntent(PlannerDetailIntent.LoadDayPlan(selectedDay))
+    LaunchedEffect(uiState) {
+        viewModel.getDayPlanInformation(selectedDay)
     }
+
+    PlannerDetailScreen(
+        modifier = modifier,
+        uiState = uiState,
+        selectedDay = selectedDay,
+        dDay = dDay,
+        dialogState = dialogState,
+        onCloseButtonClicked = onCloseButtonClicked,
+        onRightButtonClicked = onRightButtonClicked,
+        onDismissRequest = viewModel::updateDialogVisibility,
+        onPlanContentClicked = { todoId, planItem ->
+            if (todoId == -1) {
+                viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
+            } else {
+                viewModel.updatePlanInfo(planItem)
+                viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
+            }
+        },
+        onPlanStateClicked = {
+            viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        }
+    )
+}
+
+@Composable
+fun PlannerDetailScreen(
+    modifier: Modifier,
+    uiState: PlannerDetailUiState,
+    selectedDay: LocalDate,
+    dDay: String,
+    dialogState: PlannerDialogState,
+    onCloseButtonClicked: () -> Unit,
+    onRightButtonClicked: () -> Unit,
+    onDismissRequest: (PlannerDialogType) -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
+) {
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier
@@ -52,6 +98,7 @@ fun PlannerDetailScreen(
             .fillMaxSize()
             .padding(horizontal = 20.dp)
             .padding(top = 20.dp)
+            .verticalScroll(scrollState)
     ) {
         TopBarBasicWithRightIcon(
             leftButtonIcon = R.drawable.ic_x_close,
@@ -105,38 +152,77 @@ fun PlannerDetailScreen(
             }
         }
 
-        when (val state = uiState.value.loadState) {
-            is UiState.Loading -> { }
+        when (uiState.loadState) {
+            is UiState.Loading -> {
+                // 로딩 중 UI 표시 (구현 예정 X)
+            }
+
+            is UiState.Empty -> {
+                // 빈 UI 표시 (구현 예정 X)
+            }
+
+            is UiState.Error -> {
+                // 에러 UI 표시 (구현 예정 X)
+            }
 
             is UiState.Success -> {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Top
-                ) {
-                    DailyPlanList(
-                        modifier = Modifier.weight(1f)
-                    )
-
-                    Spacer(Modifier.width(10.dp))
-
-                    TimeTable(
-                        timeline = state.data.timeline,
+                with(uiState.loadState.data) {
+                    PlannerDetailSuccessScreen(
+                        dayPlanItems = planList,
+                        timeline = timeline,
+                        onPlanContentClicked = { id, planItem ->
+                            onPlanContentClicked(id, planItem)
+                        },
+                        onPlanStateClicked = { onPlanStateClicked(it) }
                     )
                 }
             }
-
-            is UiState.Error -> { }
-
-            UiState.Empty -> { }
         }
+    }
+
+    PlannerDialogScreen(
+        dialogState = dialogState,
+        onDismissRequest = onDismissRequest,
+        onStudyTagConfirm = { /* 이 화면에서는 안 쓰임 */ },
+        onStudyTagEditConfirm = { /* 이 화면에서는 안 쓰임 */ },
+        onPlanAddConfirm = { },
+        onPlanEditConfirm = { }
+    )
+}
+
+@Composable
+fun PlannerDetailSuccessScreen(
+    dayPlanItems: List<PlanItem>,
+    timeline: List<List<String>>,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.Top
+    ) {
+        DailyPlanList(
+            modifier = Modifier.weight(1f),
+            dayPlanItems = dayPlanItems,
+            onPlanContentClicked = { todoId, planItem ->
+                onPlanContentClicked(todoId, planItem)
+            },
+            onPlanStateClicked = { onPlanStateClicked(it) },
+        )
+
+        Spacer(Modifier.width(10.dp))
+
+        TimeTable(
+            timeline = timeline,
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PlannerDetailScreenPreview(modifier: Modifier = Modifier) {
-    PlannerDetailScreen(
+    PlannerDetailRoute(
         modifier = modifier,
         onCloseButtonClicked = { },
         onRightButtonClicked = { },

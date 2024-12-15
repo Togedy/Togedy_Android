@@ -31,9 +31,10 @@ import com.example.togedy_android.presentation.planner.component.PlannerDialogSc
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
 import com.example.togedy_android.presentation.planner.component.PlannerWeeklyShortPlanner
 import com.example.togedy_android.presentation.planner.component.TodaysGoal
-import com.example.togedy_android.presentation.planner.component.StudyTag
+import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.R
 import com.example.togedy_android.core.state.UiState
+import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyTag
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
@@ -73,6 +74,17 @@ fun PlannerRoute(
         onEditStudyTagClicked = {
             viewModel.updateStudyTag(it)
             viewModel.updateDialogVisibility(PlannerDialogType.EDIT_SUBJECT)
+        },
+        onPlanContentClicked = { todoId, planItem ->
+            if (todoId == -1) {
+                viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
+            } else {
+                viewModel.updatePlanInfo(planItem)
+                viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
+            }
+        },
+        onPlanStateClicked = {
+            viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
         }
     )
 }
@@ -91,6 +103,8 @@ fun PlannerScreen(
     onDismissRequest: (PlannerDialogType) -> Unit,
     onAddStudyTagClicked: () -> Unit,
     onEditStudyTagClicked: (StudyTag) -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -98,11 +112,10 @@ fun PlannerScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = TogedyTheme.colors.white)
+            .padding(top = 20.dp)
             .padding(horizontal = 20.dp)
             .verticalScroll(scrollState)
     ) {
-        Spacer(Modifier.height(20.dp))
-
         PlannerHomeTopBar(
             onSettingButtonClick = onSettingButtonClick
         )
@@ -124,14 +137,19 @@ fun PlannerScreen(
                 with(uiState.loadState.data) {
                     PlannerSuccessScreen(
                         selectedDay = uiState.selectedDay,
-                        studyTagList = studyTagList,
                         onDaySelected = onDaySelected,
+                        planList = planList,
+                        studyTagList = studyTagList,
                         navigateToSetGoalTime = navigateToSetGoalTime,
                         navigateToEditGoalTime = navigateToEditGoalTime,
                         navigateToPlannerCalendar = navigateToPlannerCalendar,
                         navigateToPlannerDetail = navigateToPlannerDetail,
                         onAddStudyTagClicked = onAddStudyTagClicked,
                         onEditStudyTagClicked = { onEditStudyTagClicked(it) },
+                        onPlanContentClicked = { id, planItem ->
+                            onPlanContentClicked(id, planItem)
+                        },
+                        onPlanStateClicked = { onPlanStateClicked(it) }
                     )
                 }
             }
@@ -143,13 +161,15 @@ fun PlannerScreen(
         onDismissRequest = onDismissRequest,
         onStudyTagConfirm = { /* 공부태그 추가 api */ },
         onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
-//        onResetReturnConfirm = onBackClick,
+        onPlanAddConfirm = { },
+        onPlanEditConfirm = { }
     )
 }
 
 @Composable
 fun PlannerSuccessScreen(
     selectedDay: LocalDate,
+    planList: List<PlanItem>,
     studyTagList: List<StudyTag>,
     onDaySelected: (LocalDate) -> Unit,
     navigateToSetGoalTime: () -> Unit,
@@ -158,6 +178,8 @@ fun PlannerSuccessScreen(
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
     onEditStudyTagClicked: (StudyTag) -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
 ) {
     Column {
         Spacer(Modifier.height(16.dp))
@@ -177,11 +199,16 @@ fun PlannerSuccessScreen(
 
         PlannerWeeklyShortPlanner(
             selectedDay = selectedDay,
+            dayPlanItems = planList, //추후 수정 필요
             onCalendarButtonClick = navigateToPlannerCalendar,
             onDaySelected = {
                 onDaySelected(selectedDay)
             },
-            onMoreButtonClicked = navigateToPlannerDetail
+            onMoreButtonClicked = navigateToPlannerDetail,
+            onPlanContentClicked = { id, planItem ->
+                onPlanContentClicked(id, planItem)
+            },
+            onPlanStateClicked = { onPlanStateClicked(it) }
         )
 
         Spacer(Modifier.height(24.dp))
@@ -220,7 +247,7 @@ fun PlannerSuccessScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(studyTagList) { studyTag ->
-                        StudyTag(
+                        StudyTagBlock(
                             studyTag,
                             onTagClicked = {
                                 onEditStudyTagClicked(studyTag)

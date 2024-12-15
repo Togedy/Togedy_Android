@@ -3,8 +3,9 @@ package com.example.togedy_android.presentation.planner.planner
 import androidx.lifecycle.ViewModel
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.entity.PlannerHomeInformation
-import com.example.togedy_android.domain.model.planner.DayOfPlan
+import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -32,9 +33,26 @@ class PlannerViewModel @Inject constructor(
         updateLoadState(
             loadState = UiState.Success(
                 PlannerHomeInformation(
-                    todaysPlan = DayOfPlan(
-                        planList = emptyList(),
-                        timeline = listOf(listOf("10:20", "14:43"), listOf("15:00", "16:03"))
+//                    todaysPlan = DayOfPlan(
+//                        planList = listOf(
+//                            PlanItem(
+//                                todoID = 1,
+//                                subjectId = 1,
+//                                subjectColor = "color10",
+//                                title = "국어 1강",
+//                                status = PlanState.NOT_STARTED.state
+//                            )
+//                        ),
+//                        timeline = listOf(listOf("10:20", "14:43"), listOf("15:00", "16:03"))
+//                    ),
+                    planList = listOf(
+                        PlanItem(
+                            todoID = 1,
+                            subjectId = 1,
+                            subjectColor = "color10",
+                            title = "국어 1강",
+                            status = PlanState.NOT_STARTED.state
+                        )
                     ),
                     studyTagList = listOf(
                         StudyTag(name = "국어", color = "color4"),
@@ -62,6 +80,13 @@ class PlannerViewModel @Inject constructor(
         _dialogState.update { currentState ->
             currentState.copy(
                 studyTagInfo = studyTag
+            )
+        }
+
+    fun updatePlanInfo(planItem: PlanItem) =
+        _dialogState.update { currentState ->
+            currentState.copy(
+                planInfo = planItem
             )
         }
 
@@ -95,6 +120,12 @@ class PlannerViewModel @Inject constructor(
             PlannerDialogType.EDIT_PLAN -> {
                 _dialogState.update {
                     it.copy(isEditPlanDialogVisible = !_dialogState.value.isEditPlanDialogVisible)
+                }
+            }
+
+            PlannerDialogType.EDIT_PLAN_STATE -> {
+                _dialogState.update {
+                    it.copy(isEditPlanStateDialogVisible = !_dialogState.value.isEditPlanStateDialogVisible)
                 }
             }
         }

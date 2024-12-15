@@ -22,16 +22,21 @@ import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import java.time.LocalDate
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.GrayLine
-import com.example.togedy_android.domain.type.PlanState
+import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.util.noRippleClickable
+import com.example.togedy_android.util.toColor
+import com.example.togedy_android.util.toPlanState
 
 @Composable
 fun PlannerWeeklyShortPlanner(
     selectedDay: LocalDate,
+    dayPlanItems: List<PlanItem>,
     onCalendarButtonClick: () -> Unit,
     onDaySelected: (LocalDate) -> Unit,
     onMoreButtonClicked: () -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
 ) {
     val today = LocalDate.now()
     val startOfWeek = today.minusDays(today.dayOfWeek.value.toLong() - 1)
@@ -66,7 +71,12 @@ fun PlannerWeeklyShortPlanner(
 
         ShortPlanner(
             selectedDay = selectedDay,
-            onMoreButtonClicked = onMoreButtonClicked
+            dayPlanItems = dayPlanItems,
+            onMoreButtonClicked = onMoreButtonClicked,
+            onPlanContentClicked = { todoId, planItem ->
+                onPlanContentClicked(todoId, planItem)
+            },
+            onPlanStateClicked = { onPlanStateClicked(it) },
         )
     }
 }
@@ -104,7 +114,10 @@ fun PlannerWeeklyCalendarTitle(
 @Composable
 fun ShortPlanner(
     selectedDay: LocalDate,
+    dayPlanItems: List<PlanItem> = emptyList(),
     onMoreButtonClicked: () -> Unit,
+    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -127,13 +140,24 @@ fun ShortPlanner(
 
         Spacer(Modifier.height(8.dp))
 
-        repeat(3) {
+        val placeholdersNeeded = 3 - dayPlanItems.size
+
+        for (index in dayPlanItems.indices) {
+            val dayPlan = dayPlanItems[index]
+
             PlannerInputSection(
-                planColor = null,
-                planContent = "",
-                planState = PlanState.NOT_STARTED,
-                onPlanContentClicked = { /* 플랜 내용 변경 dialog */ },
-                onPlanStateClicked = { /* 플랜 상태 변경 dialog */ }
+                studyTagColor = dayPlan.subjectColor.toColor(),
+                planTitle = dayPlan.title,
+                status = dayPlan.status.toPlanState(),
+                onPlanTitleClicked = { onPlanContentClicked(dayPlan.todoID, dayPlan) },
+                onPlanStatusClicked = { onPlanStateClicked(dayPlan.todoID) }
+            )
+        }
+
+        repeat(placeholdersNeeded) {
+            PlannerInputSection(
+                onPlanTitleClicked = { onPlanContentClicked(-1, PlanItem(todoID = -1, subjectColor = "", title = "", status = "")) },
+                onPlanStatusClicked = { /* 플랜이 입력 안되어 있을 때 비활성화 */ }
             )
         }
 
@@ -150,8 +174,13 @@ fun ShortPlanner(
 fun PlannerWeeklyShortPlannerPreview() {
     PlannerWeeklyShortPlanner(
         selectedDay = LocalDate.now(),
+        dayPlanItems = listOf(
+            PlanItem(todoID = 1, subjectColor = "color1", title = "국어 1강", status = "POSTPONED"),
+        ),
         onCalendarButtonClick = { },
         onDaySelected = { },
-        onMoreButtonClicked = { }
+        onMoreButtonClicked = { },
+        onPlanContentClicked = { id, planItem -> },
+        onPlanStateClicked = { }
     )
 }

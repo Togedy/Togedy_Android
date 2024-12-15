@@ -42,7 +42,7 @@ fun TimeTable(
                                 )
                         )
                         if (minute%10==9) {
-                            Spacer(Modifier.width(2.dp))
+                            Spacer(Modifier.width(1.dp))
                         }
                     }
                 }
@@ -55,7 +55,7 @@ fun TimeTable(
                     for (minute in 0 until 60 step 10) {
                         Box(
                             modifier = Modifier
-                                .width(24.dp)
+                                .width(20.dp)
                                 .height(20.dp)
                                 .border(1.dp, TogedyTheme.colors.gray100)
                         )

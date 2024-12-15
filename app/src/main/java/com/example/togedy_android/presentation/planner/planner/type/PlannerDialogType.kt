@@ -4,5 +4,6 @@ enum class PlannerDialogType {
     ADD_SUBJECT,
     EDIT_SUBJECT,
     ADD_PLAN,
-    EDIT_PLAN
+    EDIT_PLAN,
+    EDIT_PLAN_STATE
 }
