@@ -151,7 +151,7 @@ fun PlannerCalendarScreen(
         onStudyTagConfirm = { /* 공부태그 추가 api */ },
         onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
         onPlanAddConfirm = { onPlanAddConfirm(it) },
-        onPlanEditConfirm = { }
+//        onPlanEditConfirm = { }
     )
 }
 
