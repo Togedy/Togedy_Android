@@ -28,7 +28,6 @@ import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.white
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
-import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek

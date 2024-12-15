@@ -2,7 +2,6 @@ package com.example.togedy_android.presentation.planner.component
 
 import androidx.compose.runtime.Composable
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
-import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planInfoDialog.PlanInfoDialog
@@ -16,6 +15,7 @@ import com.example.togedy_android.presentation.planner.planner.type.PlannerDialo
  * @param onDismissRequest 확인/닫기/외부영역을 터치하면 발생하는 이벤트
  * @param onStudyTagConfirm 공부태그 추가 완료 버튼 누르면 발생하는 이벤트
  * @param onStudyTagEditConfirm 공부태그 수정 완료 버튼 누르면 발생하는 이벤트
+ * @param onPlanAddConfirm 공부태그 추가 완료 버튼 누르면 발생하는 이벤트
  */
 
 @Composable
@@ -25,9 +25,8 @@ fun PlannerDialogScreen(
     onStudyTagConfirm: (StudyTagItem) -> Unit,
     onStudyTagEditConfirm: (StudyTagItem) -> Unit,
     onPlanAddConfirm: (NewStudyPlan) -> Unit,
-    onPlanEditConfirm: (StudyPlanItem) -> Unit,
-
-    ) {
+//    onPlanEditConfirm: (StudyPlanItem) -> Unit,
+) {
     with(dialogState) {
         if (isAddSubjectDialogVisible) {
             StudyTagDialog(

@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -184,7 +183,7 @@ fun PlannerScreen(
         onStudyTagConfirm = { onStudyTagAddConfirm(it) },
         onStudyTagEditConfirm = { onStudyTagEditConfirm(it) },
         onPlanAddConfirm = { onPlanAddConfirm(it) },
-        onPlanEditConfirm = { }
+//        onPlanEditConfirm = { }
     )
 }
 

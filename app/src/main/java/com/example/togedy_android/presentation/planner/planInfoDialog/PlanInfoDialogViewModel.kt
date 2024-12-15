@@ -3,7 +3,6 @@ package com.example.togedy_android.presentation.planner.planInfoDialog
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.domain.repository.PlannerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

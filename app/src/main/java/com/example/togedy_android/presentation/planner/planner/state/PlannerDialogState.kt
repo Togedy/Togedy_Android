@@ -1,7 +1,6 @@
 package com.example.togedy_android.presentation.planner.planner.state
 
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
-import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
 import java.time.LocalDate
 

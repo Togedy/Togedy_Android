@@ -32,13 +32,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.core.design_system.component.BorderTextField
 import com.example.togedy_android.core.design_system.component.TogedyButtonBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
-import com.example.togedy_android.domain.model.planner.Date
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.util.toColor
-import kotlinx.coroutines.selects.select
 import java.time.LocalDate
 
 @Composable
@@ -59,10 +57,10 @@ fun PlanInfoDialog(
     viewModel: PlanInfoDialogViewModel = hiltViewModel(),
 ) {
     val initTitle = if (studyPlanItem.name != "") studyPlanItem.name else ""
-    val initColor =
-        if (studyPlanItem.studyTagColor != "") studyPlanItem.studyTagColor.toColor() else null
+//    val initColor =
+//        if (studyPlanItem.studyTagColor != "") studyPlanItem.studyTagColor.toColor() else null
     var planTitle by remember { mutableStateOf(initTitle) }
-    var selectedColor by remember { mutableStateOf<Color?>(initColor) }
+//    var selectedColor by remember { mutableStateOf<Color?>(initColor) }
     var selectedStudyTagId by remember { mutableIntStateOf(-1) }
     val studyTagList = viewModel.studyTagList.collectAsStateWithLifecycle().value
 

@@ -31,7 +31,6 @@ import com.example.togedy_android.core.design_system.component.TopBarBasicWithRi
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
-import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
@@ -202,7 +201,7 @@ fun PlannerDetailScreen(
         onStudyTagConfirm = { /* 이 화면에서는 안 쓰임 */ },
         onStudyTagEditConfirm = { /* 이 화면에서는 안 쓰임 */ },
         onPlanAddConfirm = { onPlanAddConfirm(it) },
-        onPlanEditConfirm = { }
+//        onPlanEditConfirm = { }
     )
 }
 
