@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -52,13 +53,13 @@ fun PlannerRoute(
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
-    navigateToPlannerDetail: () -> Unit,
+    navigateToPlannerDetail: (LocalDate) -> Unit,
     viewModel: PlannerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState) {
+    LaunchedEffect(Unit) {
         viewModel.getPlannerHomeInformation(uiState.selectedDay)
     }
 
@@ -74,7 +75,7 @@ fun PlannerRoute(
         navigateToSetGoalTime = navigateToSetGoalTime,
         navigateToEditGoalTime = { navigateToEditGoalTime(it) },
         navigateToPlannerCalendar = navigateToPlannerCalendar,
-        navigateToPlannerDetail = navigateToPlannerDetail,
+        navigateToPlannerDetail = { navigateToPlannerDetail(uiState.selectedDay) },
         onDismissRequest = viewModel::updateDialogVisibility,
         onAddStudyTagClicked = { viewModel.updateDialogVisibility(PlannerDialogType.ADD_SUBJECT) },
         onEditStudyTagClicked = {
@@ -85,7 +86,7 @@ fun PlannerRoute(
             if (todoId == -1) {
                 viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
             } else {
-                if (planItem!=null) {
+                if (planItem != null) {
 //                    viewModel.updatePlanInfo(planItem)
                 }
                 viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)

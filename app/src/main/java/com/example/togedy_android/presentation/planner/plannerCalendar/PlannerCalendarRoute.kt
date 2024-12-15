@@ -47,7 +47,7 @@ import java.time.temporal.TemporalAdjusters
 @Composable
 fun PlannerCalendarRoute(
     onCloseButtonClicked: () -> Unit,
-    navigateToPlannerDetail: () -> Unit,
+    navigateToPlannerDetail: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlannerViewModel = hiltViewModel()
 ) {
@@ -63,11 +63,11 @@ fun PlannerCalendarRoute(
         uiState = uiState,
         dialogState = dialogState,
         onDaySelected = {
-            viewModel::updateSelectedDay
+            viewModel.updateSelectedDay(it)
             viewModel.getPlannerHomeInformation(it)
         },
         onCloseButtonClicked = onCloseButtonClicked,
-        navigateToPlannerDetail = navigateToPlannerDetail,
+        navigateToPlannerDetail = { navigateToPlannerDetail(uiState.selectedDay) },
         onDismissRequest = viewModel::updateDialogVisibility,
         onPlanContentClicked = { todoId, planItem ->
             if (todoId == -1) {

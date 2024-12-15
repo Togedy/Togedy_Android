@@ -27,8 +27,10 @@ fun NavHostController.navigateToSetGoalTime(targetTime: String? = null, navOptio
 fun NavHostController.navigateToPlannerCalendar(navOptions: NavOptions? = null) =
     navigate(PlannerCalendar)
 
-fun NavHostController.navigateToPlannerDetail(navOptions: NavOptions? = null) =
-    navigate(PlannerDetail)
+fun NavHostController.navigateToPlannerDetail(selectedDay: LocalDate = LocalDate.now(), navOptions: NavOptions? = null) =
+    navigate(
+        route = PlannerDetail(selectedDay.toString())
+    )
 
 fun NavHostController.navigateToStopWatch(navOptions: NavOptions? = null) =
     navigate(StopWatch)
@@ -45,7 +47,7 @@ fun NavGraphBuilder.plannerScreen(
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
             navigateToEditGoalTime = { navController.navigateToSetGoalTime(it) },
             navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail(it) }
         )
     }
 
@@ -63,13 +65,14 @@ fun NavGraphBuilder.plannerScreen(
         PlannerCalendarRoute(
             modifier = modifier,
             onCloseButtonClicked = { navController.popBackStack() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail(it) }
         )
     }
 
     composable<PlannerDetail> {
+        val args = it.toRoute<PlannerDetail>()
         PlannerDetailRoute(
-            selectedDay = LocalDate.now(), //추후 선택된 값으로 변경
+            selectedDay = LocalDate.parse(args.selectedDay),
             onCloseButtonClicked = { navController.popBackStack() },
             onRightButtonClicked = { navController.navigateToStopWatch() },
             modifier = modifier
@@ -94,7 +97,7 @@ data class SetGoalTime(val targetTime: String?) : Route
 data object PlannerCalendar : Route
 
 @Serializable
-data object PlannerDetail : Route
+data class PlannerDetail(val selectedDay: String) : Route
 
 @Serializable
 data object StopWatch : Route

@@ -41,7 +41,7 @@ class PlannerViewModel @Inject constructor(
         var studyPlanList = emptyList<StudyPlanItem>()
         viewModelScope.launch {
             // 공부 목표량
-            plannerRepository.getStudyGoal(Date(selectedDay.toString()))
+            plannerRepository.getStudyGoal(Date(LocalDate.now().toString()))
                 .onSuccess { studyGoalItem ->
                     studyGoal = studyGoalItem
                 }
