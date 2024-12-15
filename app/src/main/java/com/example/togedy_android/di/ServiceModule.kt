@@ -2,6 +2,7 @@ package com.example.togedy_android.di
 
 import com.example.togedy_android.data.remote.service.CommunityService
 import com.example.togedy_android.data.remote.service.LoginService
+import com.example.togedy_android.data.remote.service.PlannerService
 import com.example.togedy_android.di.qualifier.Togedy
 import dagger.Module
 import dagger.Provides
@@ -22,4 +23,9 @@ object ServiceModule {
     @Singleton
     fun provideLoginService(@Togedy retrofit: Retrofit): LoginService =
         retrofit.create(LoginService::class.java)
+
+    @Provides
+    @Singleton
+    fun providePlannerService(@Togedy retrofit: Retrofit): PlannerService =
+        retrofit.create(PlannerService::class.java)
 }

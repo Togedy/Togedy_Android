@@ -28,12 +28,14 @@ import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TogedyButtonWithBorder
+import com.example.togedy_android.domain.model.planner.StudyGoal
 import com.example.togedy_android.util.noRippleClickable
+import com.example.togedy_android.util.toHHhMmm
+import com.example.togedy_android.util.toHHhMmmSss
 
 @Composable
-fun TodaysGoal(
-    goalTime: String,
-    percentage: Int,
+fun StudyGoalBlock(
+    studyGoal: StudyGoal,
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: () -> Unit,
 ) {
@@ -61,7 +63,7 @@ fun TodaysGoal(
             )
 
             /* 설정된 시간이 없을 때 */
-            if (goalTime != "00:00") {
+            if (studyGoal.targetTime != "00:00") {
                 Spacer(Modifier.width(8.dp))
 
                 Box(
@@ -73,7 +75,7 @@ fun TodaysGoal(
                         .padding(horizontal = 6.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = "$percentage%",
+                        text = "${studyGoal.achievement}%",
                         style = TogedyTheme.typography.body2B,
                         color = TogedyTheme.colors.white
                     )
@@ -81,11 +83,13 @@ fun TodaysGoal(
             }
         }
 
-        if (goalTime == "00:00") {
+        if (studyGoal.targetTime == "00:00") {
             NoGoal(navigateToSetGoalTime = navigateToSetGoalTime)
         } else {
             ShowGoalStatus(
-                percentage = percentage,
+                actualTime = studyGoal.actualTime,
+                percentage = studyGoal.achievement,
+                targetTime = studyGoal.targetTime,
                 navigateToEditGoalTime = { navigateToEditGoalTime() }
             )
         }
@@ -94,7 +98,9 @@ fun TodaysGoal(
 
 @Composable
 fun ShowGoalStatus(
+    actualTime: String,
     percentage: Int,
+    targetTime: String,
     navigateToEditGoalTime: () -> Unit,
 ) {
     Column(
@@ -126,7 +132,8 @@ fun ShowGoalStatus(
                     .fillMaxWidth()
                     .padding(horizontal = 2.dp)
                 ) {
-                    val progress = percentage / 100f
+                    val initSize = if (percentage==0) 1 else percentage
+                    var progress = initSize / 100f
                     Box(
                         modifier = Modifier
                             .weight(progress)
@@ -153,14 +160,25 @@ fun ShowGoalStatus(
             )
         }
 
-        Text(
-            text = "3h 20m",
-            style = TogedyTheme.typography.body3M,
-            color = TogedyTheme.colors.gray500,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.fillMaxWidth()
-                .padding(start = 20.dp)
-        )
+        Row {
+            Text(
+                text = actualTime.toHHhMmmSss().toString(),
+                style = TogedyTheme.typography.body3M,
+                color = TogedyTheme.colors.gray500,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+            )
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = targetTime.toHHhMmm().toString(),
+                style = TogedyTheme.typography.body3M,
+                color = TogedyTheme.colors.gray500,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(end = 20.dp)
+            )
+        }
 
         Spacer(Modifier.height(18.dp))
 
@@ -211,11 +229,10 @@ fun NoGoal(
 
 @Preview
 @Composable
-fun TodaysGoalPreview() {
+fun StudyGoalPreview() {
     Togedy_AndroidTheme {
-        TodaysGoal(
-            goalTime = "01:00",
-            percentage = 50,
+        StudyGoalBlock(
+            studyGoal = StudyGoal(-1, "00:00", "13:00", 1),
             navigateToSetGoalTime = { },
             navigateToEditGoalTime = { }
         )

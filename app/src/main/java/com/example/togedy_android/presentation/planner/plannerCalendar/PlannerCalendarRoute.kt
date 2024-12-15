@@ -22,13 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.design_system.theme.white
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.presentation.calendar.component.DayOfMonthRow
 import com.example.togedy_android.presentation.calendar.component.DayOfWeek
 import com.example.togedy_android.presentation.calendar.component.MonthTitleOfFullCalendar
@@ -46,35 +46,41 @@ import java.time.temporal.TemporalAdjusters
 @Composable
 fun PlannerCalendarRoute(
     onCloseButtonClicked: () -> Unit,
-    navigateToPlannerDetail: () -> Unit,
+    navigateToPlannerDetail: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: PlannerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState) {
-        viewModel.getPlannerHomeInformation() //일별 정보 조회만 하기
+    LaunchedEffect(true) {
+        viewModel.getPlannerHomeInformation(uiState.selectedDay)
     }
 
     PlannerCalendarScreen(
         modifier = modifier,
         uiState = uiState,
         dialogState = dialogState,
-        onDaySelected = viewModel::updateSelectedDay,
+        onDaySelected = {
+            viewModel.updateSelectedDay(it)
+            viewModel.getPlannerHomeInformation(it)
+        },
         onCloseButtonClicked = onCloseButtonClicked,
-        navigateToPlannerDetail = navigateToPlannerDetail,
+        navigateToPlannerDetail = { navigateToPlannerDetail(uiState.selectedDay) },
         onDismissRequest = viewModel::updateDialogVisibility,
         onPlanContentClicked = { todoId, planItem ->
             if (todoId == -1) {
                 viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
             } else {
-                viewModel.updatePlanInfo(planItem)
+//                viewModel.updatePlanInfo(planItem)
                 viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
             }
         },
         onPlanStateClicked = {
             viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        },
+        onPlanAddConfirm = {
+            viewModel.postStudyPlan(it)
         }
     )
 }
@@ -88,8 +94,9 @@ fun PlannerCalendarScreen(
     onCloseButtonClicked: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
+    onPlanAddConfirm: (NewStudyPlan) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -126,9 +133,11 @@ fun PlannerCalendarScreen(
                     PlannerCalendarSuccessScreen(
                         selectedDay = uiState.selectedDay,
                         onDaySelected = onDaySelected,
-                        dayPlanItems = planList,
+                        dayPlanItems = studyPlanList,
                         navigateToPlannerDetail = navigateToPlannerDetail,
-                        onPlanContentClicked = onPlanContentClicked,
+                        onPlanContentClicked = { id, planItem ->
+                            onPlanContentClicked(id, planItem)
+                        },
                         onPlanStateClicked = { onPlanStateClicked(it) },
                     )
                 }
@@ -141,8 +150,8 @@ fun PlannerCalendarScreen(
         onDismissRequest = onDismissRequest,
         onStudyTagConfirm = { /* 공부태그 추가 api */ },
         onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
-        onPlanAddConfirm = { },
-        onPlanEditConfirm = { }
+        onPlanAddConfirm = { onPlanAddConfirm(it) },
+//        onPlanEditConfirm = { }
     )
 }
 
@@ -150,9 +159,9 @@ fun PlannerCalendarScreen(
 fun PlannerCalendarSuccessScreen(
     selectedDay: LocalDate,
     onDaySelected: (LocalDate) -> Unit,
-    dayPlanItems: List<PlanItem>,
+    dayPlanItems: List<StudyPlanItem>,
     navigateToPlannerDetail: () -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
     var selectedDay by remember { mutableStateOf(selectedDay) }
@@ -175,7 +184,9 @@ fun PlannerCalendarSuccessScreen(
                 dayPlanItems = dayPlanItems,
                 onMoreButtonClicked = navigateToPlannerDetail,
                 onPlanContentClicked = { todoId, planItem ->
-                    onPlanContentClicked(todoId, planItem)
+                    if (planItem != null) {
+                        onPlanContentClicked(todoId, planItem)
+                    }
                 },
                 onPlanStateClicked = { onPlanStateClicked(it) }
             )

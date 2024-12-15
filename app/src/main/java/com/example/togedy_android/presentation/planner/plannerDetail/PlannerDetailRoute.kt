@@ -26,10 +26,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.GrayLine
+import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.component.TopBarBasicWithRightIcon
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.planner.PlanItem
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -50,7 +52,7 @@ fun PlannerDetailRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(uiState) {
+    LaunchedEffect(true) {
         viewModel.getDayPlanInformation(selectedDay)
     }
 
@@ -67,12 +69,15 @@ fun PlannerDetailRoute(
             if (todoId == -1) {
                 viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
             } else {
-                viewModel.updatePlanInfo(planItem)
+//                viewModel.updatePlanInfo(planItem)
                 viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
             }
         },
         onPlanStateClicked = {
             viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        },
+        onPlanAddConfirm = {
+            viewModel.postStudyPlan(it)
         }
     )
 }
@@ -87,8 +92,9 @@ fun PlannerDetailScreen(
     onCloseButtonClicked: () -> Unit,
     onRightButtonClicked: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
+    onPlanAddConfirm: (NewStudyPlan) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -100,13 +106,21 @@ fun PlannerDetailScreen(
             .padding(top = 20.dp)
             .verticalScroll(scrollState)
     ) {
-        TopBarBasicWithRightIcon(
-            leftButtonIcon = R.drawable.ic_x_close,
-            rightButtonIcon = R.drawable.ic_study_play,
-            title = "플래너", //추후 변경 필요
-            onLeftButtonClicked = onCloseButtonClicked,
-            onRightButtonClicked = onRightButtonClicked,
-        )
+        if (selectedDay == LocalDate.now()) {
+            TopBarBasicWithRightIcon(
+                leftButtonIcon = R.drawable.ic_x_close,
+                rightButtonIcon = R.drawable.ic_study_play,
+                title = "플래너", //추후 변경 필요
+                onLeftButtonClicked = onCloseButtonClicked,
+                onRightButtonClicked = onRightButtonClicked,
+            )
+        } else {
+            TopBarBasic(
+                leftButtonIcon = R.drawable.ic_x_close,
+                title = "플래너",
+                onLeftButtonClicked = onCloseButtonClicked,
+            )
+        }
 
         Spacer(Modifier.height(18.dp))
 
@@ -138,7 +152,7 @@ fun PlannerDetailScreen(
                     text = "D - $dDay",
                     style = TogedyTheme.typography.headline1B,
                     color = TogedyTheme.colors.gray400,
-                    modifier = Modifier.width((24*6).dp),
+                    modifier = Modifier.width((24 * 6).dp),
                     textAlign = TextAlign.Center
                 )
             } else {
@@ -146,7 +160,7 @@ fun PlannerDetailScreen(
                     text = "set D-Day",
                     style = TogedyTheme.typography.headline2R,
                     color = TogedyTheme.colors.gray100,
-                    modifier = Modifier.width((24*6).dp),
+                    modifier = Modifier.width((24 * 6).dp),
                     textAlign = TextAlign.Center
                 )
             }
@@ -169,9 +183,10 @@ fun PlannerDetailScreen(
                 with(uiState.loadState.data) {
                     PlannerDetailSuccessScreen(
                         dayPlanItems = planList,
-                        timeline = timeline,
                         onPlanContentClicked = { id, planItem ->
-                            onPlanContentClicked(id, planItem)
+                            if (planItem != null) {
+                                onPlanContentClicked(id, planItem)
+                            }
                         },
                         onPlanStateClicked = { onPlanStateClicked(it) }
                     )
@@ -185,16 +200,15 @@ fun PlannerDetailScreen(
         onDismissRequest = onDismissRequest,
         onStudyTagConfirm = { /* 이 화면에서는 안 쓰임 */ },
         onStudyTagEditConfirm = { /* 이 화면에서는 안 쓰임 */ },
-        onPlanAddConfirm = { },
-        onPlanEditConfirm = { }
+        onPlanAddConfirm = { onPlanAddConfirm(it) },
+//        onPlanEditConfirm = { }
     )
 }
 
 @Composable
 fun PlannerDetailSuccessScreen(
-    dayPlanItems: List<PlanItem>,
-    timeline: List<List<String>>,
-    onPlanContentClicked: (Int, PlanItem) -> Unit,
+    dayPlanItems: List<StudyPlanItem>,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
     Row(
@@ -206,7 +220,9 @@ fun PlannerDetailSuccessScreen(
             modifier = Modifier.weight(1f),
             dayPlanItems = dayPlanItems,
             onPlanContentClicked = { todoId, planItem ->
-                onPlanContentClicked(todoId, planItem)
+                if (planItem != null) {
+                    onPlanContentClicked(todoId, planItem)
+                }
             },
             onPlanStateClicked = { onPlanStateClicked(it) },
         )
@@ -214,7 +230,7 @@ fun PlannerDetailSuccessScreen(
         Spacer(Modifier.width(10.dp))
 
         TimeTable(
-            timeline = timeline,
+            timeline = if (dayPlanItems.isEmpty()) emptyList() else dayPlanItems[0].studyRecords,
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
 import com.example.togedy_android.presentation.planner.planner.PlannerRoute
@@ -18,14 +19,18 @@ import java.time.LocalDate
 fun NavHostController.navigateToPlanner(navOptions: NavOptions? = null) =
     navigate(Planner)
 
-fun NavHostController.navigateToSetGoalTime(navOptions: NavOptions? = null) =
-    navigate(SetGoalTime)
+fun NavHostController.navigateToSetGoalTime(targetTime: String? = null, navOptions: NavOptions? = null) =
+    navigate(
+        route = SetGoalTime(targetTime)
+    )
 
 fun NavHostController.navigateToPlannerCalendar(navOptions: NavOptions? = null) =
     navigate(PlannerCalendar)
 
-fun NavHostController.navigateToPlannerDetail(navOptions: NavOptions? = null) =
-    navigate(PlannerDetail)
+fun NavHostController.navigateToPlannerDetail(selectedDay: LocalDate = LocalDate.now(), navOptions: NavOptions? = null) =
+    navigate(
+        route = PlannerDetail(selectedDay.toString())
+    )
 
 fun NavHostController.navigateToStopWatch(navOptions: NavOptions? = null) =
     navigate(StopWatch)
@@ -40,15 +45,16 @@ fun NavGraphBuilder.plannerScreen(
             modifier = modifier,
             onSettingButtonClick = { navController.navigateToStopWatch() }, //추후 버튼 디자인 변경
             navigateToSetGoalTime = { navController.navigateToSetGoalTime() },
-            navigateToEditGoalTime = { navController.navigateToSetGoalTime() },
+            navigateToEditGoalTime = { navController.navigateToSetGoalTime(it) },
             navigateToPlannerCalendar = { navController.navigateToPlannerCalendar() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail(it) }
         )
     }
 
     composable<SetGoalTime> {
+        val args = it.toRoute<SetGoalTime>()
         SetGoalTimeScreen(
-            //goalTime 인자로 넘기기
+            targetTime = args.targetTime,
             onCloseButtonClicked = { navController.popBackStack() },
             onSetButtonClicked = { navController.popBackStack() },
             modifier = modifier,
@@ -59,13 +65,14 @@ fun NavGraphBuilder.plannerScreen(
         PlannerCalendarRoute(
             modifier = modifier,
             onCloseButtonClicked = { navController.popBackStack() },
-            navigateToPlannerDetail = { navController.navigateToPlannerDetail() }
+            navigateToPlannerDetail = { navController.navigateToPlannerDetail(it) }
         )
     }
 
     composable<PlannerDetail> {
+        val args = it.toRoute<PlannerDetail>()
         PlannerDetailRoute(
-            selectedDay = LocalDate.now(), //추후 선택된 값으로 변경
+            selectedDay = LocalDate.parse(args.selectedDay),
             onCloseButtonClicked = { navController.popBackStack() },
             onRightButtonClicked = { navController.navigateToStopWatch() },
             modifier = modifier
@@ -84,13 +91,13 @@ fun NavGraphBuilder.plannerScreen(
 data object Planner : MainTabRoute
 
 @Serializable
-data object SetGoalTime : Route
+data class SetGoalTime(val targetTime: String?) : Route
 
 @Serializable
 data object PlannerCalendar : Route
 
 @Serializable
-data object PlannerDetail : Route
+data class PlannerDetail(val selectedDay: String) : Route
 
 @Serializable
 data object StopWatch : Route

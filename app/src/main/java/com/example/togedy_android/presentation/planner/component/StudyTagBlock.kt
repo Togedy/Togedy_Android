@@ -16,18 +16,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.util.toColor
 
 @Composable
 fun StudyTagBlock(
-    studyTagItem: StudyTag,
+    studyTagItem: StudyTagItem,
     selectedStudyTagId: Int = -2,
     onTagClicked: () -> Unit = { },
     onTagSelected: (Int) -> Unit = { },
 ) {
-    val isSelected = studyTagItem.subjectId == selectedStudyTagId
+    val isSelected = studyTagItem.id == selectedStudyTagId
 
     Row(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun StudyTagBlock(
             )
             .noRippleClickable {
                 onTagClicked()
-                onTagSelected(studyTagItem.subjectId)
+                onTagSelected(studyTagItem.id)
             }
             .padding(6.dp)
             .padding(end = 6.dp)
@@ -72,6 +72,6 @@ fun StudyTagBlock(
 @Composable
 fun StudyTagPreview() {
     StudyTagBlock(
-        StudyTag(name = "국어", color = "color14")
+        StudyTagItem(name = "국어", color = "color14")
     )
 }
