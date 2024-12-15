@@ -37,21 +37,35 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TogedyButtonBasic
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.util.toColor
 
 @Composable
 fun StudyTagDialog(
     title: String,
-    studyTag: StudyTag = StudyTag(name = "", color = ""),
+    studyTagItem: StudyTagItem = StudyTagItem(name = "", color = ""),
     onDismissRequest: () -> Unit,
-    onSubmitButtonClicked: (StudyTag) -> Unit,
+    onSubmitButtonClicked: (StudyTagItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val initName = if (studyTag.name!="") studyTag.name else ""
-    val initColor = if (studyTag.color!="") studyTag.color.toColor() else null
+    val initName = if (studyTagItem.name != "") studyTagItem.name else ""
+    val initColor = if (studyTagItem.color != "") studyTagItem.color.toColor() else null
     var subjectName by remember { mutableStateOf(initName) }
     var selectedColor by remember { mutableStateOf<Color?>(initColor) }
+
+    val colorMap = mapOf(
+        TogedyTheme.colors.color3 to "color3",
+        TogedyTheme.colors.color4 to "color4",
+        TogedyTheme.colors.color5 to "color5",
+        TogedyTheme.colors.color6 to "color6",
+        TogedyTheme.colors.color7 to "color7",
+        TogedyTheme.colors.color8 to "color8",
+        TogedyTheme.colors.color9 to "color9",
+        TogedyTheme.colors.color10 to "color10",
+        TogedyTheme.colors.color11 to "color11",
+        TogedyTheme.colors.color12 to "color12",
+        TogedyTheme.colors.color13 to "color13",
+    )
 
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
@@ -95,7 +109,13 @@ fun StudyTagDialog(
                 buttonText = "완료",
                 isActivated = subjectName != "" && selectedColor != null,
                 onButtonClick = {
-                    onSubmitButtonClicked(StudyTag(name = subjectName, color = selectedColor?.value.toString()))
+                    onSubmitButtonClicked(
+                        StudyTagItem(
+                            id = studyTagItem.id,
+                            name = subjectName,
+                            color = colorMap[selectedColor] ?: "color1"
+                        )
+                    )
                 }
             )
         }

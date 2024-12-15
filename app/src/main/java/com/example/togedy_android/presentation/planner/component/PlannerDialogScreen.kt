@@ -2,7 +2,7 @@ package com.example.togedy_android.presentation.planner.component
 
 import androidx.compose.runtime.Composable
 import com.example.togedy_android.domain.model.planner.PlanItem
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planInfoDialog.PlanInfoDialog
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -20,12 +20,12 @@ import com.example.togedy_android.presentation.planner.planner.type.PlannerDialo
 fun PlannerDialogScreen(
     dialogState: PlannerDialogState,
     onDismissRequest: (PlannerDialogType) -> Unit,
-    onStudyTagConfirm: (StudyTag) -> Unit,
-    onStudyTagEditConfirm: (StudyTag) -> Unit,
+    onStudyTagConfirm: (StudyTagItem) -> Unit,
+    onStudyTagEditConfirm: (StudyTagItem) -> Unit,
     onPlanAddConfirm: (PlanItem) -> Unit,
     onPlanEditConfirm: (PlanItem) -> Unit,
 
-) {
+    ) {
     with(dialogState) {
         if (isAddSubjectDialogVisible) {
             StudyTagDialog(
@@ -41,7 +41,7 @@ fun PlannerDialogScreen(
         if (isEditSubjectDialogVisible) {
             StudyTagDialog(
                 title = "태그 수정하기",
-                studyTag = dialogState.studyTagInfo,
+                studyTagItem = dialogState.studyTagItemInfo,
                 onDismissRequest = { onDismissRequest(PlannerDialogType.EDIT_SUBJECT) },
                 onSubmitButtonClicked = {
                     onStudyTagEditConfirm(it)

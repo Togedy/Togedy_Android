@@ -36,7 +36,7 @@ import com.example.togedy_android.R
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -57,9 +57,8 @@ fun PlannerRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-//        viewModel.getPlannerHomeInformation()
-        viewModel.getStudyGoal()
+    LaunchedEffect(true) {
+        viewModel.getPlannerHomeInformation()
     }
 
     PlannerScreen(
@@ -88,6 +87,12 @@ fun PlannerRoute(
         },
         onPlanStateClicked = {
             viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        },
+        onStudyTagAddConfirm = {
+            viewModel.postStudyTag(it)
+        },
+        onStudyTagEditConfirm = {
+            viewModel.putStudyTag(it)
         }
     )
 }
@@ -105,16 +110,13 @@ fun PlannerScreen(
     navigateToPlannerDetail: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
     onAddStudyTagClicked: () -> Unit,
-    onEditStudyTagClicked: (StudyTag) -> Unit,
+    onEditStudyTagClicked: (StudyTagItem) -> Unit,
     onPlanContentClicked: (Int, PlanItem) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
+    onStudyTagAddConfirm: (StudyTagItem) -> Unit,
+    onStudyTagEditConfirm: (StudyTagItem) -> Unit,
 ) {
     val scrollState = rememberScrollState()
-
-    val studyGoal = when (uiState.studyGoalState) {
-        is UiState.Success -> uiState.studyGoalState.data
-        else -> StudyGoal(-1,"","",0)
-    }
 
     Column(
         modifier = modifier
@@ -148,7 +150,7 @@ fun PlannerScreen(
                         selectedDay = uiState.selectedDay,
                         onDaySelected = onDaySelected,
                         planList = planList,
-                        studyTagList = studyTagList,
+                        studyTagItemList = studyTagItemLists,
                         navigateToSetGoalTime = navigateToSetGoalTime,
                         navigateToEditGoalTime = { navigateToEditGoalTime(it) },
                         navigateToPlannerCalendar = navigateToPlannerCalendar,
@@ -168,8 +170,8 @@ fun PlannerScreen(
     PlannerDialogScreen(
         dialogState = dialogState,
         onDismissRequest = onDismissRequest,
-        onStudyTagConfirm = { /* 공부태그 추가 api */ },
-        onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
+        onStudyTagConfirm = { onStudyTagAddConfirm(it) },
+        onStudyTagEditConfirm = { onStudyTagEditConfirm(it) },
         onPlanAddConfirm = { },
         onPlanEditConfirm = { }
     )
@@ -180,14 +182,14 @@ fun PlannerSuccessScreen(
     studyGoal: StudyGoal,
     selectedDay: LocalDate,
     planList: List<PlanItem>,
-    studyTagList: List<StudyTag>,
+    studyTagItemList: List<StudyTagItem>,
     onDaySelected: (LocalDate) -> Unit,
     navigateToSetGoalTime: () -> Unit,
     navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
-    onEditStudyTagClicked: (StudyTag) -> Unit,
+    onEditStudyTagClicked: (StudyTagItem) -> Unit,
     onPlanContentClicked: (Int, PlanItem) -> Unit,
     onPlanStateClicked: (Int) -> Unit,
 ) {
@@ -247,7 +249,7 @@ fun PlannerSuccessScreen(
                 )
             }
 
-            if (studyTagList.isEmpty()) {
+            if (studyTagItemList.isEmpty()) {
                 Spacer(Modifier.height(20.dp))
                 Text(
                     text = "공부 태그가 없습니다. 추가버튼으로 생성해보세요!",
@@ -259,7 +261,7 @@ fun PlannerSuccessScreen(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(studyTagList) { studyTag ->
+                    items(studyTagItemList) { studyTag ->
                         StudyTagBlock(
                             studyTag,
                             onTagClicked = {

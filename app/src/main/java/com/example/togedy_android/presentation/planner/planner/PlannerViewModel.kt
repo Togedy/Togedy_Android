@@ -3,14 +3,15 @@ package com.example.togedy_android.presentation.planner.planner
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.util.copy
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.domain.entity.PlannerHomeInformation
+import com.example.togedy_android.domain.model.planner.NewStudyTageItem
 import com.example.togedy_android.domain.model.planner.PlanItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
 import com.example.togedy_android.domain.model.planner.StudyGoalDate
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.domain.repository.PlannerRepository
-import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -34,81 +35,70 @@ class PlannerViewModel @Inject constructor(
         MutableStateFlow(PlannerDialogState())
     val dialogState: StateFlow<PlannerDialogState> = _dialogState.asStateFlow()
 
-    // 오늘의 목표량 조회
-    fun getStudyGoal() {
-        var initStudyGoal = StudyGoal(
-            id = -1,
-            targetTime = "00:00",
-            actualTime = "00:00",
-            achievement = 0,
-        )
+    fun getPlannerHomeInformation() {
+        var studyGoal = StudyGoal(-1, "", "", 0)
+        var studyTagList = emptyList<StudyTagItem>()
         val today = LocalDate.now().toString()
         viewModelScope.launch {
-            plannerRepository.getStudyGoal(
-                StudyGoalDate(today)
-            ).onSuccess { studyGoal ->
-                _uiState.value = _uiState.value.copy(
-                    studyGoalState = UiState.Success(studyGoal)
-                )
-                initStudyGoal = studyGoal
-            }.onFailure { throwable ->
-                Log.d("API-PlannerViewModel", "getStudyGoal: 실패")
-//                _uiState.value = _uiState.value.copy(
-//                    studyGoalState = UiState.Success(initStudyGoal)
-//                )
-            }
-        }
-        updateLoadState(
-            loadState = UiState.Success(
-                PlannerHomeInformation(
-                    studyGoal = initStudyGoal
-                )
-            )
-        )
-    }
+            // 공부 목표량
+            plannerRepository.getStudyGoal(StudyGoalDate(today))
+                .onSuccess { studyGoalItem ->
+                    studyGoal = studyGoalItem
+                }
+                .onFailure { throwable ->
+                    Log.d("API-PlannerViewModel", "getStudyGoal: 실패")
+                }
 
-    fun getPlannerHomeInformation() {
-        // get api 연결
-        updateLoadState(
-            loadState = UiState.Success(
-                PlannerHomeInformation(
-//                    todaysPlan = DayOfPlan(
-//                        planList = listOf(
-//                            PlanItem(
-//                                todoID = 1,
-//                                subjectId = 1,
-//                                subjectColor = "color10",
-//                                title = "국어 1강",
-//                                status = PlanState.NOT_STARTED.state
-//                            )
-//                        ),
-//                        timeline = listOf(listOf("10:20", "14:43"), listOf("15:00", "16:03"))
-//                    ),
-                    planList = listOf(
-                        PlanItem(
-                            todoID = 1,
-                            subjectId = 1,
-                            subjectColor = "color10",
-                            title = "국어 1강",
-                            status = PlanState.NOT_STARTED.state
-                        )
-                    ),
-                    studyTagList = listOf(
-                        StudyTag(name = "국어", color = "color4"),
-                        StudyTag(name = "수학", color = "color5"),
-                        StudyTag(name = "국어", color = "color4"),
-                        StudyTag(name = "수학", color = "color5"),
-                        StudyTag(name = "국어", color = "color4"),
-                        StudyTag(name = "수학", color = "color5"),
-                        StudyTag(name = "국어", color = "color4"),
-                        StudyTag(name = "수학", color = "color5"),
-                    ),
-                    studyGoal = StudyGoal(
-                        -1, "", "", -1
+            // 공부태그 리스트
+            plannerRepository.getStudyTagList()
+                .onSuccess { studyTagItemList ->
+                    studyTagList = studyTagItemList
+                }
+                .onFailure { throwable ->
+                    Log.d("API-PlannerViewModel", "getStudyTagList: 실패")
+                }
+
+
+            updateLoadState(
+                loadState = UiState.Success(
+                    PlannerHomeInformation(
+                        studyGoal = studyGoal,
+                        studyTagItemLists = studyTagList
                     )
                 )
             )
-        )
+        }
+    }
+
+    fun postStudyTag(studyTagItem: StudyTagItem) {
+        viewModelScope.launch {
+            plannerRepository.postStudyTag(
+                request = NewStudyTageItem(
+                    name = studyTagItem.name, color = studyTagItem.color
+                )
+            ).onSuccess {
+                Log.d("API-PlannerViewModel", "postStudyTag: 성공")
+                getPlannerHomeInformation()
+            }.onFailure {
+                Log.d("API-PlannerViewModel", "postStudyTag: 실패")
+            }
+        }
+    }
+
+    fun putStudyTag(studyTagItem: StudyTagItem) {
+        viewModelScope.launch {
+            plannerRepository.putStudyTag(
+                tagId = dialogState.value.studyTagItemInfo.id,
+                request = NewStudyTageItem(
+                    name = studyTagItem.name, color = studyTagItem.color
+                )
+            ).onSuccess {
+                Log.d("API-PlannerViewModel", "putStudyTag: 성공")
+                getPlannerHomeInformation()
+            }.onFailure {
+                Log.d("API-PlannerViewModel", "putStudyTag: 실패")
+            }
+        }
     }
 
     fun updateSelectedDay(selectedDay: LocalDate) =
@@ -118,10 +108,10 @@ class PlannerViewModel @Inject constructor(
             )
         }
 
-    fun updateStudyTag(studyTag: StudyTag) =
+    fun updateStudyTag(studyTagItem: StudyTagItem) =
         _dialogState.update { currentState ->
             currentState.copy(
-                studyTagInfo = studyTag
+                studyTagItemInfo = studyTagItem
             )
         }
 

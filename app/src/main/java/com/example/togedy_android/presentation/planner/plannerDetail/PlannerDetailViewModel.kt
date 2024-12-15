@@ -1,12 +1,9 @@
 package com.example.togedy_android.presentation.planner.plannerDetail
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.entity.PlannerHomeInformation
 import com.example.togedy_android.domain.model.planner.DayOfPlan
 import com.example.togedy_android.domain.model.planner.PlanItem
-import com.example.togedy_android.domain.model.planner.StudyTag
 import com.example.togedy_android.domain.type.PlanState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
@@ -16,7 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
