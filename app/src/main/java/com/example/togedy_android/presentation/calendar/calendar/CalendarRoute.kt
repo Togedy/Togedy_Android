@@ -46,8 +46,6 @@ fun CalendarRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
-//    var selectedDay by remember { mutableStateOf(LocalDate.now()) }
-//    var isFabExpanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(true) {
         viewModel.getCalendarHomeInformation(uiState.selectedDay)
@@ -64,7 +62,10 @@ fun CalendarRoute(
         },
         onFabButtonClicked = { viewModel.updateIsFabExpanded(it) },
         onCollegeScheduleBtnClicked = onCollegeScheduleBtnClicked,
-        onPersonalScheduleAddBtnClicked = onPersonalScheduleAddBtnClicked,
+        onPersonalScheduleAddBtnClicked = {
+            onPersonalScheduleAddBtnClicked()
+            viewModel.updateDialogVisibility()
+        },
         onDismissRequest = { viewModel.updateDialogVisibility() }
     )
 }
@@ -129,8 +130,7 @@ fun CalendarSuccessScreen(
     Surface(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
-            .padding(horizontal = 10.dp),
+            .background(Color.White),
     ) {
         Scaffold(
             floatingActionButton = {
@@ -166,6 +166,7 @@ fun CalendarSuccessScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(horizontal = 10.dp)
                     .background(Color.White)
             ) {
                 MonthlyCalendar(
