@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.calendar.navigation
+package com.example.togedy_android.presentation.calendar.calendar.navigation
 
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
@@ -7,7 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.calendar.CalendarScreen
+import com.example.togedy_android.presentation.calendar.calendar.CalendarScreen
 import com.example.togedy_android.presentation.calendar.addPersonalSchedule.AddPersonalScheduleScreen
 import com.example.togedy_android.presentation.calendar.univDetail.UnivDetailScreen
 import kotlinx.serialization.Serializable

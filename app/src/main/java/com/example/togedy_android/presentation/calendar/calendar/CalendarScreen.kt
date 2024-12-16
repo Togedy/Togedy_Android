@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.calendar
+package com.example.togedy_android.presentation.calendar.calendar
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -20,7 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.togedy_android.R
+import com.example.togedy_android.presentation.calendar.addPersonalSchedule.AddPersonalScheduleViewModel
 import com.example.togedy_android.presentation.calendar.component.CalendarAddButton
 import com.example.togedy_android.presentation.calendar.component.CalendarFloatingBtn
 import com.example.togedy_android.presentation.calendar.component.MonthlyCalendar
@@ -32,6 +34,7 @@ fun CalendarScreen(
     modifier: Modifier = Modifier,
     onCollegeScheduleBtnClicked: () -> Unit,
     onPersonalScheduleAddBtnClicked: () -> Unit,
+    viewModel: AddPersonalScheduleViewModel = hiltViewModel()
 ) {
     var selectedDay by remember { mutableStateOf(LocalDate.now()) }
     var isFabExpanded by remember { mutableStateOf(false) }
