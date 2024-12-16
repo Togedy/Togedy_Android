@@ -3,8 +3,10 @@ package com.example.togedy_android.di
 
 import com.example.togedy_android.data.repositoryImpl.CommunityRepositoryImpl
 import com.example.togedy_android.data.repositoryImpl.LoginRepositoryImpl
+import com.example.togedy_android.data.repositoryImpl.PlannerRepositoryImpl
 import com.example.togedy_android.domain.repository.CommunityRepository
 import com.example.togedy_android.domain.repository.LoginRepository
+import com.example.togedy_android.domain.repository.PlannerRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,4 +28,10 @@ abstract class RepositoryModule {
     abstract fun bindLoginRepository(
         loginRepositoryImpl: LoginRepositoryImpl
     ): LoginRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindPlannerRepository(
+        plannerRepositoryImpl: PlannerRepositoryImpl
+    ): PlannerRepository
 }

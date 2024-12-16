@@ -6,5 +6,5 @@ import java.time.LocalDate
 
 data class PlannerDetailUiState(
     val loadState: UiState<DayOfPlan> = UiState.Loading,
-    val selectedDay: LocalDate? = null,
+    val selectedDay: LocalDate = LocalDate.now(),
 )

@@ -16,23 +16,35 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.util.toColor
 
 @Composable
-fun StudyTag(
-    studyTagItem: StudyTag,
+fun StudyTagBlock(
+    studyTagItem: StudyTagItem,
+    selectedStudyTagId: Int = -2,
     onTagClicked: () -> Unit = { },
+    onTagSelected: (Int) -> Unit = { },
 ) {
+    val isSelected = studyTagItem.id == selectedStudyTagId
+
     Row(
         modifier = Modifier
             .border(
-                width = 2.dp,
+                width = 1.dp,
                 color = studyTagItem.color.toColor() ?: TogedyTheme.colors.gray200,
                 shape = CircleShape
             )
-            .noRippleClickable(onTagClicked)
+            .clip(CircleShape)
+            .background(
+                color = if (isSelected) studyTagItem.color.toColor()
+                    ?: TogedyTheme.colors.gray200 else TogedyTheme.colors.white
+            )
+            .noRippleClickable {
+                onTagClicked()
+                onTagSelected(studyTagItem.id)
+            }
             .padding(6.dp)
             .padding(end = 6.dp)
     ) {
@@ -40,7 +52,10 @@ fun StudyTag(
             modifier = Modifier
                 .size(20.dp)
                 .clip(CircleShape)
-                .background(color = studyTagItem.color.toColor() ?: TogedyTheme.colors.gray200)
+                .background(
+                    color = if (isSelected) TogedyTheme.colors.white else studyTagItem.color.toColor()
+                        ?: TogedyTheme.colors.gray200
+                )
         )
 
         Spacer(Modifier.width(6.dp))
@@ -56,7 +71,7 @@ fun StudyTag(
 @Preview
 @Composable
 fun StudyTagPreview() {
-    StudyTag(
-        StudyTag(name = "국어", color = "color14")
+    StudyTagBlock(
+        StudyTagItem(name = "국어", color = "color14")
     )
 }

@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.BorderTextField
 import com.example.togedy_android.core.design_system.component.TopBarWithTextBtn
@@ -30,13 +30,13 @@ import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 
 @Composable
 fun SetGoalTimeScreen(
-    goalTime: String = "00:00",
+    targetTime: String? = "00:00",
     onCloseButtonClicked: () -> Unit,
     onSetButtonClicked: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SetGoalTimeViewModel = viewModel(),
+    viewModel: SetGoalTimeViewModel = hiltViewModel(),
 ) {
-    var inputGoalTime by remember { mutableStateOf(goalTime) }
+    var inputGoalTime by remember { mutableStateOf(targetTime.toString()) }
     var isSetButtonActivated = viewModel.isSetButtonActivated.collectAsStateWithLifecycle()
 
     Column(
@@ -66,8 +66,7 @@ fun SetGoalTimeScreen(
             value = inputGoalTime,
             onTextFieldChange = {
                 inputGoalTime = it
-                val res = inputGoalTime != "00:00" //형식 점검 로직 추가
-                viewModel.updateSetButtonActivation(res)
+                viewModel.updateSetButtonActivation(it)
             },
         )
 
@@ -94,7 +93,7 @@ fun SetGoalTimeScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SetGoalTimeScreenPreview(modifier: Modifier = Modifier) {
+fun SetGoalTimeScreenPreview() {
     Togedy_AndroidTheme {
         SetGoalTimeScreen(
             onCloseButtonClicked = { },

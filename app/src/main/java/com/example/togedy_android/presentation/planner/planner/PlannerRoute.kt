@@ -30,15 +30,19 @@ import com.example.togedy_android.core.design_system.theme.Togedy_AndroidTheme
 import com.example.togedy_android.presentation.planner.component.PlannerDialogScreen
 import com.example.togedy_android.presentation.planner.component.PlannerHomeTopBar
 import com.example.togedy_android.presentation.planner.component.PlannerWeeklyShortPlanner
-import com.example.togedy_android.presentation.planner.component.TodaysGoal
-import com.example.togedy_android.presentation.planner.component.StudyTag
+import com.example.togedy_android.presentation.planner.component.StudyGoalBlock
+import com.example.togedy_android.presentation.planner.component.StudyTagBlock
 import com.example.togedy_android.R
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.planner.StudyTag
+import com.example.togedy_android.domain.model.planner.NewStudyPlan
+import com.example.togedy_android.domain.model.planner.StudyGoal
+import com.example.togedy_android.domain.model.planner.StudyPlanItem
+import com.example.togedy_android.domain.model.planner.StudyTagItem
 import com.example.togedy_android.presentation.planner.planner.state.PlannerDialogState
 import com.example.togedy_android.presentation.planner.planner.state.PlannerUiState
 import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import com.example.togedy_android.util.noRippleClickable
+import com.example.togedy_android.util.toServerDataTime
 import java.time.LocalDate
 
 @Composable
@@ -46,33 +50,58 @@ fun PlannerRoute(
     modifier: Modifier = Modifier,
     onSettingButtonClick: () -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
-    navigateToPlannerDetail: () -> Unit,
+    navigateToPlannerDetail: (LocalDate) -> Unit,
     viewModel: PlannerViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val dialogState by viewModel.dialogState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true) {
-        viewModel.getPlannerHomeInformation()
+    LaunchedEffect(Unit) {
+        viewModel.getPlannerHomeInformation(uiState.selectedDay)
     }
 
     PlannerScreen(
         modifier = modifier,
         uiState = uiState,
         dialogState = dialogState,
-        onDaySelected = viewModel::updateSelectedDay,
+        onDaySelected = {
+            viewModel.updateSelectedDay(it)
+            viewModel.getPlannerHomeInformation(it)
+        },
         onSettingButtonClick = onSettingButtonClick,
         navigateToSetGoalTime = navigateToSetGoalTime,
-        navigateToEditGoalTime = navigateToEditGoalTime,
+        navigateToEditGoalTime = { navigateToEditGoalTime(it) },
         navigateToPlannerCalendar = navigateToPlannerCalendar,
-        navigateToPlannerDetail = navigateToPlannerDetail,
+        navigateToPlannerDetail = { navigateToPlannerDetail(uiState.selectedDay) },
         onDismissRequest = viewModel::updateDialogVisibility,
         onAddStudyTagClicked = { viewModel.updateDialogVisibility(PlannerDialogType.ADD_SUBJECT) },
         onEditStudyTagClicked = {
             viewModel.updateStudyTag(it)
             viewModel.updateDialogVisibility(PlannerDialogType.EDIT_SUBJECT)
+        },
+        onPlanContentClicked = { todoId, planItem ->
+            if (todoId == -1) {
+                viewModel.updateDialogVisibility(PlannerDialogType.ADD_PLAN)
+            } else {
+                if (planItem != null) {
+//                    viewModel.updatePlanInfo(planItem)
+                }
+                viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN)
+            }
+        },
+        onPlanStateClicked = {
+            viewModel.updateDialogVisibility(PlannerDialogType.EDIT_PLAN_STATE)
+        },
+        onStudyTagAddConfirm = {
+            viewModel.postStudyTag(it)
+        },
+        onStudyTagEditConfirm = {
+            viewModel.putStudyTag(it)
+        },
+        onPlanAddConfirm = {
+            viewModel.postStudyPlan(it)
         }
     )
 }
@@ -85,12 +114,17 @@ fun PlannerScreen(
     onDaySelected: (LocalDate) -> Unit,
     onSettingButtonClick: () -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onDismissRequest: (PlannerDialogType) -> Unit,
     onAddStudyTagClicked: () -> Unit,
-    onEditStudyTagClicked: (StudyTag) -> Unit,
+    onEditStudyTagClicked: (StudyTagItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
+    onStudyTagAddConfirm: (StudyTagItem) -> Unit,
+    onStudyTagEditConfirm: (StudyTagItem) -> Unit,
+    onPlanAddConfirm: (NewStudyPlan) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -98,11 +132,10 @@ fun PlannerScreen(
         modifier = modifier
             .fillMaxSize()
             .background(color = TogedyTheme.colors.white)
+            .padding(top = 20.dp)
             .padding(horizontal = 20.dp)
             .verticalScroll(scrollState)
     ) {
-        Spacer(Modifier.height(20.dp))
-
         PlannerHomeTopBar(
             onSettingButtonClick = onSettingButtonClick
         )
@@ -123,15 +156,21 @@ fun PlannerScreen(
             is UiState.Success -> {
                 with(uiState.loadState.data) {
                     PlannerSuccessScreen(
+                        studyGoal = studyGoal,
                         selectedDay = uiState.selectedDay,
-                        studyTagList = studyTagList,
                         onDaySelected = onDaySelected,
+                        planList = studyPlanList,
+                        studyTagItemList = studyTagItemLists,
                         navigateToSetGoalTime = navigateToSetGoalTime,
-                        navigateToEditGoalTime = navigateToEditGoalTime,
+                        navigateToEditGoalTime = { navigateToEditGoalTime(it) },
                         navigateToPlannerCalendar = navigateToPlannerCalendar,
                         navigateToPlannerDetail = navigateToPlannerDetail,
                         onAddStudyTagClicked = onAddStudyTagClicked,
                         onEditStudyTagClicked = { onEditStudyTagClicked(it) },
+                        onPlanContentClicked = { id, planItem ->
+                            onPlanContentClicked(id, planItem)
+                        },
+                        onPlanStateClicked = { onPlanStateClicked(it) }
                     )
                 }
             }
@@ -141,32 +180,40 @@ fun PlannerScreen(
     PlannerDialogScreen(
         dialogState = dialogState,
         onDismissRequest = onDismissRequest,
-        onStudyTagConfirm = { /* 공부태그 추가 api */ },
-        onStudyTagEditConfirm = { /* 공부태그 수정 api */ },
-//        onResetReturnConfirm = onBackClick,
+        onStudyTagConfirm = { onStudyTagAddConfirm(it) },
+        onStudyTagEditConfirm = { onStudyTagEditConfirm(it) },
+        onPlanAddConfirm = { onPlanAddConfirm(it) },
+//        onPlanEditConfirm = { }
     )
 }
 
 @Composable
 fun PlannerSuccessScreen(
+    studyGoal: StudyGoal,
     selectedDay: LocalDate,
-    studyTagList: List<StudyTag>,
+    planList: List<StudyPlanItem>,
+    studyTagItemList: List<StudyTagItem>,
     onDaySelected: (LocalDate) -> Unit,
     navigateToSetGoalTime: () -> Unit,
-    navigateToEditGoalTime: () -> Unit,
+    navigateToEditGoalTime: (String) -> Unit,
     navigateToPlannerCalendar: () -> Unit,
     navigateToPlannerDetail: () -> Unit,
     onAddStudyTagClicked: () -> Unit,
-    onEditStudyTagClicked: (StudyTag) -> Unit,
+    onEditStudyTagClicked: (StudyTagItem) -> Unit,
+    onPlanContentClicked: (Int, StudyPlanItem?) -> Unit,
+    onPlanStateClicked: (Int) -> Unit,
 ) {
     Column {
         Spacer(Modifier.height(16.dp))
 
-        TodaysGoal(
-            goalTime = "10:00",
-            percentage = 90,
+        StudyGoalBlock(
+            studyGoal = studyGoal,
             navigateToSetGoalTime = navigateToSetGoalTime,
-            navigateToEditGoalTime = navigateToEditGoalTime
+            navigateToEditGoalTime = {
+                navigateToEditGoalTime(
+                    studyGoal.targetTime.toServerDataTime().toString()
+                )
+            }
         )
 
         Spacer(Modifier.height(40.dp))
@@ -177,11 +224,16 @@ fun PlannerSuccessScreen(
 
         PlannerWeeklyShortPlanner(
             selectedDay = selectedDay,
+            dayPlanItems = planList,
             onCalendarButtonClick = navigateToPlannerCalendar,
             onDaySelected = {
-                onDaySelected(selectedDay)
+                onDaySelected(it)
             },
-            onMoreButtonClicked = navigateToPlannerDetail
+            onMoreButtonClicked = navigateToPlannerDetail,
+            onPlanContentClicked = { id, planItem ->
+                onPlanContentClicked(id, planItem)
+            },
+            onPlanStateClicked = { onPlanStateClicked(it) }
         )
 
         Spacer(Modifier.height(24.dp))
@@ -207,7 +259,7 @@ fun PlannerSuccessScreen(
                 )
             }
 
-            if (studyTagList.isEmpty()) {
+            if (studyTagItemList.isEmpty()) {
                 Spacer(Modifier.height(20.dp))
                 Text(
                     text = "공부 태그가 없습니다. 추가버튼으로 생성해보세요!",
@@ -219,8 +271,8 @@ fun PlannerSuccessScreen(
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(studyTagList) { studyTag ->
-                        StudyTag(
+                    items(studyTagItemList) { studyTag ->
+                        StudyTagBlock(
                             studyTag,
                             onTagClicked = {
                                 onEditStudyTagClicked(studyTag)

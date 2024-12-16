@@ -28,3 +28,27 @@ fun String.formatToSimpleDate(): String {
         "Invalid Date"
     }
 }
+
+fun String.toHHhMmm(): String? {
+    val regex = Regex("^\\d{2}:\\d{2}:\\d{2}$")
+    if (!regex.matches(this)) return null
+
+    val (hours, minutes, _) = this.split(":")
+    return "${hours}h ${minutes}m"
+}
+
+fun String.toHHhMmmSss(): String? {
+    val regex = Regex("^\\d{2}:\\d{2}:\\d{2}$")
+    if (!regex.matches(this)) return null
+
+    val (hours, minutes, seconds) = this.split(":")
+    return "${hours}h ${minutes}m ${seconds}s"
+}
+
+fun String.toServerDataTime(): String? {
+    val regex = Regex("^\\d{2}:\\d{2}:\\d{2}$")
+    if (!regex.matches(this)) return null
+
+    val (hours, minutes, _) = this.split(":")
+    return "${hours}:${minutes}"
+}

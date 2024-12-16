@@ -5,9 +5,11 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.R
+import com.example.togedy_android.presentation.calendar.navigation.Calendar
 import com.example.togedy_android.presentation.community.navigation.Community
 import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
-import kotlinx.serialization.Serializable
+import com.example.togedy_android.presentation.mypage.navigation.MyPage
+import com.example.togedy_android.presentation.planner.planner.navigation.Planner
 
 enum class MainTab(
     @StringRes val title: Int,
@@ -48,12 +50,5 @@ enum class MainTab(
         @Composable
         fun contains(predicate: @Composable (MainTabRoute) -> Boolean): Boolean =
             entries.map{it.route}.any { predicate(it) }
-
-        @Serializable
-        data object Planner: MainTabRoute
-        @Serializable
-        data object Calendar: MainTabRoute
-        @Serializable
-        data object MyPage: MainTabRoute
     }
 }
