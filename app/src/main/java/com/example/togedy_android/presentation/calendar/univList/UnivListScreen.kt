@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.calendar
+package com.example.togedy_android.presentation.calendar.univList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.R
+import com.example.togedy_android.core.design_system.component.ImageFirstTextField
 import com.example.togedy_android.core.design_system.component.TopBarBasic
-import com.example.togedy_android.core.design_system.component.WritingContentTextField
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.util.noRippleClickable
 import kotlinx.coroutines.launch
 
 @Composable
@@ -34,6 +37,8 @@ fun UnivListScreen(
     val coroutineScope = rememberCoroutineScope()
     val allUnivGroups = viewModel.univGroups.collectAsState().value
     val savedUnivGroups = viewModel.savedUnivGroups.collectAsState().value
+    val univName = viewModel.univName.collectAsStateWithLifecycle()
+
 
     Column(
         modifier = Modifier
@@ -66,10 +71,11 @@ fun UnivListScreen(
             }
         }
 
-        WritingContentTextField(
-            value = "hi",
-            onTextFieldChange = { },
-            placeholder = "no"
+        ImageFirstTextField(
+            value = univName.value,
+            onTextFieldChange = { viewModel.updateUnivSearch(it)},
+            placeholder = "대학명을 입력하세요",
+            image = R.drawable.ic_search
         )
 
         HorizontalPager(state = pagerState) { page ->
@@ -88,32 +94,55 @@ fun UnivListPager(univGroups: Map<Char, List<String>>) {
             .fillMaxSize()
             .padding(vertical = 8.dp)
     ) {
+        item {
+            Text(
+                text = "대학 목록",
+                style = TogedyTheme.typography.caption,
+                color = TogedyTheme.colors.gray700,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+            )
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
+                thickness = 1.dp,
+                color = TogedyTheme.colors.gray300
+            )
+        }
         univGroups.forEach { (initial, universities) ->
             item {
                 Text(
                     text = initial.toString(),
-                    style = TogedyTheme.typography.headline3B,
-                    color = TogedyTheme.colors.black,
+                    style = TogedyTheme.typography.body3B,
+                    color = TogedyTheme.colors.gray400,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 4.dp)
+                        .padding(top = 8.dp)
                 )
             }
 
             itemsIndexed(universities) { _, university ->
                 Text(
                     text = university,
-                    style = TogedyTheme.typography.body2R,
-                    color = TogedyTheme.colors.gray500,
+                    style = TogedyTheme.typography.body3B,
+                    color = TogedyTheme.colors.black,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 2.dp)
+                        .padding(vertical = 10.dp)
+                        .noRippleClickable {
+
+                        }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
+                    thickness = 1.dp,
+                    color = TogedyTheme.colors.gray100
                 )
             }
         }
     }
 }
-
 
 
 @Preview

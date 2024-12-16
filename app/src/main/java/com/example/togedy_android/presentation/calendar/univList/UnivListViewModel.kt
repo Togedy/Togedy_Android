@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.calendar
+package com.example.togedy_android.presentation.calendar.univList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +25,9 @@ class UnivListViewModel @Inject constructor(
     )
     private val savedUniversities = listOf("고려대학교", "연세대학교", "한양대학교")
 
+    private val _univName = MutableStateFlow<String>("")
+    val univName: StateFlow<String> get() = _univName
+
     private val _univGroups = MutableStateFlow<Map<Char, List<String>>>(emptyMap())
     val univGroups: StateFlow<Map<Char, List<String>>> = _univGroups
 
@@ -36,6 +39,10 @@ class UnivListViewModel @Inject constructor(
             _univGroups.value = groupUniversitiesByInitial(allUniversities)
             _savedUnivGroups.value = groupUniversitiesByInitial(savedUniversities)
         }
+    }
+
+    fun updateUnivSearch(newUniv: String) {
+        _univName.value = newUniv
     }
 
     private fun groupUniversitiesByInitial(universities: List<String>): Map<Char, List<String>> {
