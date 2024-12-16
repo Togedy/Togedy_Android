@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.entity.PlannerHomeInformation
+import com.example.togedy_android.domain.model.planner.PlannerHomeInformation
 import com.example.togedy_android.domain.model.planner.NewStudyTageItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
-import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.DateModel
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.StudyPlanItem
 import com.example.togedy_android.domain.model.planner.StudyTagItem
@@ -41,7 +41,7 @@ class PlannerViewModel @Inject constructor(
         var studyPlanList = emptyList<StudyPlanItem>()
         viewModelScope.launch {
             // 공부 목표량
-            plannerRepository.getStudyGoal(Date(LocalDate.now().toString()))
+            plannerRepository.getStudyGoal(DateModel(LocalDate.now().toString()))
                 .onSuccess { studyGoalItem ->
                     studyGoal = studyGoalItem
                 }
@@ -50,7 +50,7 @@ class PlannerViewModel @Inject constructor(
                 }
 
             // 플랜 리스트
-            plannerRepository.getStudyPlanList(Date(selectedDay.toString()))
+            plannerRepository.getStudyPlanList(DateModel(selectedDay.toString()))
                 .onSuccess { studyPlanItemList ->
                     studyPlanList = studyPlanItemList
                 }

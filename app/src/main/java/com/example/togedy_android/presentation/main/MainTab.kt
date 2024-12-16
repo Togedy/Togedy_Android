@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.R
-import com.example.togedy_android.presentation.calendar.navigation.Calendar
+import com.example.togedy_android.presentation.calendar.calendar.navigation.Calendar
 import com.example.togedy_android.presentation.community.navigation.Community
 import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
 import com.example.togedy_android.presentation.mypage.navigation.MyPage

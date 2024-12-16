@@ -24,13 +24,15 @@ import java.time.temporal.TemporalAdjusters
 
 @Composable
 fun MonthlyCalendar(
+    selectedDay: LocalDate,
     onDaySelected: (LocalDate) -> Unit
 ) {
     Column(
-        modifier = Modifier.background(white)
+        modifier = Modifier
+            .background(white)
+            .padding(top = 20.dp)
     ) {
-        val today = LocalDate.now()
-        var selectedDay by remember { mutableStateOf(today) }
+        var selectedDay by remember { mutableStateOf(selectedDay) }
 
         val firstDayOfMonth = selectedDay.withDayOfMonth(1)
         val lastDayOfMonth =
@@ -79,6 +81,9 @@ fun MonthlyCalendar(
 
 @Preview
 @Composable
-fun MonthlyCalendarPreview(modifier: Modifier = Modifier) {
-    MonthlyCalendar() { }
+fun MonthlyCalendarPreview() {
+    MonthlyCalendar(
+        selectedDay = LocalDate.now(),
+        onDaySelected = { }
+    )
 }

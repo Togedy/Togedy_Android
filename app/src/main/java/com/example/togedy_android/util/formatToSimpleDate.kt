@@ -1,5 +1,6 @@
 package com.example.togedy_android.util
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -23,6 +24,32 @@ fun String.formatToSimpleDate(): String {
         // 원하는 포맷으로 변환
         val desiredFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         dateTime.format(desiredFormat)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        "Invalid Date"
+    }
+}
+
+// "2024-12-20" → "2024.12.20"
+fun String.formatToDotSeparatedDate(): String {
+    if (this.isBlank()) return ""
+
+    return try {
+        val date = LocalDate.parse(this, DateTimeFormatter.ISO_LOCAL_DATE)
+        date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        "Invalid Date"
+    }
+}
+
+// "2024-12-20" → "2024년 12월 20일"
+fun String.formatToKoreanDate(): String {
+    if (this.isBlank()) return ""
+
+    return try {
+        val date = LocalDate.parse(this, DateTimeFormatter.ISO_LOCAL_DATE)
+        date.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일"))
     } catch (e: Exception) {
         e.printStackTrace()
         "Invalid Date"

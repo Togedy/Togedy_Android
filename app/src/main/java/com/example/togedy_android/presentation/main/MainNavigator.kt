@@ -9,7 +9,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.calendar.navigation.navigateToCalendar
+import com.example.togedy_android.presentation.calendar.calendar.navigation.navigateToCalendar
 import com.example.togedy_android.presentation.community.navigation.navigateToCommunity
 import com.example.togedy_android.presentation.gptscreen.navigation.Gpt
 import com.example.togedy_android.presentation.gptscreen.navigation.navigateToGPT

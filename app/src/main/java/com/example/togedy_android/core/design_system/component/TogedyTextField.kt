@@ -1,5 +1,7 @@
 package com.example.togedy_android.core.design_system.component
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
@@ -196,7 +200,8 @@ fun BorderDateInput(
 }
 
 @Composable
-fun WritingTitleField( //게시글 제목 텍스트 필드
+fun WritingTitleField(
+    //게시글 제목 텍스트 필드
     value: String,
     onTextFieldChange: (String) -> Unit,
     isSingleLine: Boolean = true,
@@ -255,6 +260,50 @@ fun WritingContentTextField(
     )
 }
 
+@Composable
+fun ImageFirstTextField(
+    value: String,
+    onTextFieldChange: (String) -> Unit,
+    placeholder: String,
+    image: Int
+) {
+    BasicTextField(
+        value = value,
+        onValueChange = onTextFieldChange,
+        textStyle = TogedyTheme.typography.body2M,
+        modifier = Modifier.fillMaxWidth(),
+        decorationBox = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = TogedyTheme.colors.gray100,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .padding(horizontal = 10.dp, vertical = 4.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = image),
+                    contentDescription = "검색 아이콘",
+                    modifier = Modifier.size(24.dp)
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                if(value.isEmpty()){
+                    Text(
+                        text = placeholder,
+                        modifier = Modifier.weight(1f),
+                        color = TogedyTheme.colors.gray400,
+                        style = TogedyTheme.typography.body2M
+                    )
+                }
+            }
+        }
+    )
+}
+
 
 @Preview
 @Composable
@@ -298,5 +347,17 @@ fun WritingContentTextFieldPreview() {
         value = content,
         onTextFieldChange = { content = it },
         placeholder = "내용을 입력해주세요"
+    )
+}
+
+@Preview
+@Composable
+fun ImageFirstTextFieldPreview() {
+    var content by remember { mutableStateOf("") }
+    ImageFirstTextField(
+        value = content,
+        onTextFieldChange = { content = it },
+        placeholder = "내용을 입력해주세요",
+        image = R.drawable.ic_search
     )
 }
