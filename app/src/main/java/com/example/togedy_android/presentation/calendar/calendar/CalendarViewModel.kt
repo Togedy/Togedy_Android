@@ -3,7 +3,6 @@ package com.example.togedy_android.presentation.calendar.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.calendar.MonthlyScheduleItem
 import com.example.togedy_android.presentation.calendar.calendar.state.CalendarDialogState
 import com.example.togedy_android.presentation.calendar.calendar.state.CalendarHomeInformation
 import com.example.togedy_android.presentation.calendar.calendar.state.CalendarUiState

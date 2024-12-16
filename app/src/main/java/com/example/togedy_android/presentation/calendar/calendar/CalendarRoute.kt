@@ -8,17 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.togedy_android.R
-import com.example.togedy_android.core.design_system.theme.TogedyTheme
 import com.example.togedy_android.core.state.UiState
 import com.example.togedy_android.presentation.calendar.calendar.state.CalendarDialogState
 import com.example.togedy_android.presentation.calendar.calendar.state.CalendarUiState
@@ -34,7 +28,6 @@ import com.example.togedy_android.presentation.calendar.calendarDialog.CalendarD
 import com.example.togedy_android.presentation.calendar.component.CalendarAddButton
 import com.example.togedy_android.presentation.calendar.component.CalendarFloatingBtn
 import com.example.togedy_android.presentation.calendar.component.MonthlyCalendar
-import com.example.togedy_android.presentation.planner.planner.type.PlannerDialogType
 import java.time.LocalDate
 
 @Composable

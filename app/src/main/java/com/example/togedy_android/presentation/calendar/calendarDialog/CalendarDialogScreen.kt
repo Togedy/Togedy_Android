@@ -3,7 +3,6 @@ package com.example.togedy_android.presentation.calendar.calendarDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,7 +37,6 @@ import com.example.togedy_android.domain.model.calendar.DailyScheduleItem
 import com.example.togedy_android.presentation.calendar.component.CalendarFloatingBtn
 import com.example.togedy_android.util.formatToDotSeparatedDate
 import com.example.togedy_android.util.formatToKoreanDate
-import com.example.togedy_android.util.formatToSimpleDate
 import com.example.togedy_android.util.noRippleClickable
 import com.example.togedy_android.util.toColor
 import java.time.LocalDate
