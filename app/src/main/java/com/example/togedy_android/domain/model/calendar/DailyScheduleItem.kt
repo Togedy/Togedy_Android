@@ -6,5 +6,5 @@ data class DailyScheduleItem(
     val memo: String,
     val startDate: String,
     val endDate: String? = null,
-    val category: List<CategoryItem>,
+    val category: CategoryItem,
 )

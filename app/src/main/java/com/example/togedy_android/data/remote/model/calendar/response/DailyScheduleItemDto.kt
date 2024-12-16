@@ -16,5 +16,5 @@ data class DailyScheduleItemDto(
     @SerialName("endDate")
     val endDate: String? = null,
     @SerialName("category")
-    val category: List<CategoryItemResponseDto>,
+    val category: CategoryItemResponseDto,
 )

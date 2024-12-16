@@ -7,7 +7,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.togedy_android.core.navigation.MainTabRoute
 import com.example.togedy_android.core.navigation.Route
-import com.example.togedy_android.presentation.calendar.calendar.CalendarScreen
+import com.example.togedy_android.presentation.calendar.calendar.CalendarRoute
 import com.example.togedy_android.presentation.calendar.addPersonalSchedule.AddPersonalScheduleScreen
 import com.example.togedy_android.presentation.calendar.univDetail.UnivDetailScreen
 import kotlinx.serialization.Serializable
@@ -25,7 +25,7 @@ fun NavGraphBuilder.calendarScreen(
     modifier: Modifier = Modifier,
 ) {
     composable<Calendar> {
-        CalendarScreen(
+        CalendarRoute(
             modifier = modifier,
             onCollegeScheduleBtnClicked = { navController.navigateToUnivDetail() },
             onPersonalScheduleAddBtnClicked = { navController.navigateToAddPersonalSchedule() },
