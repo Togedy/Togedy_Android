@@ -1,4 +1,4 @@
-package com.example.togedy_android.presentation.calendar.component
+package com.example.togedy_android.presentation.calendar.addPersonalSchedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
+import com.example.togedy_android.presentation.calendar.component.CalendarCategoryViewModel
 import com.example.togedy_android.presentation.ui.component.BorderDateInput
 import com.example.togedy_android.presentation.ui.component.BorderTextField
 import com.example.togedy_android.presentation.ui.component.TopBarWithTextBtn
@@ -23,7 +24,8 @@ import com.example.togedy_android.presentation.ui.component.category.CategorySel
 import java.time.LocalDate
 
 @Composable
-fun AddPersonalSchedule(
+fun AddPersonalScheduleScreen(
+    modifier: Modifier = Modifier,
     closeButtonClicked: () -> Unit,
     addButtonClicked: () -> Unit
 ) {
@@ -37,7 +39,7 @@ fun AddPersonalSchedule(
     val buttonActive by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(TogedyTheme.colors.white)
             .padding(horizontal = 16.dp)
@@ -91,7 +93,7 @@ fun AddPersonalSchedule(
 @Preview
 @Composable
 fun AddPersonalSchedulePreview(modifier: Modifier = Modifier) {
-    AddPersonalSchedule(
+    AddPersonalScheduleScreen(
         closeButtonClicked = {},
         addButtonClicked = {}
     )
