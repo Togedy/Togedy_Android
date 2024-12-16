@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.togedy_android.R
 import com.example.togedy_android.core.design_system.component.TopBarBasic
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UnivDetailScreen(
+    modifier: Modifier = Modifier,
     viewModel: UnivDetailViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState { 3 }
@@ -31,7 +33,7 @@ fun UnivDetailScreen(
     val coroutineScope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(color = TogedyTheme.colors.white)
             .padding(horizontal = 20.dp)
