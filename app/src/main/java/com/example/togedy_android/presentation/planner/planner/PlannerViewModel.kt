@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.entity.PlannerHomeInformation
+import com.example.togedy_android.domain.model.planner.PlannerHomeInformation
 import com.example.togedy_android.domain.model.planner.NewStudyTageItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
 import com.example.togedy_android.domain.model.DateModel
