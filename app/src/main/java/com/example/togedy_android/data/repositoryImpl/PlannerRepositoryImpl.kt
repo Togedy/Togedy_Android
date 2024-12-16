@@ -7,7 +7,7 @@ import com.example.togedy_android.data.util.handleBaseResponse
 import com.example.togedy_android.domain.model.planner.NewStudyGoal
 import com.example.togedy_android.domain.model.planner.NewStudyTageItem
 import com.example.togedy_android.domain.model.planner.StudyGoal
-import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.DateModel
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.model.planner.StudyGoalId
 import com.example.togedy_android.domain.model.planner.StudyPlanId
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class PlannerRepositoryImpl @Inject constructor(
     private val plannerRemoteDataSource: PlannerRemoteDataSource
 ) : PlannerRepository {
-    override suspend fun getStudyGoal(request: Date): Result<StudyGoal> {
+    override suspend fun getStudyGoal(request: DateModel): Result<StudyGoal> {
         return runCatching {
             plannerRemoteDataSource.getStudyGoal(request = request.toData())
                 .handleBaseResponse().getOrThrow().toDomain()
@@ -61,7 +61,7 @@ class PlannerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getStudyPlanList(request: Date): Result<List<StudyPlanItem>> {
+    override suspend fun getStudyPlanList(request: DateModel): Result<List<StudyPlanItem>> {
         return runCatching {
             plannerRemoteDataSource.getStudyPlanList(request = request.toData())
                 .handleBaseResponse().getOrThrow().toDomain()

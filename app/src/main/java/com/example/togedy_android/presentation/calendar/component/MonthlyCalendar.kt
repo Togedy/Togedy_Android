@@ -27,10 +27,11 @@ fun MonthlyCalendar(
     onDaySelected: (LocalDate) -> Unit
 ) {
     Column(
-        modifier = Modifier.background(white)
+        modifier = Modifier
+            .background(white)
+            .padding(top = 20.dp)
     ) {
-        val today = LocalDate.now()
-        var selectedDay by remember { mutableStateOf(today) }
+        var selectedDay by remember { mutableStateOf(LocalDate.now()) }
 
         val firstDayOfMonth = selectedDay.withDayOfMonth(1)
         val lastDayOfMonth =

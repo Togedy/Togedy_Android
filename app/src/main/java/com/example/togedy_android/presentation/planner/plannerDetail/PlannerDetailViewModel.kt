@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.togedy_android.core.state.UiState
-import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.DateModel
 import com.example.togedy_android.domain.model.planner.DayOfPlan
 import com.example.togedy_android.domain.model.planner.NewStudyPlan
 import com.example.togedy_android.domain.repository.PlannerRepository
@@ -45,7 +45,7 @@ class PlannerDetailViewModel @Inject constructor(
             )
         }
         viewModelScope.launch {
-            plannerRepository.getStudyPlanList(Date(date.toString()))
+            plannerRepository.getStudyPlanList(DateModel(date.toString()))
                 .onSuccess { studyPlanItemList ->
                     updateLoadState(
                         loadState = UiState.Success(

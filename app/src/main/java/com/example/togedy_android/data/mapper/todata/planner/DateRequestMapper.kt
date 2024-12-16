@@ -1,8 +1,8 @@
 package com.example.togedy_android.data.mapper.todata.planner
 
 import com.example.togedy_android.data.remote.model.planner.DateRequestDto
-import com.example.togedy_android.domain.model.planner.Date
+import com.example.togedy_android.domain.model.DateModel
 
-fun Date.toData() : DateRequestDto = DateRequestDto(
+fun DateModel.toData() : DateRequestDto = DateRequestDto(
     date = this.date
 )
