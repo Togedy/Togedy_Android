@@ -67,10 +67,15 @@ fun MonthlyCalendar(
                 Spacer(modifier = Modifier.height(10.dp))
                 Column {
                     for (startOfWeek in weeksInMonth) {
-                        DayOfMonthRow(startOfWeek, selectedDay) {
-                            selectedDay = it
-                            onDaySelected(selectedDay)
-                        }
+                        DayOfMonthRow(
+                            type = "CALENDAR",
+                            startOfWeek = startOfWeek,
+                            selectedDay = selectedDay,
+                            onDaySelected = {
+                                selectedDay = it
+                                onDaySelected(selectedDay)
+                            }
+                        )
                         Spacer(modifier = Modifier.height(22.dp))
                     }
                 }
