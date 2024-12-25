@@ -1,5 +1,6 @@
 package com.example.togedy_android.presentation.community.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -16,10 +17,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import com.example.togedy_android.core.design_system.theme.TogedyTheme
 
 @Composable
@@ -52,10 +55,11 @@ fun CommunityForumListItem(
                         .aspectRatio(1f),
                     shape = RoundedCornerShape(8.dp)
                 ) {
-                    AsyncImage(
-                        model = image,
+                    Image(
+                        painter = rememberImagePainter(data = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj_BCAlUfURJQQFPlTMmTnARzSNewFJU0GMg&s"),
                         contentDescription = "게시판 리스트 사진",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
                     )
                 }
             }
@@ -113,7 +117,7 @@ fun CommunityForumListItemPreview() {
             date = "2024.12.05",
             content = "건대 근처 학원 다니면서 맛집 정말 많이 다녀봤고, 제가 맛잘알로써 진짜 맛있는 집들만 정리해뒀습니다. 가격은 3000원!! 편하게 연락주세요",
             type = "market",
-            image = "https://cdn.pixabay.com/photo/2024/03/03/20/44/cat-8611246_1280.jpg",
+            image = "https://cdn.pixabay.com/photo/2021/10/27/19/09/cat-6748193_1280.jpg",
             navigateToCommunityDetail = { }
         )
 

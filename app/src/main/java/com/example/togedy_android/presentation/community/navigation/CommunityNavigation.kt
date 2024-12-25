@@ -58,7 +58,8 @@ fun NavGraphBuilder.communityScreen(
 
     composable<CommunityAdd> {
         AddWriting(
-            closeButtonClicked = { }
+            closeButtonClicked = { },
+            modifier = modifier
         )
     }
 

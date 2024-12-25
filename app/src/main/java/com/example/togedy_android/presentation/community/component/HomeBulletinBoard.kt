@@ -74,13 +74,14 @@ fun HomeBulletinBoardItem() {
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "제목이 드렁가는 부분",
+                text = "건국대학교 입시 떴다;;",
                 style = TogedyTheme.typography.body2B,
                 color = TogedyTheme.colors.gray700
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+                text = "건대 이번에 반영 비율 왜 이래?\n저번 반영 비율이 내가 알기로는 1단계 학생부(교과정량) 100%로 25배수를 선발하여, 2단계에서 실기 100%로 선발로 알고있는데\n",
+
                 style = TogedyTheme.typography.body3M,
                 color = TogedyTheme.colors.gray300,
                 maxLines = 2,

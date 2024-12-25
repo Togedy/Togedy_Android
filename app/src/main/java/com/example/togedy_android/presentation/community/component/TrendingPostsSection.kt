@@ -74,13 +74,13 @@ fun TrendingPostItem(
             )
             Spacer(modifier = Modifier.height(5.dp))
             Text(
-                text = "제목부분입니다용가리",
+                text = "하 수능 망했다",
                 style = TogedyTheme.typography.body2B,
                 color = TogedyTheme.colors.black
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "내용이 들어가는 부분입니다용가리. 내용이 들어가는 부분입니다용가리. 내용이 들어가는 부분입니다용가리. 내용이 들어가는 부분입니다용가리. 내용이 들어가는 부분입니다용가리",
+                text = "24학년도 수능은 망했다...\n건대 수의대 목표로 준비했는데...\n",
                 style = TogedyTheme.typography.body3M,
                 color = TogedyTheme.colors.gray600,
                 maxLines = 2,

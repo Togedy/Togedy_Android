@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -89,7 +90,7 @@ fun CommunityDetailScreen(
                     modifier = Modifier.padding(start = 7.dp)
                 ) {
                     Text(
-                        text = "사용자 이름",
+                        text = "태정",
                         color = TogedyTheme.colors.gray700,
                         style = TogedyTheme.typography.body2B
                     )
@@ -359,11 +360,12 @@ fun CommunityDetailImages(
 @Composable
 fun CommunityDetailImage(image: String) {
     AsyncImage(
-        model = image,
+        model = "https://cdn.pixabay.com/photo/2021/10/27/19/09/cat-6748193_1280.jpg",
         contentDescription = "게시글 사진",
         modifier = Modifier
             .width(160.dp)
-            .aspectRatio(1f)
+            .aspectRatio(1f),
+        contentScale = ContentScale.Crop
     )
 }
 

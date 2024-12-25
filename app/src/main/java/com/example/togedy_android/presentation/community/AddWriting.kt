@@ -30,6 +30,7 @@ import com.example.togedy_android.presentation.community.component.SelectingWrit
 
 @Composable
 fun AddWriting(
+    modifier: Modifier = Modifier,
     viewModel: WritingViewModel = viewModel(),
     closeButtonClicked: () -> Unit,
 ) {
@@ -39,7 +40,7 @@ fun AddWriting(
     val isActivated = viewModel.isActivated.collectAsStateWithLifecycle()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(TogedyTheme.colors.white)
             .padding(horizontal = 16.dp, vertical = 16.dp)

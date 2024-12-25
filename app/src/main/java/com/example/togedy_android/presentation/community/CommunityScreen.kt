@@ -142,7 +142,7 @@ fun CommunitySideBar(
                     )
 
                     Text(
-                        text = "유저 이름",
+                        text = "태정",
                         modifier = Modifier.padding(start = 10.dp),
                         color = TogedyTheme.colors.black,
                         style = TogedyTheme.typography.body2M
